@@ -1,0 +1,12 @@
+{
+  "title": "account",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "company_name": {
+      "type": "string"
+    }
+  }
+}

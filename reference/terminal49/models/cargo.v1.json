@@ -1,0 +1,111 @@
+{
+  "title": "cargo",
+  "type": "object",
+  "x-examples": {
+    "example-1": {}
+  },
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "cntnr": {
+      "type": "string"
+    },
+    "booking_order": {
+      "type": "string"
+    },
+    "number": {
+      "type": "string"
+    },
+    "container_type": {
+      "type": "string"
+    },
+    "container_length": {
+      "type": "string"
+    },
+    "container_height": {
+      "type": "string"
+    },
+    "weight": {
+      "type": "string"
+    },
+    "meta": {
+      "type": "object"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "updated_at": {
+      "type": "string"
+    },
+    "user": {
+      "type": "string"
+    },
+    "tare_weight": {
+      "type": "string"
+    },
+    "chassis_number": {
+      "type": "string"
+    },
+    "empty_pickdrop_location": {
+      "type": "string"
+    },
+    "last_status_refresh_at": {
+      "type": "string"
+    },
+    "pickup_appointment_at": {
+      "type": "string"
+    },
+    "delivery_appointment_at": {
+      "type": "string"
+    },
+    "seal_number": {
+      "type": "string"
+    },
+    "trucking_account": {
+      "type": "string"
+    },
+    "ops_step": {
+      "type": "string"
+    },
+    "ops_step_at": {
+      "type": "string"
+    },
+    "ops_step_changed_by": {
+      "type": "string"
+    },
+    "trucking_rate": {
+      "type": "string"
+    },
+    "current_status": {
+      "type": "string"
+    },
+    "delivery_appointment_on": {
+      "type": "string"
+    },
+    "pickup_appointment_on": {
+      "type": "string"
+    },
+    "drayed_by_t49": {
+      "type": "string"
+    },
+    "shipment": {
+      "type": "string"
+    },
+    "delivered_at": {
+      "type": "string"
+    },
+    "empty_returned_at": {
+      "type": "string"
+    },
+    "picked_up_at": {
+      "type": "string"
+    },
+    "needs_attention": {
+      "type": "string"
+    },
+    "searched_shipment": {
+      "type": "string"
+    }
+  }
+}

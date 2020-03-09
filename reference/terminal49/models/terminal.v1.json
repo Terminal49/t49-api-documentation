@@ -1,0 +1,36 @@
+{
+  "title": "terminal",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "nickname": {
+      "type": "string"
+    },
+    "firms_code": {
+      "type": "string"
+    },
+    "port_code": {
+      "type": "string"
+    },
+    "host": {
+      "type": "string"
+    },
+    "host_identifier": {
+      "type": "string"
+    },
+    "meta": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "updated_at": {
+      "type": "string"
+    }
+  }
+}

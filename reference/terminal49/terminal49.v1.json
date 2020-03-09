@@ -1,0 +1,330 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "terminal49",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "paths": {
+    "/shipments": {
+      "post": {
+        "summary": "Create new shipment",
+        "tags": [],
+        "responses": {},
+        "operationId": "post-shipments",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "number": {
+                    "type": "string",
+                    "description": "Bill Of Lading number\n"
+                  },
+                  "ref_number": {
+                    "type": "string"
+                  },
+                  "": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "number"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "shipment",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "./models/shipment.v1.json"
+                      }
+                    },
+                    "included": {
+                      "type": "array",
+                      "items": {
+                        "$ref": ""
+                      }
+                    },
+                    "": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-shipments",
+        "description": ""
+      }
+    },
+    "/track": {
+      "post": {
+        "summary": "",
+        "operationId": "post-track",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "bill_of_lading": {
+                    "type": "string"
+                  },
+                  "ref_number": {
+                    "type": "string"
+                  },
+                  "customer_id": {
+                    "$ref": ""
+                  },
+                  "tags": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "bill_of_lading"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "parameters": []
+    },
+    "/track/{track_id}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "track_id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "shipment_id": {
+                      "$ref": "./models/shipment.v1.json"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "status"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-track-track_id"
+      }
+    },
+    "/shipment/{id}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "attributes": {
+                          "type": "object",
+                          "properties": {
+                            "number": {
+                              "type": "string"
+                            },
+                            "ref-number": {
+                              "type": "string"
+                            },
+                            "updated-at": {
+                              "type": "string"
+                            },
+                            "created-at": {
+                              "type": "string"
+                            },
+                            "tags": {
+                              "type": "string"
+                            },
+                            "pol-raw": {
+                              "type": "string"
+                            },
+                            "pod-raw": {
+                              "type": "string"
+                            },
+                            "destination-raw": {
+                              "type": "string"
+                            },
+                            "": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "relationships": {
+                          "type": "object",
+                          "properties": {
+                            "creator": {
+                              "$ref": "./models/account.v1.json"
+                            },
+                            "customer": {
+                              "$ref": "./models/account.v1.json"
+                            },
+                            "voyage": {
+                              "type": "object"
+                            },
+                            "shipping-line": {
+                              "type": "object"
+                            },
+                            "port-of-lading": {
+                              "$ref": "./models/port.v1.json"
+                            },
+                            "port-of-discharge": {
+                              "$ref": "./models/port.v1.json"
+                            },
+                            "destination": {
+                              "$ref": "./models/port.v1.json"
+                            },
+                            "pod-terminal": {
+                              "$ref": "./models/terminal.v1.json"
+                            },
+                            "destination-terminal": {
+                              "$ref": "./models/terminal.v1.json"
+                            },
+                            "user": {
+                              "$ref": "./models/user.v1.json"
+                            },
+                            "cargos": {
+                              "type": "array",
+                              "items": {
+                                "$ref": "./models/cargo.v1.json"
+                              }
+                            },
+                            "booking-orders": {
+                              "type": "array",
+                              "items": {
+                                "$ref": ""
+                              }
+                            },
+                            "shipment-participants": {
+                              "type": "array",
+                              "items": {
+                                "$ref": ""
+                              }
+                            },
+                            "cargo-shipment-events": {
+                              "type": "array",
+                              "items": {
+                                "$ref": ""
+                              }
+                            },
+                            "documents": {
+                              "type": "array",
+                              "items": {
+                                "$ref": ""
+                              }
+                            },
+                            "activities": {
+                              "type": "array",
+                              "items": {
+                                "$ref": ""
+                              }
+                            }
+                          }
+                        },
+                        "": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-shipment-id",
+        "requestBody": {}
+      }
+    }
+  }
+}

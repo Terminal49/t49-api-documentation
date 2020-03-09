@@ -1,0 +1,40 @@
+{
+  "title": "shipment",
+  "type": "object",
+  "x-examples": {
+    "example-1": {}
+  },
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "number": {
+      "type": "string"
+    },
+    "ref_number": {
+      "type": "string"
+    },
+    "customer_id": {
+      "$ref": "./account.v1.json"
+    },
+    "creator_id": {
+      "$ref": "./account.v1.json"
+    },
+    "port_of_lading": {
+      "$ref": "./port.v1.json"
+    },
+    "port_of_discharge": {
+      "$ref": "./port.v1.json"
+    },
+    "destination": {
+      "oneOf": [
+        {
+          "$ref": "./port.v1.json"
+        }
+      ]
+    },
+    "": {
+      "type": "string"
+    }
+  }
+}

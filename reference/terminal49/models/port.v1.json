@@ -1,0 +1,26 @@
+{
+  "title": "port",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "country_code": {
+      "type": "string"
+    },
+    "time_zone": {
+      "type": "string"
+    },
+    "code": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "code"
+  ]
+}
