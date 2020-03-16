@@ -13,7 +13,7 @@
   "paths": {
     "/shipments": {
       "get": {
-        "summary": "shipment",
+        "summary": "GET Shipments",
         "tags": [],
         "responses": {
           "200": {
@@ -173,7 +173,7 @@
     },
     "/track": {
       "post": {
-        "summary": "",
+        "summary": "POST Track",
         "operationId": "post-track",
         "responses": {
           "200": {
@@ -239,7 +239,7 @@
         }
       ],
       "get": {
-        "summary": "Your GET endpoint",
+        "summary": "GET track",
         "tags": [],
         "responses": {
           "200": {
@@ -279,11 +279,12 @@
           },
           "name": "id",
           "in": "path",
-          "required": true
+          "required": true,
+          "description": "Shipment Id"
         }
       ],
       "get": {
-        "summary": "Your GET endpoint",
+        "summary": "GET Shipment",
         "tags": [],
         "responses": {
           "200": {
