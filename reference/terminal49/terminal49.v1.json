@@ -1,8 +1,9 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "terminal49",
-    "version": "1.0"
+    "title": "Terminal 49",
+    "version": "1.0",
+    "description": "Here is the API documentation. Enjoy."
   },
   "servers": [
     {
@@ -27,9 +28,6 @@
                     "description": "Bill Of Lading number\n"
                   },
                   "ref_number": {
-                    "type": "string"
-                  },
-                  "": {
                     "type": "string"
                   }
                 },
@@ -200,121 +198,19 @@
                   "type": "object",
                   "properties": {
                     "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string"
-                        },
-                        "type": {
-                          "type": "string"
-                        },
-                        "attributes": {
-                          "type": "object",
-                          "properties": {
-                            "number": {
-                              "type": "string"
-                            },
-                            "ref-number": {
-                              "type": "string"
-                            },
-                            "updated-at": {
-                              "type": "string"
-                            },
-                            "created-at": {
-                              "type": "string"
-                            },
-                            "tags": {
-                              "type": "string"
-                            },
-                            "pol-raw": {
-                              "type": "string"
-                            },
-                            "pod-raw": {
-                              "type": "string"
-                            },
-                            "destination-raw": {
-                              "type": "string"
-                            },
-                            "": {
-                              "type": "string"
-                            }
-                          }
-                        },
-                        "relationships": {
-                          "type": "object",
-                          "properties": {
-                            "creator": {
-                              "$ref": "./models/account.v1.json"
-                            },
-                            "customer": {
-                              "$ref": "./models/account.v1.json"
-                            },
-                            "voyage": {
-                              "type": "object"
-                            },
-                            "shipping-line": {
-                              "type": "object"
-                            },
-                            "port-of-lading": {
-                              "$ref": "./models/port.v1.json"
-                            },
-                            "port-of-discharge": {
-                              "$ref": "./models/port.v1.json"
-                            },
-                            "destination": {
-                              "$ref": "./models/port.v1.json"
-                            },
-                            "pod-terminal": {
-                              "$ref": "./models/terminal.v1.json"
-                            },
-                            "destination-terminal": {
-                              "$ref": "./models/terminal.v1.json"
-                            },
-                            "user": {
-                              "$ref": "./models/user.v1.json"
-                            },
-                            "cargos": {
-                              "type": "array",
-                              "items": {
-                                "$ref": "./models/cargo.v1.json"
-                              }
-                            },
-                            "booking-orders": {
-                              "type": "array",
-                              "items": {
-                                "$ref": ""
-                              }
-                            },
-                            "shipment-participants": {
-                              "type": "array",
-                              "items": {
-                                "$ref": ""
-                              }
-                            },
-                            "cargo-shipment-events": {
-                              "type": "array",
-                              "items": {
-                                "$ref": ""
-                              }
-                            },
-                            "documents": {
-                              "type": "array",
-                              "items": {
-                                "$ref": ""
-                              }
-                            },
-                            "activities": {
-                              "type": "array",
-                              "items": {
-                                "$ref": ""
-                              }
-                            }
-                          }
-                        },
-                        "": {
-                          "type": "string"
-                        }
+                      "$ref": "./models/shipment.v1.json"
+                    },
+                    "includes": {
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {}
+                        ],
+                        "type": "object"
                       }
+                    },
+                    "": {
+                      "type": "string"
                     }
                   }
                 }
@@ -324,6 +220,19 @@
         },
         "operationId": "get-shipment-id",
         "requestBody": {}
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "terminal": {
+        "title": "terminal",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        }
       }
     }
   }
