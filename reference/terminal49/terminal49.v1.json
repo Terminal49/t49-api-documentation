@@ -12,33 +12,6 @@
   ],
   "paths": {
     "/shipments": {
-      "post": {
-        "summary": "Create new shipment",
-        "tags": [],
-        "responses": {},
-        "operationId": "post-shipments",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "number": {
-                    "type": "string",
-                    "description": "Bill Of Lading number\n"
-                  },
-                  "ref_number": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "number"
-                ]
-              }
-            }
-          }
-        }
-      },
       "get": {
         "summary": "shipment",
         "tags": [],
@@ -56,14 +29,72 @@
                         "$ref": "./models/shipment.v1.json"
                       }
                     },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "current-page": {
+                          "type": "integer"
+                        },
+                        "next-page": {
+                          "type": "integer"
+                        },
+                        "prev-page": {
+                          "type": "integer"
+                        },
+                        "total-pages": {
+                          "type": "integer"
+                        },
+                        "total-count": {
+                          "type": "integer"
+                        },
+                        "size": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "links": {
+                      "type": "object",
+                      "properties": {
+                        "self": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "first": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "prev": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "next": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "last": {
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      }
+                    },
                     "included": {
                       "type": "array",
                       "items": {
-                        "$ref": ""
+                        "anyOf": [
+                          {
+                            "$ref": "./models/container.v1.json"
+                          },
+                          {
+                            "$ref": "./models/port.v1.json"
+                          },
+                          {
+                            "$ref": "./models/shipping-line.v1.json"
+                          },
+                          {
+                            "$ref": "./models/account.v1.json"
+                          }
+                        ]
                       }
-                    },
-                    "": {
-                      "type": "string"
                     }
                   }
                 }
@@ -72,7 +103,72 @@
           }
         },
         "operationId": "get-shipments",
-        "description": ""
+        "description": "Fetch a list of shipments",
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "filter": {
+                    "type": "object",
+                    "properties": {
+                      "port_of_discharge": {
+                        "type": "array",
+                        "description": "Array of UN/LOCODEs",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "arrival_date_from": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Shipments arriving (or arrived) after date (inclusive)"
+                      },
+                      "arrival_date_to": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Shipments arriving (or arrived) before date (inclusive)\n"
+                      },
+                      "port_of_lading": {
+                        "type": "array",
+                        "description": "Array of UN/LOCODEs",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "page": {
+                    "type": "integer"
+                  },
+                  "per_page": {
+                    "type": "integer"
+                  },
+                  "sort": {
+                    "type": "string",
+                    "default": "DESC",
+                    "enum": [
+                      "DESC",
+                      "ASC"
+                    ],
+                    "description": "Records are sorted by ATA, ETA"
+                  },
+                  "q": {
+                    "type": "string",
+                    "description": "Search shipments by master bill of lading, reference number, or container number."
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        }
       }
     },
     "/track": {
@@ -200,16 +296,38 @@
                     "data": {
                       "$ref": "./models/shipment.v1.json"
                     },
-                    "includes": {
+                    "included": {
                       "type": "array",
                       "items": {
                         "anyOf": [
-                          {}
-                        ],
-                        "type": "object"
+                          {
+                            "$ref": "./models/container.v1.json"
+                          },
+                          {
+                            "$ref": "./models/port.v1.json"
+                          },
+                          {
+                            "$ref": "./models/shipping-line.v1.json"
+                          },
+                          {
+                            "$ref": "./models/account.v1.json"
+                          }
+                        ]
                       }
-                    },
-                    "": {
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
                       "type": "string"
                     }
                   }
@@ -219,20 +337,23 @@
           }
         },
         "operationId": "get-shipment-id",
-        "requestBody": {}
+        "requestBody": {},
+        "security": [
+          {
+            "api-key": []
+          }
+        ],
+        "description": "Fetch a single shipment by ID"
       }
     }
   },
   "components": {
-    "schemas": {
-      "terminal": {
-        "title": "terminal",
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          }
-        }
+    "schemas": {},
+    "securitySchemes": {
+      "api-key": {
+        "name": "apiKey",
+        "type": "apiKey",
+        "in": "header"
       }
     }
   }

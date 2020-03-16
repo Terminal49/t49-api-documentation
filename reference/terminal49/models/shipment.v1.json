@@ -225,6 +225,30 @@
               ]
             }
           }
+        },
+        "customer": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "account"
+                  ]
+                },
+                "id": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "required": [
+                "type",
+                "id"
+              ]
+            }
+          }
         }
       }
     }
