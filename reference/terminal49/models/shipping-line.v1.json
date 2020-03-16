@@ -1,0 +1,40 @@
+{
+  "title": "shipping-line",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "shipping-line"
+      ]
+    },
+    "attributes": {
+      "type": "object",
+      "required": [
+        "scac",
+        "name",
+        "nickname"
+      ],
+      "properties": {
+        "scac": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "nickname": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "required": [
+    "id",
+    "type",
+    "attributes"
+  ]
+}

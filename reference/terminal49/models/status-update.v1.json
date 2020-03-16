@@ -1,0 +1,59 @@
+{
+  "title": "status-update",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "status-update"
+      ]
+    },
+    "attributes": {
+      "type": "object",
+      "properties": {
+        "event": {
+          "type": "string"
+        },
+        "original_event": {
+          "type": "string"
+        },
+        "estimated_at": {
+          "type": "string"
+        },
+        "actual_at": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "transportation_mode": {
+          "type": "string"
+        },
+        "carrier_scac": {
+          "type": "string"
+        },
+        "vessel_name": {
+          "type": "string"
+        },
+        "voyage_number": {
+          "type": "string"
+        },
+        "original_location": {
+          "type": "string"
+        }
+      }
+    },
+    "relationships": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "id",
+    "type",
+    "attributes"
+  ]
+}
