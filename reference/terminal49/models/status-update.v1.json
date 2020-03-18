@@ -1,0 +1,190 @@
+{
+  "title": "status-update",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "status-update"
+      ]
+    },
+    "attributes": {
+      "type": "object",
+      "properties": {
+        "event": {
+          "type": "string",
+          "description": "The normalized event name"
+        },
+        "original_event": {
+          "type": "string",
+          "description": "The event name as originally passed by the source"
+        },
+        "estimated_at": {
+          "type": "string",
+          "description": "Estimated time for ETA and ETD changes"
+        },
+        "actual_at": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "transportation_mode": {
+          "type": "string"
+        },
+        "carrier_scac": {
+          "type": "string"
+        },
+        "vessel_name": {
+          "type": "string"
+        },
+        "voyage_number": {
+          "type": "string"
+        },
+        "original_location": {
+          "type": "string"
+        },
+        "time_zone": {
+          "type": "string",
+          "description": "IANA timezone"
+        }
+      }
+    },
+    "relationships": {
+      "type": "object",
+      "properties": {
+        "container": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "container"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "shipment": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "shipment"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "location": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "port",
+                    "metroarea",
+                    "terminal",
+                    "railterminal"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "vessel": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "vessel"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "fee": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "fee"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "hold": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "hold"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "id",
+    "type",
+    "attributes"
+  ]
+}

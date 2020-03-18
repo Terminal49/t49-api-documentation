@@ -1,0 +1,76 @@
+title: shipment-tracking-request
+type: object
+properties:
+  id:
+    type: string
+    format: uuid
+  relationships:
+    type: object
+    properties:
+      customer:
+        type: object
+        properties:
+          data:
+            type: object
+            format: uuid
+            properties:
+              id:
+                type: string
+                format: uuid
+              type:
+                type: string
+                enum:
+                  - account
+      shipment:
+        type: object
+        properties:
+          data:
+            format: uuid
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              type:
+                type: string
+                enum:
+                  - shipment
+      shipping-line:
+        type: object
+        properties:
+          data:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              type:
+                type: string
+                enum:
+                  - shipping-line
+  attributes:
+    type: object
+    properties:
+      bill_of_lading:
+        type: string
+      ref_numbers:
+        type: string
+      tags:
+        type: string
+      status:
+        type: string
+        enum:
+          - pending
+          - created
+          - shipping_line_unavailable
+          - failed
+    required:
+      - bill_of_lading
+      - status
+  type:
+    type: string
+    enum:
+      - shipment-tracking-request
+required:
+  - id
+  - type

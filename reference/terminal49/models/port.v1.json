@@ -1,0 +1,43 @@
+{
+  "title": "port",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "port"
+      ]
+    },
+    "attributes": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "country_code": {
+          "type": "string",
+          "description": "2 digit country code"
+        },
+        "time_zone": {
+          "type": "string",
+          "description": "IANA tz"
+        },
+        "unlocode": {
+          "type": "string",
+          "description": "UN/LOCODE"
+        }
+      }
+    },
+    "relationships": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "id",
+    "type"
+  ]
+}

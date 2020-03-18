@@ -1,0 +1,15 @@
+{
+  "title": "error",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "detail": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "title"
+  ]
+}
