@@ -3,18 +3,23 @@
   "info": {
     "title": "Terminal 49",
     "version": "1.0",
-    "description": "Here is the API documentation. Enjoy."
+    "description": "The Terminal49 API lets you pull in shipment details from your BOLs, track ETA changes and other events.\n\n## Schema\nTerminal49 implements the [JSON API](https://jsonapi.org/format/) spec. There are [implementations](https://jsonapi.org/implementations/) for consuming it built in most languages which should help you get up to speed consuming quickly.\n\n## Access\nAuthentication is handled via API access keys. If you don't have an access key then contact us today.\n\n\n## Status Updates\nShipments are container statuses are checked at various cadences, up to as frequently as every 15 minutes at the terminal. You can be notified of updates by setting up a webhook to receive notifications.\n",
+    "contact": {
+      "name": "Terminal 49",
+      "url": "https://terminal49.com",
+      "email": "support@terminal49.com"
+    }
   },
   "servers": [
     {
-      "url": "http://localhost:3000"
+      "url": "https://terminal49.com/api",
+      "description": "Production"
     }
   ],
   "paths": {
     "/shipments": {
       "get": {
         "summary": "GET Shipments",
-        "tags": [],
         "responses": {
           "200": {
             "description": "OK",
@@ -100,15 +105,53 @@
                 }
               }
             }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "./models/error.v1.json"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "Errors": {
+                    "value": {
+                      "error": [
+                        {
+                          "title": "Invalid arrival_date_from",
+                          "detail": "filter['arrival_from'] must be in the format 'YYYY-MM-DD' and a valid date"
+                        },
+                        {
+                          "title": "Invalid arrival_date_to",
+                          "detail": "filter['arrival_from'] must be in the format 'YYYY-MM-DD' and a valid date"
+                        },
+                        {
+                          "title": "Invalid port_of_lading",
+                          "detail": "port_of_discharge must be an array of 5 character UN/LOCODEs"
+                        },
+                        {
+                          "title": "Invalid port_of_discharge",
+                          "detail": "port_of_discharge must be an array of 5 character UN/LOCODEs"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "operationId": "get-shipments",
         "description": "Fetch a list of shipments",
-        "security": [
-          {
-            "api-key": []
-          }
-        ],
+        "security": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -167,11 +210,12 @@
               }
             }
           },
-          "description": ""
-        }
+          "description": "Shipments can be searched and filtered by a variety of properties. \n\nEach of the filters is exclusive - i.e. you will be returned the intersection of shipments that match all of the filter parameters you provide. \n\nWhen a filter param allows passing an array of properties, it will filter against shipments matching any of the values.\n"
+        },
+        "tags": []
       }
     },
-    "/track": {
+    "/shipment-tracking-request": {
       "post": {
         "summary": "POST Track",
         "operationId": "post-track",
@@ -183,11 +227,59 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "string"
-                    },
                     "": {
                       "type": "string"
+                    }
+                  }
+                },
+                "examples": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "./models/error.v1.json"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "Error Examples": {
+                    "value": {
+                      "errors": [
+                        {
+                          "title": "Unrecognized SCAC",
+                          "detail": "Unrecognized SCAC 'XOXO'"
+                        },
+                        {
+                          "title": "Invalid SCAC",
+                          "detail": "Scac must be 4 characters long"
+                        },
+                        {
+                          "title": "Missing SCAC",
+                          "detail": "Field 'scac' must be present"
+                        },
+                        {
+                          "title": "Missing Bill of Lading",
+                          "detail": "Field 'bill_of_lading' must be present"
+                        },
+                        {
+                          "title": "Unsupported shipping line",
+                          "detail": "We do not currentlly integrate with Bermuda Container Line"
+                        },
+                        {
+                          "title": "Unknown customer",
+                          "detail": "We could not find a customer with the id '59b3c977-7009-405e-9f8c-182409b30d40'"
+                        }
+                      ]
                     }
                   }
                 }
@@ -201,39 +293,142 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "bill_of_lading": {
-                    "type": "string"
-                  },
-                  "ref_number": {
-                    "type": "string"
-                  },
-                  "customer_id": {
-                    "$ref": ""
-                  },
-                  "tags": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "attributes": {
+                        "type": "object",
+                        "properties": {
+                          "bill_of_lading": {
+                            "type": "string"
+                          },
+                          "ref_numbers": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "customer_id": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "tags": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "scac": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "bill_of_lading",
+                          "scac"
+                        ]
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "shipment-tracking-request"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [],
+        "tags": [],
+        "description": "POST a shipment tracking request. When we have connected with the shipping line we will setup the shipment for you.",
+        "callbacks": {
+          "shipmentCreated": {
+            "YourCallbackURL": {
+              "post": {
+                "requestBody": {
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "data": {
+                            "type": "object",
+                            "properties": {
+                              "attributes": {
+                                "type": "object",
+                                "properties": {
+                                  "bill_of_lading": {
+                                    "type": "string"
+                                  },
+                                  "ref_numbers": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "customer_id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                  },
+                                  "tags": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "scac": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "bill_of_lading",
+                                  "scac"
+                                ]
+                              },
+                              "type": {
+                                "type": "string",
+                                "enum": [
+                                  "shipment-tracking-request"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "type"
+                            ]
+                          }
+                        }
+                      }
                     }
                   }
-                },
-                "required": [
-                  "bill_of_lading"
-                ]
+                }
               }
             }
           }
         }
       },
-      "parameters": []
+      "parameters": [],
+      "get": {
+        "summary": "",
+        "operationId": "get-shipment-tracking-request",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     },
-    "/track/{track_id}": {
+    "/shipment-tracking-request/{id}": {
       "parameters": [
         {
           "schema": {
             "type": "string"
           },
-          "name": "track_id",
+          "name": "id",
           "in": "path",
           "required": true
         }
@@ -249,26 +444,69 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "id": {
-                      "type": "string"
+                    "data": {
+                      "$ref": "./models/shipment-tracking-request.v1.yaml"
                     },
-                    "status": {
-                      "type": "string"
-                    },
-                    "shipment_id": {
-                      "$ref": "./models/shipment.v1.json"
+                    "included": {
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "$ref": "./models/account.v1.json"
+                          },
+                          {
+                            "$ref": "./models/shipment.v1.json"
+                          },
+                          {
+                            "$ref": "./models/shipping-line.v1.json"
+                          }
+                        ]
+                      }
                     }
-                  },
-                  "required": [
-                    "id",
-                    "status"
-                  ]
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "./models/error.v1.json"
+                      }
+                    }
+                  }
                 }
               }
             }
           }
         },
-        "operationId": "get-track-track_id"
+        "operationId": "get-track-track_id",
+        "description": "GET the status of an existing shipment tracking request to see if it has been added yet or not."
+      },
+      "patch": {
+        "summary": "",
+        "operationId": "patch-shipment-tracking-request-id",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "summary": "",
+        "operationId": "delete-shipment-tracking-request-id",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
     "/shipment/{id}": {
@@ -328,34 +566,124 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "error": {
-                      "type": "string"
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "./models/error.v1.json"
+                      }
                     }
                   }
-                }
+                },
+                "examples": {}
               }
             }
           }
         },
         "operationId": "get-shipment-id",
-        "requestBody": {},
-        "security": [
-          {
-            "api-key": []
-          }
-        ],
+        "security": [],
         "description": "Fetch a single shipment by ID"
+      }
+    },
+    "/containers": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {},
+        "operationId": "get-containers"
+      }
+    },
+    "/containers/{id}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {},
+        "operationId": "get-containers-id"
+      }
+    },
+    "/hooks": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {},
+        "operationId": "get-hooks"
+      },
+      "post": {
+        "summary": "",
+        "operationId": "post-hooks",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/hooks/{id}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {},
+        "operationId": "get-hooks-id"
+      },
+      "patch": {
+        "summary": "",
+        "operationId": "patch-hooks-id",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "summary": "",
+        "operationId": "delete-hooks-id",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/hooks/{id}/test": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "post": {
+        "summary": "",
+        "operationId": "post-hooks-id-test",
+        "description": ""
       }
     }
   },
   "components": {
     "schemas": {},
-    "securitySchemes": {
-      "api-key": {
-        "name": "apiKey",
-        "type": "apiKey",
-        "in": "header"
-      }
-    }
-  }
+    "securitySchemes": {}
+  },
+  "tags": []
 }

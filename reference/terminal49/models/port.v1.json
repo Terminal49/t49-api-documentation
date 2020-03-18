@@ -6,10 +6,10 @@
       "type": "string",
       "format": "uuid"
     },
-    "name": {
+    "type": {
       "type": "string",
       "enum": [
-        "container"
+        "port"
       ]
     },
     "attributes": {
@@ -38,7 +38,6 @@
   },
   "required": [
     "id",
-    "name",
-    "unlocode"
+    "type"
   ]
 }
