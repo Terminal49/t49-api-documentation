@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Terminal 49",
+    "title": "API",
     "version": "1.0",
     "description": "The Terminal49 API lets you pull in shipment details from your BOLs, track ETA changes and other events.\n\n## Schema\nTerminal49 implements the [JSON API](https://jsonapi.org/format/) spec. There are [implementations](https://jsonapi.org/implementations/) for consuming it built in most languages which should help you get up to speed consuming quickly.\n\n## Access\nAuthentication is handled via API access keys. If you don't have an access key then contact us today.\n\n\n## Status Updates\nShipments are container statuses are checked at various cadences, up to as frequently as every 15 minutes at the terminal. You can be notified of updates by setting up a webhook to receive notifications.\n",
     "contact": {
@@ -19,7 +19,7 @@
   "paths": {
     "/shipments": {
       "get": {
-        "summary": "GET Shipments",
+        "summary": "List shipments",
         "responses": {
           "200": {
             "description": "OK",
@@ -150,7 +150,7 @@
           }
         },
         "operationId": "get-shipments",
-        "description": "Fetch a list of shipments",
+        "description": "List shipments",
         "security": [],
         "requestBody": {
           "content": {
@@ -212,12 +212,14 @@
           },
           "description": "Shipments can be searched and filtered by a variety of properties. \n\nEach of the filters is exclusive - i.e. you will be returned the intersection of shipments that match all of the filter parameters you provide. \n\nWhen a filter param allows passing an array of properties, it will filter against shipments matching any of the values.\n"
         },
-        "tags": []
+        "tags": [
+          "shipments"
+        ]
       }
     },
     "/shipment-tracking-request": {
       "post": {
-        "summary": "POST Track",
+        "summary": "Create a shipment tracking request",
         "operationId": "post-track",
         "responses": {
           "200": {
@@ -227,8 +229,8 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "": {
-                      "type": "string"
+                    "data": {
+                      "$ref": "./models/shipment-tracking-request.v1.yaml"
                     }
                   }
                 },
@@ -341,10 +343,13 @@
                 }
               }
             }
-          }
+          },
+          "description": "Create a shipment tracking request"
         },
         "security": [],
-        "tags": [],
+        "tags": [
+          "shipments"
+        ],
         "description": "POST a shipment tracking request. When we have connected with the shipping line we will setup the shipment for you.",
         "callbacks": {
           "shipmentCreated": {
@@ -413,13 +418,17 @@
       },
       "parameters": [],
       "get": {
-        "summary": "",
+        "summary": "List shipment tracking requests",
         "operationId": "get-shipment-tracking-request",
         "responses": {
           "200": {
             "description": "OK"
           }
-        }
+        },
+        "description": "Get shipment tracking requests",
+        "tags": [
+          "shipments"
+        ]
       }
     },
     "/shipment-tracking-request/{id}": {
@@ -434,8 +443,10 @@
         }
       ],
       "get": {
-        "summary": "GET track",
-        "tags": [],
+        "summary": "Get a single tracking request",
+        "tags": [
+          "shipments"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -489,24 +500,6 @@
         },
         "operationId": "get-track-track_id",
         "description": "GET the status of an existing shipment tracking request to see if it has been added yet or not."
-      },
-      "patch": {
-        "summary": "",
-        "operationId": "patch-shipment-tracking-request-id",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "delete": {
-        "summary": "",
-        "operationId": "delete-shipment-tracking-request-id",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
       }
     },
     "/shipment/{id}": {
@@ -522,8 +515,10 @@
         }
       ],
       "get": {
-        "summary": "GET Shipment",
-        "tags": [],
+        "summary": "Get a single shipment",
+        "tags": [
+          "shipments"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -582,14 +577,43 @@
         "operationId": "get-shipment-id",
         "security": [],
         "description": "Fetch a single shipment by ID"
+      },
+      "patch": {
+        "summary": "Edit a shipment",
+        "operationId": "patch-shipment-id",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Edit a shipment",
+        "tags": [
+          "shipments"
+        ]
+      },
+      "delete": {
+        "summary": "Delete a shipment",
+        "operationId": "delete-shipment-id",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Delete a shipiment",
+        "tags": [
+          "shipments"
+        ]
       }
     },
     "/containers": {
       "get": {
-        "summary": "Your GET endpoint",
-        "tags": [],
+        "summary": "List containers",
+        "tags": [
+          "containers"
+        ],
         "responses": {},
-        "operationId": "get-containers"
+        "operationId": "get-containers",
+        "description": "List containers"
       }
     },
     "/containers/{id}": {
@@ -604,18 +628,24 @@
         }
       ],
       "get": {
-        "summary": "Your GET endpoint",
-        "tags": [],
+        "summary": "Get a single container",
+        "tags": [
+          "containers"
+        ],
         "responses": {},
-        "operationId": "get-containers-id"
+        "operationId": "get-containers-id",
+        "description": "Get a single container"
       }
     },
     "/hooks": {
       "get": {
-        "summary": "Your GET endpoint",
-        "tags": [],
+        "summary": "List hooks",
+        "tags": [
+          "hooks"
+        ],
         "responses": {},
-        "operationId": "get-hooks"
+        "operationId": "get-hooks",
+        "description": "List hooks"
       },
       "post": {
         "summary": "",
@@ -624,7 +654,10 @@
           "200": {
             "description": "OK"
           }
-        }
+        },
+        "tags": [
+          "hooks"
+        ]
       }
     },
     "/hooks/{id}": {
@@ -639,28 +672,39 @@
         }
       ],
       "get": {
-        "summary": "Your GET endpoint",
-        "tags": [],
+        "summary": "Get single hook",
+        "tags": [
+          "hooks"
+        ],
         "responses": {},
-        "operationId": "get-hooks-id"
+        "operationId": "get-hooks-id",
+        "description": "Get a specific hook"
       },
       "patch": {
-        "summary": "",
+        "summary": "Edit a hook",
         "operationId": "patch-hooks-id",
         "responses": {
           "200": {
             "description": "OK"
           }
-        }
+        },
+        "description": "Edit a specific hook",
+        "tags": [
+          "hooks"
+        ]
       },
       "delete": {
-        "summary": "",
+        "summary": "Delete a hook",
         "operationId": "delete-hooks-id",
         "responses": {
           "200": {
             "description": "OK"
           }
-        }
+        },
+        "description": "Delete a hook",
+        "tags": [
+          "hooks"
+        ]
       }
     },
     "/hooks/{id}/test": {
@@ -675,9 +719,12 @@
         }
       ],
       "post": {
-        "summary": "",
+        "summary": "Test a push hook",
         "operationId": "post-hooks-id-test",
-        "description": ""
+        "description": "Test a hook",
+        "tags": [
+          "hooks"
+        ]
       }
     }
   },

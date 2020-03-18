@@ -1,3 +1,7 @@
+---
+tags: [authentication]
+---
+
 # Authentication
 
 This is how we authenticate....
