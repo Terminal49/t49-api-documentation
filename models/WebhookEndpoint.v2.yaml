@@ -1,5 +1,0 @@
-title: WebhookEndpoint
-type: object
-properties:
-  id:
-    type: string

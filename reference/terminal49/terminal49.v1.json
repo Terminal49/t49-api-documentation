@@ -87,16 +87,16 @@
                       "items": {
                         "anyOf": [
                           {
-                            "$ref": "./models/container.v1.json"
+                            "$ref": "#/components/schemas/container"
                           },
                           {
-                            "$ref": "./models/port.v1.json"
+                            "$ref": "#/components/schemas/port"
                           },
                           {
-                            "$ref": "./models/shipping-line.v1.json"
+                            "$ref": "#/components/schemas/shipping-line"
                           },
                           {
-                            "$ref": "./models/account.v1.json"
+                            "$ref": "#/components/schemas/account"
                           }
                         ]
                       }
@@ -217,7 +217,7 @@
         ]
       }
     },
-    "/shipment-tracking-request": {
+    "/tracking-request": {
       "post": {
         "summary": "Create a shipment tracking request",
         "operationId": "post-track",
@@ -347,9 +347,6 @@
           "description": "Create a shipment tracking request"
         },
         "security": [],
-        "tags": [
-          "shipments"
-        ],
         "description": "POST a shipment tracking request. When we have connected with the shipping line we will setup the shipment for you.",
         "callbacks": {
           "shipmentCreated": {
@@ -414,11 +411,14 @@
               }
             }
           }
-        }
+        },
+        "tags": [
+          "tracking-request"
+        ]
       },
       "parameters": [],
       "get": {
-        "summary": "List shipment tracking requests",
+        "summary": "List tracking requests",
         "operationId": "get-shipment-tracking-request",
         "responses": {
           "200": {
@@ -427,11 +427,11 @@
         },
         "description": "Get shipment tracking requests",
         "tags": [
-          "shipments"
+          "tracking-request"
         ]
       }
     },
-    "/shipment-tracking-request/{id}": {
+    "/tracking-request/{id}": {
       "parameters": [
         {
           "schema": {
@@ -444,9 +444,6 @@
       ],
       "get": {
         "summary": "Get a single tracking request",
-        "tags": [
-          "shipments"
-        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -499,7 +496,10 @@
           }
         },
         "operationId": "get-track-track_id",
-        "description": "GET the status of an existing shipment tracking request to see if it has been added yet or not."
+        "description": "GET the status of an existing shipment tracking request to see if it has been added yet or not.",
+        "tags": [
+          "tracking-request"
+        ]
       }
     },
     "/shipment/{id}": {
@@ -528,23 +528,23 @@
                   "type": "object",
                   "properties": {
                     "data": {
-                      "$ref": "./models/shipment.v1.json"
+                      "$ref": "#/components/schemas/shipment"
                     },
                     "included": {
                       "type": "array",
                       "items": {
                         "anyOf": [
                           {
-                            "$ref": "./models/container.v1.json"
+                            "$ref": "#/components/schemas/container"
                           },
                           {
-                            "$ref": "./models/port.v1.json"
+                            "$ref": "#/components/schemas/port"
                           },
                           {
-                            "$ref": "./models/shipping-line.v1.json"
+                            "$ref": "#/components/schemas/shipping-line"
                           },
                           {
-                            "$ref": "./models/account.v1.json"
+                            "$ref": "#/components/schemas/account"
                           }
                         ]
                       }
@@ -729,7 +729,1031 @@
     }
   },
   "components": {
-    "schemas": {},
+    "schemas": {
+      "account": {
+        "title": "acccount",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "enum": [
+              "container"
+            ]
+          },
+          "attributes": {
+            "type": "object",
+            "required": [
+              "company_name"
+            ],
+            "properties": {
+              "company_name": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "required": [
+          "id",
+          "attributes",
+          "name"
+        ]
+      },
+      "container": {
+        "title": "container",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "relationships": {
+            "type": "object",
+            "properties": {
+              "most_recent_location": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "terminal",
+                          "railTerminal",
+                          "port"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "current_vessel": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "vessel"
+                    ]
+                  }
+                }
+              },
+              "current_journey_container_update": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "status_update"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "next_journey_container_update": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "status_update"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "container_updates": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "type": {
+                      "type": "string",
+                      "enum": [
+                        "status_update"
+                      ]
+                    }
+                  }
+                }
+              },
+              "shipment": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "shipment"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "attributes": {
+            "type": "object",
+            "properties": {
+              "number": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "dry",
+                  "reefer",
+                  "open top",
+                  "flat rack",
+                  "bulk",
+                  "tank"
+                ]
+              },
+              "length": {
+                "type": "integer",
+                "enum": [
+                  10,
+                  20,
+                  40,
+                  45
+                ]
+              },
+              "height": {
+                "type": "string",
+                "enum": [
+                  "standard",
+                  "high_cube"
+                ]
+              },
+              "weight": {
+                "type": "string"
+              },
+              "weight_unit": {
+                "type": "string",
+                "enum": [
+                  "kgs",
+                  "lbs"
+                ]
+              },
+              "created_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "seal_number": {
+                "type": "string"
+              },
+              "pickup_lfd": {
+                "type": "string",
+                "format": "date"
+              },
+              "availability_known": {
+                "type": "boolean"
+              },
+              "available_for_pickup": {
+                "type": "boolean"
+              },
+              "current_transportation_mode": {
+                "type": "string",
+                "enum": [
+                  "vessel",
+                  "rail",
+                  "truck",
+                  "grounded"
+                ]
+              }
+            }
+          },
+          "name": {
+            "type": "string",
+            "enum": [
+              "container"
+            ]
+          }
+        },
+        "required": [
+          "availability_known"
+        ],
+        "x-examples": {
+          "example-1": {}
+        },
+        "x-tags": [
+          "containers"
+        ]
+      },
+      "error": {
+        "title": "error",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title"
+        ]
+      },
+      "port": {
+        "title": "port",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "attributes": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "country_code": {
+                "type": "string",
+                "description": "2 digit country code"
+              },
+              "time_zone": {
+                "type": "string",
+                "description": "IANA tz"
+              },
+              "unlocode": {
+                "type": "string",
+                "description": "UN/LOCODE"
+              }
+            }
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "port"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "type"
+        ]
+      },
+      "tracking-request": {
+        "title": "tracking-request",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "shipment-tracking-request"
+            ]
+          },
+          "attributes": {
+            "type": "object",
+            "properties": {
+              "bill_of_lading": {
+                "type": "string"
+              },
+              "ref_numbers": {
+                "type": "string"
+              },
+              "tags": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "pending",
+                  "created",
+                  "shipping_line_unavailable",
+                  "failed"
+                ]
+              }
+            },
+            "required": [
+              "bill_of_lading",
+              "status"
+            ]
+          },
+          "relationships": {
+            "type": "object",
+            "properties": {
+              "customer": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "format": "uuid",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "account"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "shipment": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "format": "uuid",
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "shipment"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "shipping-line": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "shipping-line"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "id",
+          "type"
+        ],
+        "x-tags": [
+          "tracking-request"
+        ]
+      },
+      "shipment": {
+        "title": "shipment",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "relationships": {
+            "type": "object",
+            "properties": {
+              "shipping-line": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "shipping-line"
+                        ]
+                      },
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "id"
+                    ]
+                  }
+                }
+              },
+              "voyage": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "voyage"
+                        ]
+                      },
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "id"
+                    ]
+                  }
+                }
+              },
+              "destination": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "port",
+                          "metro-area"
+                        ]
+                      },
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "id"
+                    ]
+                  }
+                }
+              },
+              "port-of-lading": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "port"
+                        ]
+                      },
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "id"
+                    ]
+                  }
+                }
+              },
+              "status-updates": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "status-update"
+                          ]
+                        },
+                        "id": {
+                          "type": "string",
+                          "format": "uuid"
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "id"
+                      ]
+                    }
+                  }
+                }
+              },
+              "containers": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "container"
+                          ]
+                        },
+                        "id": {
+                          "type": "string",
+                          "format": "uuid"
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "id"
+                      ]
+                    }
+                  }
+                }
+              },
+              "port-of-discharge": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "port"
+                        ]
+                      },
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "id"
+                    ]
+                  }
+                }
+              },
+              "customer": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "account"
+                        ]
+                      },
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "id"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "attributes": {
+            "type": "object",
+            "properties": {
+              "bill_of_lading_number": {
+                "type": "string"
+              },
+              "ref-numbers": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "created_at": {
+                "type": "string",
+                "format": "uri"
+              },
+              "tags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "port_of_lading_locode": {
+                "type": "string"
+              },
+              "port_of_lading_name": {
+                "type": "string"
+              },
+              "port_of_discharge_locode": {
+                "type": "string"
+              },
+              "port_of_discharge_name": {
+                "type": "string"
+              },
+              "destination_locode": {
+                "type": "string"
+              },
+              "destination_name": {
+                "type": "string"
+              },
+              "shipping_line_scac": {
+                "type": "string"
+              },
+              "pod_vessel_name": {
+                "type": "string"
+              },
+              "pod_voyage_number": {
+                "type": "string"
+              },
+              "pol_etd_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "pol_atd_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "pod_eta_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "pod_ata_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "destination_eta_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "destination_ata_at": {
+                "type": "string",
+                "format": "date-time"
+              }
+            },
+            "required": [
+              "bill_of_lading_number"
+            ]
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "shipment"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "type"
+        ],
+        "x-tags": [
+          "shipments"
+        ],
+        "x-examples": {
+          "example-1": {}
+        }
+      },
+      "shipping-line": {
+        "title": "shipping-line",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "attributes": {
+            "type": "object",
+            "required": [
+              "scac",
+              "name",
+              "nickname"
+            ],
+            "properties": {
+              "scac": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "nickname": {
+                "type": "string"
+              }
+            }
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "shipping-line"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "attributes"
+        ]
+      },
+      "status-update": {
+        "title": "status-update",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "relationships": {
+            "type": "object",
+            "properties": {
+              "container": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "container"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "shipment": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "shipment"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "location": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "port",
+                          "metroarea",
+                          "terminal",
+                          "railterminal"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "vessel": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "vessel"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "fee": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "fee"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "hold": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "hold"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "attributes": {
+            "type": "object",
+            "properties": {
+              "event": {
+                "type": "string",
+                "description": "The normalized event name"
+              },
+              "original_event": {
+                "type": "string",
+                "description": "The event name as originally passed by the source"
+              },
+              "estimated_at": {
+                "type": "string",
+                "description": "Estimated time for ETA and ETD changes"
+              },
+              "actual_at": {
+                "type": "string"
+              },
+              "created_at": {
+                "type": "string"
+              },
+              "transportation_mode": {
+                "type": "string"
+              },
+              "carrier_scac": {
+                "type": "string"
+              },
+              "vessel_name": {
+                "type": "string"
+              },
+              "voyage_number": {
+                "type": "string"
+              },
+              "original_location": {
+                "type": "string"
+              },
+              "time_zone": {
+                "type": "string",
+                "description": "IANA timezone"
+              }
+            }
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "status-update"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "attributes"
+        ]
+      },
+      "terminal": {
+        "title": "terminal",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "relationships": {
+            "type": "object",
+            "required": [
+              "port"
+            ],
+            "properties": {
+              "port": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "type"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "port"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "attributes": {
+            "type": "object",
+            "required": [
+              "name"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "nickname": {
+                "type": "string"
+              },
+              "firms_code": {
+                "type": "string",
+                "description": "CBP FIRMS Code or CBS Sublocation Code"
+              }
+            }
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "terminal"
+            ]
+          }
+        },
+        "required": [
+          "attributes",
+          "relationships"
+        ]
+      }
+    },
     "securitySchemes": {}
   },
   "tags": []
