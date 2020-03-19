@@ -1552,6 +1552,19 @@
                   "properties": {
                     "data": {
                       "$ref": "#/components/schemas/tracking_request"
+                    },
+                    "included": {
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/components/schemas/account"
+                          },
+                          {
+                            "$ref": "#/components/schemas/shipping_line"
+                          }
+                        ]
+                      }
                     }
                   }
                 },
@@ -1679,13 +1692,97 @@
         "operationId": "get-shipment-tracking_request",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/tracking_request"
+                      }
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/links"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/meta"
+                    },
+                    "included": {
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/components/schemas/account"
+                          },
+                          {
+                            "$ref": "#/components/schemas/shipping_line"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "format": "uuid"
+                              },
+                              "type": {
+                                "type": "string",
+                                "enum": [
+                                  "shipment"
+                                ]
+                              },
+                              "links": {
+                                "type": "object",
+                                "properties": {
+                                  "self": {
+                                    "type": "string",
+                                    "format": "uri"
+                                  }
+                                }
+                              }
+                            },
+                            "description": ""
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         },
-        "description": "Get shipment tracking requests",
+        "description": "List all shipment tracking requests",
         "tags": [
           "tracking_request"
-        ]
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "filter": {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "type": "string",
+                        "enum": [
+                          "pending",
+                          "created",
+                          "failed"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        }
       }
     }
   },
@@ -2668,6 +2765,9 @@
       "tracking_request": {
         "title": "Tracking request model",
         "type": "object",
+        "x-tags": [
+          "tracking_request"
+        ],
         "properties": {
           "id": {
             "type": "string",
@@ -2696,8 +2796,14 @@
                 "enum": [
                   "pending",
                   "created",
-                  "shipping_line_unavailable",
                   "failed"
+                ]
+              },
+              "failed_reason": {
+                "type": "string",
+                "enum": [
+                  "shipping_line_unavailable",
+                  "unrecognized_response"
                 ]
               }
             },
@@ -2777,9 +2883,6 @@
         "required": [
           "id",
           "type"
-        ],
-        "x-tags": [
-          "tracking_request"
         ]
       },
       "rail_terminal": {
