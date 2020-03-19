@@ -286,9 +286,7 @@
         "operationId": "get-shipments",
         "description": "List shipments",
         "security": [],
-        "requestBody": {
-          "description": "Shipments can be searched and filtered by a variety of properties. \n\nEach of the filters is exclusive - i.e. you will be returned the intersection of shipments that match all of the filter parameters you provide. \n\nWhen a filter param allows passing an array of properties, it will filter against shipments matching any of the values.\n"
-        },
+      
         "tags": [
           "shipments"
         ],
