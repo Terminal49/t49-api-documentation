@@ -1784,6 +1784,109 @@
           "description": ""
         }
       }
+    },
+    "/events": {
+      "get": {
+        "summary": "List events",
+        "tags": [
+          "events"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/event"
+                      }
+                    },
+                    "included": {
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/components/schemas/container"
+                          },
+                          {
+                            "$ref": "#/components/schemas/shipment"
+                          },
+                          {
+                            "$ref": "#/components/schemas/tracking_request"
+                          }
+                        ]
+                      }
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/links"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/meta"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-events"
+      }
+    },
+    "/events/{id}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get a single event",
+        "tags": [
+          "events"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/event"
+                    },
+                    "included": {
+                      "type": "array",
+                      "items": {
+                        "oneOf": [
+                          {
+                            "$ref": "#/components/schemas/tracking_request"
+                          },
+                          {
+                            "$ref": "#/components/schemas/container"
+                          },
+                          {
+                            "$ref": "#/components/schemas/shipment"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-events-id"
+      }
     }
   },
   "components": {
@@ -3006,6 +3109,129 @@
           "attributes",
           "type"
         ]
+      },
+      "event": {
+        "title": "Event model",
+        "type": "object",
+        "description": "Events represent a change to a model which may be subscripted to via webhook.",
+        "x-tags": [
+          "events"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "event"
+            ]
+          },
+          "attributes": {
+            "type": "object",
+            "required": [
+              "event_type",
+              "created_at"
+            ],
+            "properties": {
+              "event_type": {
+                "type": "string",
+                "enum": [
+                  "tracking_request.failed",
+                  "tracking_request.succeeded",
+                  "shipment.created",
+                  "shipment.updated",
+                  "container.created",
+                  "container.updated"
+                ]
+              },
+              "created_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "pending_webhooks": {
+                "type": "integer",
+                "description": "Number of webhooks yet to return a 200",
+                "minimum": 0
+              }
+            }
+          },
+          "related": {
+            "type": "object",
+            "properties": {
+              "object": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "shipment",
+                      "container",
+                      "tracking_request"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "included": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/shipment"
+                },
+                {
+                  "$ref": "#/components/schemas/container"
+                },
+                {
+                  "$ref": "#/components/schemas/tracking_request"
+                }
+              ]
+            }
+          },
+          "": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "attributes"
+        ]
+      },
+      "hook": {
+        "title": "hook",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "hook"
+            ]
+          },
+          "attributes": {
+            "type": "object",
+            "properties": {
+              "uri": {
+                "type": "string"
+              },
+              "events_subscribed": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "securitySchemes": {}
