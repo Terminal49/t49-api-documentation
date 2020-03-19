@@ -1,7 +1,10 @@
+---
+tags: [hooks]
+---
+
 # Web-Hooks
 
 You may subscribe to events through webhooks to be alerted as to when changes happen. See the `hooks` endpoint documentation for more information.
-
 
 ## Events
 

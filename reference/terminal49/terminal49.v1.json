@@ -62,90 +62,104 @@
                   }
                 },
                 "examples": {
-                  "Example": {
+                  "En-route to NY with inland move": {
                     "value": {
-                      "data": [
-                        {
-                          "id": "512ae32c-a604-44f8-9c15-2ca9cd3d2ae8",
-                          "type": "shipment",
-                          "attributes": {
-                            "bill_of_lading_number": "6140575020",
-                            "ref_numbers": [
-                              "my-ref-49"
-                            ],
-                            "created_at": "2020-02-20T13:37:12Z",
-                            "tags": [],
-                            "port_of_lading_locode": "CHCSN",
-                            "port_of_lading_name": "Shanghai, CN",
-                            "port_of_discharge_locode": "USOAK",
-                            "port_of_discharge_name": "Oakland, CA",
-                            "destination_locode": null,
-                            "destination_name": null,
-                            "shipping_line_scac": "COSU",
-                            "pod_vessel_name": "EVER ETHIC",
-                            "pod_voyage_number": null,
-                            "pol_etd_at": null,
-                            "pol_atd_at": null,
-                            "pod_eta_at": null,
-                            "pod_ata_at": null,
-                            "destination_eta_at": null,
-                            "destination_ata_at": null
+                      "data": {
+                        "id": "512ae32c-a604-44f8-9c15-2ca9cd3d2ae8",
+                        "type": "shipment",
+                        "attributes": {
+                          "bill_of_lading_number": "6140575020",
+                          "ref_numbers": [
+                            "my-ref-49",
+                            "PO#18412"
+                          ],
+                          "created_at": "2020-02-20T13:37:12Z",
+                          "tags": [],
+                          "port_of_lading_locode": "INVTZ",
+                          "port_of_lading_name": "Visakhapatnam, IN",
+                          "port_of_discharge_locode": "USNYC",
+                          "port_of_discharge_name": "New York / New Jersey, NY",
+                          "destination_locode": "USDET",
+                          "destination_name": "Detroit, MI",
+                          "shipping_line_scac": "HLCU",
+                          "pod_vessel_name": "CMA CGM ALMAVIVA",
+                          "pod_voyage_number": "0108",
+                          "pol_etd_at": null,
+                          "pol_atd_at": "2020-02-15T21:53Z",
+                          "pol_timezone": "Asia/Calcutta",
+                          "pod_eta_at": "2020-03-18T08:00Z",
+                          "pod_ata_at": null,
+                          "pod_timezone": "America/New_York",
+                          "destination_eta_at": "2020-03-26T17:00Z",
+                          "destination_ata_at": null,
+                          "destination_timezone": "America/Detroit"
+                        },
+                        "relationships": {
+                          "containers": {
+                            "data": [
+                              {
+                                "id": "c99a81c0-ff69-4bdf-aa5f-8e33a787f5fa",
+                                "type": "container"
+                              }
+                            ]
                           },
-                          "relationships": {
-                            "containers": {
-                              "data": [
-                                {
-                                  "id": "c99a81c0-ff69-4bdf-aa5f-8e33a787f5fa",
-                                  "type": "container"
-                                }
-                              ]
-                            },
-                            "port_of_lading": {
-                              "data": {
-                                "id": "fa21bb72-975b-4dd4-a768-1109ff628dc5",
-                                "type": "port"
-                              }
-                            },
-                            "port_of_discharge": {
-                              "data": {
-                                "id": "42d1ba3a-f4b8-431d-a6fe-49fd748a59e7",
-                                "type": "port"
-                              }
+                          "port_of_lading": {
+                            "data": {
+                              "id": "bde5465a-1160-4fde-a026-74df9c362f65",
+                              "type": "port"
+                            }
+                          },
+                          "port_of_discharge": {
+                            "data": {
+                              "id": "f7cb530a-9e60-412c-a5bc-205a2f34ba54",
+                              "type": "port"
+                            }
+                          },
+                          "destination": {
+                            "data": {
+                              "id": "c9ae2b6b-5088-4e07-ba09-2872121e4fa2",
+                              "type": "metro_area"
+                            }
+                          },
+                          "customer": {
+                            "data": {
+                              "id": "ff76b51a-371e-45ec-86d1-9d03ccae566a",
+                              "type": "account"
                             }
                           }
                         }
-                      ],
+                      },
                       "included": [
                         {
                           "id": "c99a81c0-ff69-4bdf-aa5f-8e33a787f5fa",
                           "type": "container",
                           "attributes": {
-                            "number": "CGMU5464706",
+                            "number": "UACU4743531",
                             "equipment_type": "reefer",
                             "length": 40,
                             "height": "high_cube",
-                            "weight": 40012,
-                            "weight_unit": "lbs",
-                            "created_at": "2020-02-20T13:37:12Z",
+                            "weight": 35075,
+                            "weight_unit": "kigs",
+                            "created_at": "2020-02-20T08:19:52Z",
                             "seal_number": null,
-                            "pickup_lfd": "2020-03-19T08:00:00Z",
-                            "availability_known": true,
-                            "available_for_pickup": true,
-                            "current_transportation_mode": "grounded",
-                            "pod_discharged_at": "2020-03-17T19:24:00Z",
+                            "pickup_lfd": null,
+                            "availability_known": false,
+                            "available_for_pickup": null,
+                            "current_transportation_mode": "vessel",
+                            "pod_discharged_at": null,
                             "pod_picked_up_at": null,
                             "destination_unloaded_at": null,
                             "destination_picked_up_at": null,
                             "empty_returned_at": null,
                             "pod_timezone": "America/Los_Angeles",
-                            "destination_timezone": null,
+                            "destination_timezone": "America/Detroit",
                             "empty_returned_timezone": null
                           },
                           "relationships": {
                             "most_recent_location": {
                               "data": {
-                                "id": "3e550f0e-ac2a-48fb-b242-5be45ecf2c78",
-                                "type": "terminal"
+                                "id": "dd179094-a1d4-4129-842d-b952e43df4b7",
+                                "type": "port"
                               }
                             },
                             "shipment": {
@@ -155,63 +169,71 @@
                               }
                             },
                             "current_vessel": {
-                              "data": null
-                            }
-                          }
-                        },
-                        {
-                          "id": "fa21bb72-975b-4dd4-a768-1109ff628dc5",
-                          "type": "port",
-                          "attributes": {
-                            "name": "Shanghai",
-                            "locode": "CNSHA",
-                            "country_code": "CN",
-                            "timezone": "Asia/Shanghai"
-                          }
-                        },
-                        {
-                          "id": "42d1ba3a-f4b8-431d-a6fe-49fd748a59e7",
-                          "type": "port",
-                          "attributes": {
-                            "name": "Oakland",
-                            "locode": "USOAK",
-                            "country_code": "US",
-                            "timezone": "America/Los_Angeles"
-                          }
-                        },
-                        {
-                          "id": "3e550f0e-ac2a-48fb-b242-5be45ecf2c78",
-                          "type": "terminal",
-                          "attributes": {
-                            "name": "Oakland International Container Terminal",
-                            "nickname": "SSA",
-                            "firms_code": "Z985"
-                          },
-                          "relationships": {
-                            "port": {
                               "data": {
-                                "id": "42d1ba3a-f4b8-431d-a6fe-49fd748a59e7",
-                                "type": "port"
+                                "id": "252a5450-2893-4207-b5c4-81ce3152ce84",
+                                "type": "vessel"
                               }
                             }
                           }
+                        },
+                        {
+                          "id": "bde5465a-1160-4fde-a026-74df9c362f65",
+                          "type": "port",
+                          "attributes": {
+                            "name": "Visakhapatnam",
+                            "locode": "INVTZ",
+                            "country_code": "IN",
+                            "timezone": "Asia/Calcutta"
+                          }
+                        },
+                        {
+                          "id": "dd179094-a1d4-4129-842d-b952e43df4b7",
+                          "type": "port",
+                          "attributes": {
+                            "name": "Damietta",
+                            "locode": "EGDAM",
+                            "country_code": "EG",
+                            "time_zone": "Africa/Cairo"
+                          }
+                        },
+                        {
+                          "id": "f7cb530a-9e60-412c-a5bc-205a2f34ba54",
+                          "type": "port",
+                          "attributes": {
+                            "name": "New York / New Jersey",
+                            "locode": "USNYC",
+                            "country_code": "US",
+                            "timezone": "America/New_York"
+                          }
+                        },
+                        {
+                          "id": "c9ae2b6b-5088-4e07-ba09-2872121e4fa2",
+                          "type": "metro_area",
+                          "attributes": {
+                            "name": "Detroit",
+                            "locode": "USDET",
+                            "country_code": "US",
+                            "state_abbr": "MI",
+                            "timezone": "America/Detroit"
+                          }
+                        },
+                        {
+                          "id": "ff76b51a-371e-45ec-86d1-9d03ccae566a",
+                          "type": "account",
+                          "attributes": {
+                            "name": "A-Z Imports"
+                          }
+                        },
+                        {
+                          "id": "252a5450-2893-4207-b5c4-81ce3152ce84",
+                          "type": "vessel",
+                          "attributes": {
+                            "name": "CMA CGM ALMAVIVA",
+                            "imo": "9450648",
+                            "mmsi": "228339600"
+                          }
                         }
-                      ],
-                      "links": {
-                        "self": "https://terminal49.com/api/v2/shipments?page_number=1&per_page=5&sort=ASC",
-                        "first": "https://terminal49.com/api/v2/shipments?page_number=1&per_page=5&sort=ASC",
-                        "prev": null,
-                        "next": null,
-                        "last": "https://terminal49.com/api/v2/shipments?page_number=1&per_page=5&sort=ASC"
-                      },
-                      "meta": {
-                        "current_page": 1,
-                        "next_page": null,
-                        "prev-page": null,
-                        "total_pages": 1,
-                        "total_count": 1,
-                        "size": 1
-                      }
+                      ]
                     }
                   }
                 }
@@ -265,243 +287,76 @@
         "description": "List shipments",
         "security": [],
         "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "filter": {
-                    "type": "object",
-                    "properties": {
-                      "port_of_discharge": {
-                        "type": "array",
-                        "description": "Array of UN/LOCODEs",
-                        "items": {
-                          "type": "string"
-                        }
-                      },
-                      "arrival_date_from": {
-                        "type": "string",
-                        "format": "date",
-                        "description": "Shipments arriving (or arrived) after date (inclusive)"
-                      },
-                      "arrival_date_to": {
-                        "type": "string",
-                        "format": "date",
-                        "description": "Shipments arriving (or arrived) before date (inclusive)\n"
-                      },
-                      "port_of_lading": {
-                        "type": "array",
-                        "description": "Array of UN/LOCODEs",
-                        "items": {
-                          "type": "string"
-                        }
-                      }
-                    }
-                  },
-                  "page": {
-                    "type": "integer"
-                  },
-                  "per_page": {
-                    "type": "integer"
-                  },
-                  "sort": {
-                    "type": "string",
-                    "default": "DESC",
-                    "enum": [
-                      "DESC",
-                      "ASC"
-                    ],
-                    "description": "Records are sorted by ATA, ETA"
-                  },
-                  "q": {
-                    "type": "string",
-                    "description": "Search shipments by master bill of lading, reference number, or container number."
-                  }
-                }
-              },
-              "examples": {
-                "En-route to NY with inland move": {
-                  "value": {
-                    "data": {
-                      "id": "512ae32c-a604-44f8-9c15-2ca9cd3d2ae8",
-                      "type": "shipment",
-                      "attributes": {
-                        "bill_of_lading_number": "6140575020",
-                        "ref_numbers": [
-                          "my-ref-49",
-                          "PO#18412"
-                        ],
-                        "created_at": "2020-02-20T13:37:12Z",
-                        "tags": [],
-                        "port_of_lading_locode": "INVTZ",
-                        "port_of_lading_name": "Visakhapatnam, IN",
-                        "port_of_discharge_locode": "USNYC",
-                        "port_of_discharge_name": "New York / New Jersey, NY",
-                        "destination_locode": "USDET",
-                        "destination_name": "Detroit, MI",
-                        "shipping_line_scac": "HLCU",
-                        "pod_vessel_name": "CMA CGM ALMAVIVA",
-                        "pod_voyage_number": "0108",
-                        "pol_etd_at": null,
-                        "pol_atd_at": "2020-02-15T21:53Z",
-                        "pol_timezone": "Asia/Calcutta",
-                        "pod_eta_at": "2020-03-18T08:00Z",
-                        "pod_ata_at": null,
-                        "pod_timezone": "America/New_York",
-                        "destination_eta_at": "2020-03-26T17:00Z",
-                        "destination_ata_at": null,
-                        "destination_timezone": "America/Detroit"
-                      },
-                      "relationships": {
-                        "containers": {
-                          "data": [
-                            {
-                              "id": "c99a81c0-ff69-4bdf-aa5f-8e33a787f5fa",
-                              "type": "container"
-                            }
-                          ]
-                        },
-                        "port_of_lading": {
-                          "data": {
-                            "id": "bde5465a-1160-4fde-a026-74df9c362f65",
-                            "type": "port"
-                          }
-                        },
-                        "port_of_discharge": {
-                          "data": {
-                            "id": "f7cb530a-9e60-412c-a5bc-205a2f34ba54",
-                            "type": "port"
-                          }
-                        },
-                        "destination": {
-                          "data": {
-                            "id": "c9ae2b6b-5088-4e07-ba09-2872121e4fa2",
-                            "type": "metro_area"
-                          }
-                        },
-                        "customer": {
-                          "data": {
-                            "id": "ff76b51a-371e-45ec-86d1-9d03ccae566a",
-                            "type": "account"
-                          }
-                        }
-                      }
-                    },
-                    "included": [
-                      {
-                        "id": "c99a81c0-ff69-4bdf-aa5f-8e33a787f5fa",
-                        "type": "container",
-                        "attributes": {
-                          "number": "UACU4743531",
-                          "equipment_type": "reefer",
-                          "length": 40,
-                          "height": "high_cube",
-                          "weight": 35075,
-                          "weight_unit": "kigs",
-                          "created_at": "2020-02-20T08:19:52Z",
-                          "seal_number": null,
-                          "pickup_lfd": null,
-                          "availability_known": false,
-                          "available_for_pickup": null,
-                          "current_transportation_mode": "vessel",
-                          "pod_discharged_at": null,
-                          "pod_picked_up_at": null,
-                          "destination_unloaded_at": null,
-                          "destination_picked_up_at": null,
-                          "empty_returned_at": null,
-                          "pod_timezone": "America/Los_Angeles",
-                          "destination_timezone": "America/Detroit",
-                          "empty_returned_timezone": null
-                        },
-                        "relationships": {
-                          "most_recent_location": {
-                            "data": {
-                              "id": "dd179094-a1d4-4129-842d-b952e43df4b7",
-                              "type": "port"
-                            }
-                          },
-                          "shipment": {
-                            "data": {
-                              "id": "512ae32c-a604-44f8-9c15-2ca9cd3d2ae8",
-                              "type": "shipment"
-                            }
-                          },
-                          "current_vessel": {
-                            "data": {
-                              "id": "252a5450-2893-4207-b5c4-81ce3152ce84",
-                              "type": "vessel"
-                            }
-                          }
-                        }
-                      },
-                      {
-                        "id": "bde5465a-1160-4fde-a026-74df9c362f65",
-                        "type": "port",
-                        "attributes": {
-                          "name": "Visakhapatnam",
-                          "locode": "INVTZ",
-                          "country_code": "IN",
-                          "timezone": "Asia/Calcutta"
-                        }
-                      },
-                      {
-                        "id": "dd179094-a1d4-4129-842d-b952e43df4b7",
-                        "type": "port",
-                        "attributes": {
-                          "name": "Damietta",
-                          "locode": "EGDAM",
-                          "country_code": "EG",
-                          "time_zone": "Africa/Cairo"
-                        }
-                      },
-                      {
-                        "id": "f7cb530a-9e60-412c-a5bc-205a2f34ba54",
-                        "type": "port",
-                        "attributes": {
-                          "name": "New York / New Jersey",
-                          "locode": "USNYC",
-                          "country_code": "US",
-                          "timezone": "America/New_York"
-                        }
-                      },
-                      {
-                        "id": "c9ae2b6b-5088-4e07-ba09-2872121e4fa2",
-                        "type": "metro_area",
-                        "attributes": {
-                          "name": "Detroit",
-                          "locode": "USDET",
-                          "country_code": "US",
-                          "state_abbr": "MI",
-                          "timezone": "America/Detroit"
-                        }
-                      },
-                      {
-                        "id": "ff76b51a-371e-45ec-86d1-9d03ccae566a",
-                        "type": "account",
-                        "attributes": {
-                          "name": "A-Z Imports"
-                        }
-                      },
-                      {
-                        "id": "252a5450-2893-4207-b5c4-81ce3152ce84",
-                        "type": "vessel",
-                        "attributes": {
-                          "name": "CMA CGM ALMAVIVA",
-                          "imo": "9450648",
-                          "mmsi": "228339600"
-                        }
-                      }
-                    ]
-                  }
-                }
-              }
-            }
-          },
           "description": "Shipments can be searched and filtered by a variety of properties. \n\nEach of the filters is exclusive - i.e. you will be returned the intersection of shipments that match all of the filter parameters you provide. \n\nWhen a filter param allows passing an array of properties, it will filter against shipments matching any of the values.\n"
         },
         "tags": [
           "shipments"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "array"
+            },
+            "in": "query",
+            "name": "filter[port_of_discharge]"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "filter[arrival_date_from]",
+            "description": "Shipments arriving (or arrived) after date (inclusive)"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "filter[arrival_date_to]",
+            "description": "Shipments arriving (or arrived) before date (inclusive)"
+          },
+          {
+            "schema": {
+              "type": "array"
+            },
+            "in": "query",
+            "name": "filter[port_of_lading]",
+            "description": "Array of UN/LOCODEs"
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "page"
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "per_page"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "ASC",
+                "DESC"
+              ]
+            },
+            "in": "query",
+            "name": "sort"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "q",
+            "description": "Search shipments by master bill of lading, reference number, or container number."
+          }
         ]
       }
     },
@@ -1921,14 +1776,13 @@
           "id",
           "type",
           "attributes"
-        ]
+        ],
+        "x-examples": {}
       },
       "container": {
         "title": "Container model",
         "type": "object",
-        "x-examples": {
-          "example-1": {}
-        },
+        "x-examples": {},
         "x-tags": [
           "containers"
         ],
@@ -2191,9 +2045,7 @@
         "x-tags": [
           "shipments"
         ],
-        "x-examples": {
-          "example-1": {}
-        },
+        "x-examples": {},
         "properties": {
           "id": {
             "type": "string",
