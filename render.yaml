@@ -1,0 +1,14 @@
+services:
+- type: pserv
+  name: redoc
+  env: docker
+  plan: starter
+  envVars:
+  - key: SPEC_URL
+    value: "https://raw.githubusercontent.com/Terminal49/t49-api-documentation/master/reference/terminal49/terminal49.v1.json"
+  - key: PAGE_TITLE
+    value: "Terminal 49 API Documentation"
+  - key: PAGE_FAVICON
+    value: "https://downloads.intercomcdn.com/i/o/192006/5fa830c8f62ea90d146976cd/9716a5acc03c01e2e9ed40db762e7828.png"
+  - key: REDOC_OPTIONS
+    value: "disable-search"
