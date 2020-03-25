@@ -286,7 +286,6 @@
         "operationId": "get-shipments",
         "description": "List shipments",
         "security": [],
-      
         "tags": [
           "shipments"
         ],
@@ -1742,301 +1741,9 @@
       }
     }
   },
+  "tags": [],
   "components": {
     "schemas": {
-      "account": {
-        "title": "Account model",
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "container"
-            ]
-          },
-          "attributes": {
-            "type": "object",
-            "required": [
-              "company_name"
-            ],
-            "properties": {
-              "company_name": {
-                "type": "string"
-              }
-            }
-          }
-        },
-        "required": [
-          "id",
-          "type",
-          "attributes"
-        ],
-        "x-examples": {}
-      },
-      "container": {
-        "title": "Container model",
-        "type": "object",
-        "x-examples": {},
-        "x-tags": [
-          "containers"
-        ],
-        "description": "Represents the equipment during a specific journey.",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "attributes": {
-            "type": "object",
-            "properties": {
-              "number": {
-                "type": "string"
-              },
-              "equipment_type": {
-                "type": "string",
-                "enum": [
-                  "dry",
-                  "reefer",
-                  "open top",
-                  "flat rack",
-                  "bulk",
-                  "tank"
-                ]
-              },
-              "length": {
-                "type": "integer",
-                "enum": [
-                  10,
-                  20,
-                  40,
-                  45
-                ]
-              },
-              "height": {
-                "type": "string",
-                "enum": [
-                  "standard",
-                  "high_cube"
-                ]
-              },
-              "weight": {
-                "type": "string"
-              },
-              "weight_unit": {
-                "type": "string",
-                "enum": [
-                  "kgs",
-                  "lbs"
-                ]
-              },
-              "created_at": {
-                "type": "string",
-                "format": "date-time"
-              },
-              "seal_number": {
-                "type": "string"
-              },
-              "pickup_lfd": {
-                "type": "string",
-                "format": "date-time",
-                "description": "The last free day for pickup before deummurage accrues."
-              },
-              "availability_known": {
-                "type": "boolean",
-                "description": "Whether Terminal 49 is receiving availability status from the terminal."
-              },
-              "available_for_pickup": {
-                "type": "boolean",
-                "description": "If availability_known is true, then whether container is available to be picked up at terminal."
-              },
-              "current_transportation_mode": {
-                "type": "string",
-                "enum": [
-                  "vessel",
-                  "rail",
-                  "truck",
-                  "grounded"
-                ]
-              },
-              "pod_discharged_at": {
-                "type": "string",
-                "format": "date-time",
-                "description": "Discharge time at the port of discharge"
-              },
-              "pod_picked_up_at": {
-                "type": "string",
-                "format": "date-time",
-                "description": "Full Out time at port of discharge. Null for inland moves."
-              },
-              "destination_unloaded_at": {
-                "type": "string",
-                "format": "date-time",
-                "description": "Arrival or unloading time at final destination for inland moves."
-              },
-              "destination_picked_up_at": {
-                "type": "string",
-                "format": "date-time",
-                "description": "Pickup time at final destination for inland moves."
-              },
-              "empty_returned_at": {
-                "type": "string",
-                "format": "date-time",
-                "description": "Time empty container was returned."
-              },
-              "pod_timezone": {
-                "type": "string",
-                "description": "IANA tz"
-              },
-              "destination_timezone": {
-                "type": "string",
-                "description": "IANA tz"
-              },
-              "empty_returned_timezone": {
-                "type": "string",
-                "description": "IANA tz"
-              }
-            }
-          },
-          "relationships": {
-            "type": "object",
-            "properties": {
-              "most_recent_location": {
-                "type": "object",
-                "description": "The current, or most recent land location.",
-                "properties": {
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string",
-                        "format": "uuid"
-                      },
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "terminal",
-                          "port",
-                          "metroArea"
-                        ]
-                      }
-                    }
-                  }
-                }
-              },
-              "current_vessel": {
-                "type": "object",
-                "description": "The vessel the container is currently laden on.",
-                "properties": {
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string",
-                        "format": "uuid"
-                      },
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "vessel"
-                        ]
-                      }
-                    }
-                  }
-                }
-              },
-              "shipment": {
-                "type": "object",
-                "properties": {
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string",
-                        "format": "uuid"
-                      },
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "shipment"
-                        ]
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "name": {
-            "type": "string",
-            "enum": [
-              "container"
-            ]
-          }
-        },
-        "required": [
-          "id",
-          "name"
-        ]
-      },
-      "error": {
-        "title": "Error model",
-        "type": "object",
-        "properties": {
-          "detail": {
-            "type": "string"
-          },
-          "title": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "title"
-        ]
-      },
-      "port": {
-        "title": "Port model",
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "attributes": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string"
-              },
-              "country_code": {
-                "type": "string",
-                "description": "2 digit country code"
-              },
-              "timezone": {
-                "type": "string",
-                "description": "IANA tz"
-              },
-              "locode": {
-                "type": "string",
-                "description": "UN/LOCODE"
-              }
-            }
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "port"
-            ]
-          }
-        },
-        "required": [
-          "id",
-          "type"
-        ]
-      },
       "shipment": {
         "title": "Shipment model",
         "type": "object",
@@ -2328,6 +2035,429 @@
           "type"
         ]
       },
+      "meta": {
+        "title": "meta",
+        "type": "object",
+        "properties": {
+          "size": {
+            "type": "integer"
+          },
+          "total-count": {
+            "type": "integer"
+          },
+          "total-pages": {
+            "type": "integer"
+          },
+          "prev-page": {
+            "type": "integer"
+          },
+          "next-page": {
+            "type": "integer"
+          },
+          "current-page": {
+            "type": "integer"
+          }
+        }
+      },
+      "links": {
+        "title": "links",
+        "type": "object",
+        "properties": {
+          "last": {
+            "type": "string",
+            "format": "uri"
+          },
+          "next": {
+            "type": "string",
+            "format": "uri"
+          },
+          "prev": {
+            "type": "string",
+            "format": "uri"
+          },
+          "first": {
+            "type": "string",
+            "format": "uri"
+          },
+          "self": {
+            "type": "string",
+            "format": "uri"
+          }
+        }
+      },
+      "container": {
+        "title": "Container model",
+        "type": "object",
+        "x-examples": {},
+        "x-tags": [
+          "containers"
+        ],
+        "description": "Represents the equipment during a specific journey.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "attributes": {
+            "type": "object",
+            "properties": {
+              "number": {
+                "type": "string"
+              },
+              "equipment_type": {
+                "type": "string",
+                "enum": [
+                  "dry",
+                  "reefer",
+                  "open top",
+                  "flat rack",
+                  "bulk",
+                  "tank"
+                ]
+              },
+              "length": {
+                "type": "integer",
+                "enum": [
+                  10,
+                  20,
+                  40,
+                  45
+                ]
+              },
+              "height": {
+                "type": "string",
+                "enum": [
+                  "standard",
+                  "high_cube"
+                ]
+              },
+              "weight": {
+                "type": "string"
+              },
+              "weight_unit": {
+                "type": "string",
+                "enum": [
+                  "kgs",
+                  "lbs"
+                ]
+              },
+              "created_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "seal_number": {
+                "type": "string"
+              },
+              "pickup_lfd": {
+                "type": "string",
+                "format": "date-time",
+                "description": "The last free day for pickup before deummurage accrues."
+              },
+              "availability_known": {
+                "type": "boolean",
+                "description": "Whether Terminal 49 is receiving availability status from the terminal."
+              },
+              "available_for_pickup": {
+                "type": "boolean",
+                "description": "If availability_known is true, then whether container is available to be picked up at terminal."
+              },
+              "current_transportation_mode": {
+                "type": "string",
+                "enum": [
+                  "vessel",
+                  "rail",
+                  "truck",
+                  "grounded"
+                ]
+              },
+              "pod_discharged_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Discharge time at the port of discharge"
+              },
+              "pod_picked_up_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Full Out time at port of discharge. Null for inland moves."
+              },
+              "destination_unloaded_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Arrival or unloading time at final destination for inland moves."
+              },
+              "destination_picked_up_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Pickup time at final destination for inland moves."
+              },
+              "empty_returned_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Time empty container was returned."
+              },
+              "pod_timezone": {
+                "type": "string",
+                "description": "IANA tz"
+              },
+              "destination_timezone": {
+                "type": "string",
+                "description": "IANA tz"
+              },
+              "empty_returned_timezone": {
+                "type": "string",
+                "description": "IANA tz"
+              }
+            }
+          },
+          "relationships": {
+            "type": "object",
+            "properties": {
+              "most_recent_location": {
+                "type": "object",
+                "description": "The current, or most recent land location.",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "terminal",
+                          "port",
+                          "metroArea"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "current_vessel": {
+                "type": "object",
+                "description": "The vessel the container is currently laden on.",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "vessel"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "shipment": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "shipment"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "name": {
+            "type": "string",
+            "enum": [
+              "container"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ]
+      },
+      "port": {
+        "title": "Port model",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "attributes": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "country_code": {
+                "type": "string",
+                "description": "2 digit country code"
+              },
+              "timezone": {
+                "type": "string",
+                "description": "IANA tz"
+              },
+              "locode": {
+                "type": "string",
+                "description": "UN/LOCODE"
+              }
+            }
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "port"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "type"
+        ]
+      },
+      "shipping_line": {
+        "title": "Shipping line model",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "attributes": {
+            "type": "object",
+            "required": [
+              "scac",
+              "name",
+              "nickname"
+            ],
+            "properties": {
+              "scac": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "nickname": {
+                "type": "string"
+              }
+            }
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "shipping_line"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "attributes"
+        ]
+      },
+      "account": {
+        "title": "Account model",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "container"
+            ]
+          },
+          "attributes": {
+            "type": "object",
+            "required": [
+              "company_name"
+            ],
+            "properties": {
+              "company_name": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "attributes"
+        ],
+        "x-examples": {}
+      },
+      "error": {
+        "title": "Error model",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title"
+        ]
+      },
+      "metro_area": {
+        "title": "Metro area model",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "attributes": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "country_code": {
+                "type": "string",
+                "description": "2 digit country code"
+              },
+              "timezone": {
+                "type": "string",
+                "description": "IANA tz"
+              },
+              "locode": {
+                "type": "string",
+                "description": "UN/LOCODE"
+              }
+            }
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "metro_area"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "type"
+        ]
+      },
       "terminal": {
         "title": "Terminal model",
         "type": "object",
@@ -2394,138 +2524,8 @@
           "relationships"
         ]
       },
-      "links": {
-        "title": "links",
-        "type": "object",
-        "properties": {
-          "last": {
-            "type": "string",
-            "format": "uri"
-          },
-          "next": {
-            "type": "string",
-            "format": "uri"
-          },
-          "prev": {
-            "type": "string",
-            "format": "uri"
-          },
-          "first": {
-            "type": "string",
-            "format": "uri"
-          },
-          "self": {
-            "type": "string",
-            "format": "uri"
-          }
-        }
-      },
-      "meta": {
-        "title": "meta",
-        "type": "object",
-        "properties": {
-          "size": {
-            "type": "integer"
-          },
-          "total-count": {
-            "type": "integer"
-          },
-          "total-pages": {
-            "type": "integer"
-          },
-          "prev-page": {
-            "type": "integer"
-          },
-          "next-page": {
-            "type": "integer"
-          },
-          "current-page": {
-            "type": "integer"
-          }
-        }
-      },
-      "metro_area": {
-        "title": "Metro area model",
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "attributes": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string"
-              },
-              "country_code": {
-                "type": "string",
-                "description": "2 digit country code"
-              },
-              "timezone": {
-                "type": "string",
-                "description": "IANA tz"
-              },
-              "locode": {
-                "type": "string",
-                "description": "UN/LOCODE"
-              }
-            }
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "metro_area"
-            ]
-          }
-        },
-        "required": [
-          "id",
-          "type"
-        ]
-      },
-      "shipping_line": {
-        "title": "Shipping line model",
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "attributes": {
-            "type": "object",
-            "required": [
-              "scac",
-              "name",
-              "nickname"
-            ],
-            "properties": {
-              "scac": {
-                "type": "string"
-              },
-              "name": {
-                "type": "string"
-              },
-              "nickname": {
-                "type": "string"
-              }
-            }
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "shipping_line"
-            ]
-          }
-        },
-        "required": [
-          "id",
-          "type",
-          "attributes"
-        ]
-      },
-      "status_update": {
-        "title": "Status update model",
+      "rail_terminal": {
+        "title": "Rail Terminal model",
         "type": "object",
         "properties": {
           "id": {
@@ -2535,26 +2535,7 @@
           "relationships": {
             "type": "object",
             "properties": {
-              "container": {
-                "type": "object",
-                "properties": {
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string"
-                      },
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "container"
-                        ]
-                      }
-                    }
-                  }
-                }
-              },
-              "shipment": {
+              "port": {
                 "type": "object",
                 "properties": {
                   "data": {
@@ -2567,14 +2548,14 @@
                       "type": {
                         "type": "string",
                         "enum": [
-                          "shipment"
+                          "port"
                         ]
                       }
                     }
                   }
                 }
               },
-              "location": {
+              "metro_area": {
                 "type": "object",
                 "properties": {
                   "data": {
@@ -2587,70 +2568,7 @@
                       "type": {
                         "type": "string",
                         "enum": [
-                          "port",
-                          "metroarea",
-                          "terminal",
-                          "railterminal"
-                        ]
-                      }
-                    }
-                  }
-                }
-              },
-              "vessel": {
-                "type": "object",
-                "properties": {
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string",
-                        "format": "uuid"
-                      },
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "vessel"
-                        ]
-                      }
-                    }
-                  }
-                }
-              },
-              "fee": {
-                "type": "object",
-                "properties": {
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string",
-                        "format": "uuid"
-                      },
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "fee"
-                        ]
-                      }
-                    }
-                  }
-                }
-              },
-              "hold": {
-                "type": "object",
-                "properties": {
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string",
-                        "format": "uuid"
-                      },
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "hold"
+                          "metro_area"
                         ]
                       }
                     }
@@ -2661,59 +2579,32 @@
           },
           "attributes": {
             "type": "object",
+            "required": [
+              "name"
+            ],
             "properties": {
-              "event": {
+              "name": {
+                "type": "string"
+              },
+              "nickname": {
+                "type": "string"
+              },
+              "firms_code": {
                 "type": "string",
-                "description": "The normalized event name"
-              },
-              "original_event": {
-                "type": "string",
-                "description": "The event name as originally passed by the source"
-              },
-              "estimated_at": {
-                "type": "string",
-                "description": "Estimated time for ETA and ETD changes"
-              },
-              "actual_at": {
-                "type": "string"
-              },
-              "created_at": {
-                "type": "string"
-              },
-              "transportation_mode": {
-                "type": "string"
-              },
-              "carrier_scac": {
-                "type": "string"
-              },
-              "vessel_name": {
-                "type": "string"
-              },
-              "voyage_number": {
-                "type": "string"
-              },
-              "original_location": {
-                "type": "string"
-              },
-              "timezone": {
-                "type": "string",
-                "description": "IANA tz"
+                "description": "CBP FIRMS Code or CBS Sublocation Code"
               }
             }
           },
           "type": {
             "type": "string",
             "enum": [
-              "status_update"
+              "rail_terminal"
             ]
           }
         },
         "required": [
-          "id",
-          "type",
           "attributes"
-        ],
-        "description": "WIP"
+        ]
       },
       "tracking_request": {
         "title": "Tracking request model",
@@ -2838,128 +2729,6 @@
           "type"
         ]
       },
-      "rail_terminal": {
-        "title": "Rail Terminal model",
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "relationships": {
-            "type": "object",
-            "properties": {
-              "port": {
-                "type": "object",
-                "properties": {
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string",
-                        "format": "uuid"
-                      },
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "port"
-                        ]
-                      }
-                    }
-                  }
-                }
-              },
-              "metro_area": {
-                "type": "object",
-                "properties": {
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string",
-                        "format": "uuid"
-                      },
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "metro_area"
-                        ]
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "attributes": {
-            "type": "object",
-            "required": [
-              "name"
-            ],
-            "properties": {
-              "name": {
-                "type": "string"
-              },
-              "nickname": {
-                "type": "string"
-              },
-              "firms_code": {
-                "type": "string",
-                "description": "CBP FIRMS Code or CBS Sublocation Code"
-              }
-            }
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "rail_terminal"
-            ]
-          }
-        },
-        "required": [
-          "attributes"
-        ]
-      },
-      "vessel": {
-        "title": "Vessel model",
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "attributes": {
-            "type": "object",
-            "required": [
-              "name"
-            ],
-            "properties": {
-              "name": {
-                "type": "string"
-              },
-              "imo": {
-                "type": "string",
-                "description": "International Maritime Organization Number"
-              },
-              "mmsi": {
-                "type": "string",
-                "description": "Maritime Mobile Service Identity Number"
-              }
-            }
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "container"
-            ]
-          }
-        },
-        "required": [
-          "id",
-          "attributes",
-          "type"
-        ]
-      },
       "event": {
         "title": "Event model",
         "type": "object",
@@ -3053,38 +2822,7 @@
           "type",
           "attributes"
         ]
-      },
-      "hook": {
-        "title": "hook",
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "hook"
-            ]
-          },
-          "attributes": {
-            "type": "object",
-            "properties": {
-              "uri": {
-                "type": "string"
-              },
-              "events_subscribed": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
       }
-    },
-    "securitySchemes": {}
-  },
-  "tags": []
+    }
+  }
 }
