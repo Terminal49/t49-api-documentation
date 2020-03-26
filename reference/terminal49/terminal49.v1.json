@@ -326,14 +326,14 @@
               "type": "integer"
             },
             "in": "query",
-            "name": "page"
+            "name": "page[number]"
           },
           {
             "schema": {
               "type": "integer"
             },
             "in": "query",
-            "name": "per_page"
+            "name": "page[size]"
           },
           {
             "schema": {
