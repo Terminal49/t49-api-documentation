@@ -19,10 +19,3 @@ The token should be sent with each API request in the Authentication header:
 ```
 Authentication: Token YOUR_API_TOKEN
 ```
-
-```json http
-{
-  "method": "get",
-  "url": "https://todos.stoplight.io/todos"
-}
-```

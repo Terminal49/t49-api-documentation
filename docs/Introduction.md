@@ -1,6 +1,6 @@
 # Introduction
 
-The Terminal 49 API offers a convinet way to programatically track your shipments from origin to destination.
+The Terminal 49 API offers a convenient way to programatically track your shipments from origin to destination.
 
 Here are just a few of the data points we return and possible use-cases. 
 
@@ -20,7 +20,7 @@ Once the shipment is setup Terminal 49 periodically checks with the carrier and 
 
 
 ## Supported Carriers
-Presently, the Terminal 49 api supports shipments with the current carriers:
+Presently, the Terminal 49 api supports shipments with the following carriers:
 - American President Lines  (APL) \[APLU]
 - Australia National Line (ANL) \[ANNU]
 - China Ocean Shipping Company (COSCO) \[COSU]

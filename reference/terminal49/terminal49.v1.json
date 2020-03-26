@@ -3,7 +3,7 @@
   "info": {
     "title": "API",
     "version": "1.0",
-    "description": "# Introduction\n\nThe Terminal 49 API offers a convinet way to programatically track your shipments from origin to destination.\n\nHere are just a few of the data points we return and possible use-cases. \n\n\nData | Example Use Case\n-----|-------------------\n Destination ETA | Surface ETA changes to your relevant teams as they're reported\n Last Free Day and terminal status¹ | Track containers approaching LFD and prioritize dispatching\n Fees and holds at destination terminal | Clear your cargo to keep you containers moving\n Actual departure and arrival times | Report journey times by route to compare your ocean carriers performance\n\n## How it works\nAll you need to provide are your BOL numbers and SCACs. Terminal 49 will lookup the shipment with the carrier and populate shipment details including containers. \n\nOnce the shipment is setup Terminal 49 periodically checks with the carrier and the destination terminal. If any of the details of your shipment or containers change (for example - if the ETA changes) we will post the shipment to the the webhook you provide so you are always kept up-to-date.\n\n\n## Supported Carriers\nPresently, the Terminal 49 api supports shipments with the current carriers:\n- American President Lines  (APL) \\[APLU]\n- Australia National Line (ANL) \\[ANNU]\n- China Ocean Shipping Company (COSCO) \\[COSU]\n- CMA CGM \\[CMDU]\n- Evergreen \\[EGLV]\n- Hamburg Süd \\[SUDU]\n- Hapag-Lloyd \\[HLCU]\n- Hyundai Merchant Marine (HMM) \\[HDMU]\n- Maersk \\[MAEU]\n- Mediterranean Shipping Company (MSC) \\[MSCU]\n- Ocean Network Express (ONE) \\[ONEY]\n- Orient Overseas Container Line (OOCL) \\[OOLU]\n- Pacific International Lines (PIL) \\[PCIU]\n- Safmarine \\[SAFM]\n- Yangming Marine Transport (YangMing) \\[YMLU]\n\n## Integrated Ports\nPresently, the Terminal 49 api integrates with terminals at the following ports:\n- Baltimore\n- Boston\n- Florida\n- Houston\n- Jacksonville\n- Long Beach\n- Los Angeles\n- Miami\n- Mobile\n- New Jersey\n- New Orleans\n- New York\n- Oakland\n- Philadelphia\n- Port Everglades\n- Savannah\n- Seattle\n- Tacoma\n- Tampa\n- Virginia\n\n# Getting-Started\n\n## Tracking flow\n\nTracking a new shipment with Terminal 49 is an asynchronous flow. Submit your tracking request to us and we will return a tracking request id so you can see the status of your request.\n\nWe recommend your register a webhook URL with us that we will call once we have processed the request.\n\nWhen we successfully lookup the BOL with the carrier we will return the newly created shipment with all of the details. \n\nIf we encounter a problem we'll return the error.\n\n## Authentication\n\nTo get your API token to Terminal 49 and go to your [account API settings](https://app.terminal49.com/settings/api)\n\nThe token should be sent with each API request in the Authentication header:\n\n```\nAuthentication: Token YOUR_API_TOKEN\n```\n\n```json http\n{\n  \"method\": \"get\",\n  \"url\": \"https://todos.stoplight.io/todos\"\n}\n```\n\n## Schema\nTerminal49 implements the [JSON API](https://jsonapi.org/format/) spec. There are [implementations](https://jsonapi.org/implementations/) for consuming it built in most languages which should help you get up to speed consuming quickly.\n\n## Access\nContact us today for your API key.\n\n## Shipment tracking flow.\n\n1. Post a tracking_request with your bill of lading\n2. Poll the tracking_request, or setup a webhook to be notified when it has been processed\n3. A shipment object will be created\n\n## Status Updates\nShipments are container statuses are checked at various cadences, up to as frequently as every 15 minutes at the terminal. You can be notified of updates by setting up a webhook to receive notifications.\n",
+    "description": "# Introduction\n\nThe Terminal 49 API offers a convenient way to programatically track your shipments from origin to destination.\n\nHere are just a few of the data points we return and possible use-cases. \n\n\nData | Example Use Case\n-----|-------------------\n Destination ETA | Surface ETA changes to your relevant teams as they're reported\n Last Free Day and terminal status¹ | Track containers approaching LFD and prioritize dispatching\n Fees and holds at destination terminal | Clear your cargo to keep you containers moving\n Actual departure and arrival times | Report journey times by route to compare your ocean carriers performance\n\n_1.  At container ports in the US_\n## How it works\nAll you need to provide are your BOL numbers and SCACs. Terminal 49 will lookup the shipment with the carrier and populate shipment details including containers. \n\nOnce the shipment is setup Terminal 49 periodically checks with the carrier and the destination terminal. If any of the details of your shipment or containers change (for example - if the ETA changes) we will post the shipment to the the webhook you provide so you are always kept up-to-date.\n\n\n## Supported Carriers\nPresently, the Terminal 49 api supports shipments with the following carriers:\n- American President Lines  (APL) \\[APLU]\n- Australia National Line (ANL) \\[ANNU]\n- China Ocean Shipping Company (COSCO) \\[COSU]\n- CMA CGM \\[CMDU]\n- Evergreen \\[EGLV]\n- Hamburg Süd \\[SUDU]\n- Hapag-Lloyd \\[HLCU]\n- Hyundai Merchant Marine (HMM) \\[HDMU]\n- Maersk \\[MAEU]\n- Mediterranean Shipping Company (MSC) \\[MSCU]\n- Ocean Network Express (ONE) \\[ONEY]\n- Orient Overseas Container Line (OOCL) \\[OOLU]\n- Pacific International Lines (PIL) \\[PCIU]\n- Safmarine \\[SAFM]\n- Yangming Marine Transport (YangMing) \\[YMLU]\n\n## Integrated Ports\nPresently, the Terminal 49 api integrates with terminals at the following ports:\n- Baltimore\n- Boston\n- Florida\n- Houston\n- Jacksonville\n- Long Beach\n- Los Angeles\n- Miami\n- Mobile\n- New Jersey\n- New Orleans\n- New York\n- Oakland\n- Philadelphia\n- Port Everglades\n- Savannah\n- Seattle\n- Tacoma\n- Tampa\n- Virginia\n\n# Getting-Started\n\n## Tracking flow\n\nTracking a new shipment with Terminal 49 is an asynchronous flow. Submit your tracking request to us and we will return a tracking request id so you can see the status of your request.\n\nWe recommend your register a webhook URL with us that we will call once we have processed the request.\n\nWhen we successfully lookup the BOL with the carrier we will return the newly created shipment with all of the details. \n\nIf we encounter a problem we'll return the error.\n\n## Authentication\n\nTo get your API token to Terminal 49 and go to your [account API settings](https://app.terminal49.com/settings/api)\n\nThe token should be sent with each API request in the Authentication header:\n\n```\nAuthentication: Token YOUR_API_TOKEN\n```\n",
     "contact": {
       "name": "Terminal 49",
       "url": "https://terminal49.com",
@@ -14,12 +14,6 @@
     {
       "url": "https://terminal49.com/api/v2",
       "description": "Production"
-    }
-  ],
-  "x-tagGroups": [
-    {
-      "name": "API End Points",
-      "tags": ["Shipments", "Containers", "Tracking Requests", "Hooks"]
     }
   ],
   "paths": {
@@ -2609,6 +2603,100 @@
           "attributes"
         ]
       },
+      "event": {
+        "title": "Event model",
+        "type": "object",
+        "description": "Events represent a change to a model which may be subscripted to via webhook.",
+        "x-tags": [
+          "events"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "event"
+            ]
+          },
+          "attributes": {
+            "type": "object",
+            "required": [
+              "event_type",
+              "created_at"
+            ],
+            "properties": {
+              "event_type": {
+                "type": "string",
+                "enum": [
+                  "tracking_request.failed",
+                  "tracking_request.succeeded",
+                  "shipment.created",
+                  "shipment.updated",
+                  "container.created",
+                  "container.updated"
+                ]
+              },
+              "created_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "pending_webhooks": {
+                "type": "integer",
+                "description": "Number of webhooks yet to return a 200",
+                "minimum": 0
+              }
+            }
+          },
+          "related": {
+            "type": "object",
+            "properties": {
+              "object": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "shipment",
+                      "container",
+                      "Tracking Requests"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "included": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/shipment"
+                },
+                {
+                  "$ref": "#/components/schemas/container"
+                },
+                {
+                  "$ref": "#/components/schemas/tracking_request"
+                }
+              ]
+            }
+          },
+          "": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "attributes"
+        ]
+      },
       "tracking_request": {
         "title": "Tracking request model",
         "type": "object",
@@ -2731,101 +2819,18 @@
           "id",
           "type"
         ]
-      },
-      "event": {
-        "title": "Event model",
-        "type": "object",
-        "description": "Events represent a change to a model which may be subscripted to via webhook.",
-        "x-tags": [
-          "events"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "event"
-            ]
-          },
-          "attributes": {
-            "type": "object",
-            "required": [
-              "event_type",
-              "created_at"
-            ],
-            "properties": {
-              "event_type": {
-                "type": "string",
-                "enum": [
-                  "tracking_request.failed",
-                  "tracking_request.succeeded",
-                  "shipment.created",
-                  "shipment.updated",
-                  "container.created",
-                  "container.updated"
-                ]
-              },
-              "created_at": {
-                "type": "string",
-                "format": "date-time"
-              },
-              "pending_webhooks": {
-                "type": "integer",
-                "description": "Number of webhooks yet to return a 200",
-                "minimum": 0
-              }
-            }
-          },
-          "related": {
-            "type": "object",
-            "properties": {
-              "object": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "string"
-                  },
-                  "type": {
-                    "type": "string",
-                    "enum": [
-                      "shipment",
-                      "container",
-                      "Tracking Requests"
-                    ]
-                  }
-                }
-              }
-            }
-          },
-          "included": {
-            "type": "array",
-            "items": {
-              "oneOf": [
-                {
-                  "$ref": "#/components/schemas/shipment"
-                },
-                {
-                  "$ref": "#/components/schemas/container"
-                },
-                {
-                  "$ref": "#/components/schemas/tracking_request"
-                }
-              ]
-            }
-          },
-          "": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "type",
-          "attributes"
-        ]
       }
     }
-  }
+  },
+  "x-tagGroups": [
+    {
+      "name": "API End Points",
+      "tags": [
+        "Shipments",
+        "Containers",
+        "Tracking Requests",
+        "Hooks"
+      ]
+    }
+  ]
 }
