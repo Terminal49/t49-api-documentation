@@ -1224,7 +1224,28 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/hook"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/meta"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/links"
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "operationId": "get-hooks",
@@ -1234,8 +1255,26 @@
         "summary": "",
         "operationId": "post-hooks",
         "responses": {
-          "200": {
-            "description": "OK"
+          "201": {
+            "description": "Created"
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/error"
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "tags": [
@@ -1261,7 +1300,19 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/hook"
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "operationId": "get-hooks-id",
@@ -1272,7 +1323,19 @@
         "operationId": "patch-hooks-id",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "./_terminal49.v1.json#/components/schemas/hook"
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "description": "Edit a specific hook",
@@ -1395,8 +1458,8 @@
         "summary": "Create a shipment tracking request",
         "operationId": "post-track",
         "responses": {
-          "200": {
-            "description": "OK",
+          "201": {
+            "description": "Created",
             "content": {
               "application/json": {
                 "schema": {
@@ -2813,6 +2876,50 @@
                 }
               }
             }
+          }
+        },
+        "required": [
+          "id",
+          "type"
+        ]
+      },
+      "hook": {
+        "title": "hook",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "hook"
+            ]
+          },
+          "attributes": {
+            "type": "object",
+            "properties": {
+              "events": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "url": {
+                "type": "string",
+                "format": "uri"
+              },
+              "active": {
+                "type": "boolean",
+                "default": true
+              }
+            },
+            "required": [
+              "events",
+              "url",
+              "active"
+            ]
           }
         },
         "required": [
