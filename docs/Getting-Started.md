@@ -10,7 +10,7 @@ When we successfully lookup the BOL with the carrier we will return the newly cr
 
 If we encounter a problem we'll return the error.
 
-![alt text](assets/images/create-shipment-flow.png  "Logo Title Text 1")
+![Tracking Request Diagram](https://www.terminal49.com/api/docs/assets/images/create-shipment-flow.png  "Tracking Request Diagram")
 
 ## Authentication
 
