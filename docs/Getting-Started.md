@@ -10,6 +10,8 @@ When we successfully lookup the BOL with the carrier we will return the newly cr
 
 If we encounter a problem we'll return the error.
 
+![alt text](assets/images/create-shipment-flow.png  "Logo Title Text 1")
+
 ## Authentication
 
 To get your API token to Terminal 49 and go to your [account API settings](https://app.terminal49.com/settings/api)
