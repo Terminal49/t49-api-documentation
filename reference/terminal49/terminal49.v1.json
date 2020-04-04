@@ -361,7 +361,7 @@
         ],
         "security": [
           {
-            "Token": []
+            "Authentication": []
           }
         ]
       }
@@ -809,7 +809,7 @@
         "description": "Retrieves the details of an existing shipment. You need only supply the unique shipment `id` that was returned upon `tracking_request` creation.",
         "security": [
           {
-            "Token": []
+            "Authentication": []
           }
         ]
       }
@@ -991,7 +991,7 @@
         },
         "security": [
           {
-            "Token": []
+            "Authentication": []
           }
         ],
         "description": "To track an ocean shipment, you create a new tracking request. \nTwo attributes are required to track a shipment. A `bill of lading/booking number` and a shipping line `SCAC`. \n\nOnce a tracking request is created our we will attempt to fetch the shipment details and it's related containers from the shipping line. If the attempt is successful we will create in new shipment object including any related container objects. We will send a `tracking_Request.succeeded` webhook notification to your webhooks.  \n\nIf the attempt to fetch fails then we will send a `tracking_Request.failed` webhook notification to your `webhooks`.  \n\nA `tracking_Request.succeeded` or `tracking_Request.failed` webhook notificaiton will only be sent  if you have  atleast one active webhook. ",
@@ -1100,7 +1100,7 @@
         },
         "security": [
           {
-            "Token": []
+            "Authentication": []
           }
         ]
       }
@@ -1274,7 +1274,7 @@
         ],
         "security": [
           {
-            "Token": []
+            "Authentication": []
           }
         ]
       }
@@ -1304,7 +1304,7 @@
         },
         "security": [
           {
-            "Token": []
+            "Authentication": []
           }
         ]
       }
@@ -1346,7 +1346,7 @@
         "description": "Get a single webhook",
         "security": [
           {
-            "Token": []
+            "Authentication": []
           }
         ]
       },
@@ -1376,7 +1376,7 @@
         ],
         "security": [
           {
-            "Token": []
+            "Authentication": []
           }
         ]
       },
@@ -1394,7 +1394,7 @@
         ],
         "security": [
           {
-            "Token": []
+            "Authentication": []
           }
         ]
       }
@@ -1453,7 +1453,7 @@
         "description": "List webhooks",
         "security": [
           {
-            "Token": []
+            "Authentication": []
           }
         ]
       },
@@ -1489,7 +1489,7 @@
         "description": "Create a webhook",
         "security": [
           {
-            "Token": []
+            "Authentication": []
           }
         ]
       },
@@ -2772,10 +2772,11 @@
       }
     },
     "securitySchemes": {
-      "Token": {
-        "name": "API Key",
+      "Authentication": {
+        "name": "Token YOUR_API_TOKEN",
         "type": "apiKey",
-        "in": "header"
+        "in": "header",
+        "description": "Authentication: Token YOUR_API_TOKEN"
       }
     }
   }
