@@ -49,10 +49,7 @@
                             "$ref": "#/components/schemas/port"
                           },
                           {
-                            "$ref": "#/components/schemas/shipping_line"
-                          },
-                          {
-                            "$ref": "#/components/schemas/account"
+                            "$ref": "#/components/schemas/terminal"
                           }
                         ]
                       }
@@ -87,6 +84,7 @@
                           "destination_name": "Detroit, MI",
                           "shipping_line_scac": "HLCU",
                           "pod_vessel_name": "CMA CGM ALMAVIVA",
+                          "pod_vessel_imo": "9450648",
                           "pod_voyage_number": "0108",
                           "pol_etd_at": null,
                           "pol_atd_at": "2020-02-15T21:53Z",
@@ -405,10 +403,7 @@
                             "$ref": "#/components/schemas/port"
                           },
                           {
-                            "$ref": "#/components/schemas/shipping_line"
-                          },
-                          {
-                            "$ref": "#/components/schemas/account"
+                            "$ref": "#/components/schemas/terminal"
                           }
                         ]
                       }
@@ -437,6 +432,7 @@
                           "destination_name": "Detroit, MI",
                           "shipping_line_scac": "HLCU",
                           "pod_vessel_name": "CMA CGM ALMAVIVA",
+                          "pod_vessel_imo": "9450648",
                           "pod_voyage_number": "0108",
                           "pol_etd_at": null,
                           "pol_atd_at": "2020-02-15T21:53Z",
@@ -601,27 +597,11 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "included": {
+                    "errors": {
                       "type": "array",
                       "items": {
-                        "anyOf": [
-                          {
-                            "$ref": "#/components/schemas/container"
-                          },
-                          {
-                            "$ref": "#/components/schemas/port"
-                          },
-                          {
-                            "$ref": "#/components/schemas/shipping_line"
-                          },
-                          {
-                            "$ref": "#/components/schemas/account"
-                          }
-                        ]
+                        "$ref": "#/components/schemas/error"
                       }
-                    },
-                    "data": {
-                      "$ref": "#/components/schemas/shipment"
                     }
                   }
                 },
@@ -894,28 +874,40 @@
                     "value": {
                       "errors": [
                         {
-                          "title": "Unrecognized SCAC",
-                          "detail": "Unrecognized SCAC 'XOXO'"
+                          "status": "422",
+                          "source": {
+                            "pointer": "/data/attributes/scac"
+                          },
+                          "title": "Unprocessable Entity",
+                          "detail": "Scac can't be blank",
+                          "code": "blank"
                         },
                         {
-                          "title": "Invalid SCAC",
-                          "detail": "Scac must be 4 characters long"
+                          "status": "422",
+                          "source": {
+                            "pointer": "/data/attributes/scac"
+                          },
+                          "title": "Unprocessable Entity",
+                          "detail": "Scac 'XXXX' is not recognized",
+                          "code": "blank"
                         },
                         {
-                          "title": "Missing SCAC",
-                          "detail": "Field 'scac' must be present"
+                          "status": "422",
+                          "source": {
+                            "pointer": "/data/attributes/scac"
+                          },
+                          "title": "Unprocessable Entity",
+                          "detail": "Scac 'UALC' is not supported. We do not currently integrate with Universal Africa Lines",
+                          "code": "blank"
                         },
                         {
-                          "title": "Missing Bill of Lading",
-                          "detail": "Field 'bill_of_lading' must be present"
-                        },
-                        {
-                          "title": "Unsupported shipping line",
-                          "detail": "We do not currentlly integrate with Bermuda Container Line"
-                        },
-                        {
-                          "title": "Unknown customer",
-                          "detail": "We could not find a customer with the id '59b3c977-7009-405e-9f8c-182409b30d40'"
+                          "status": "422",
+                          "source": {
+                            "pointer": "/data/attributes/request_number"
+                          },
+                          "title": "Unprocessable Entity",
+                          "detail": "Request number can't be blank",
+                          "code": "blank"
                         }
                       ]
                     }
@@ -1064,6 +1056,27 @@
                   }
                 },
                 "examples": {}
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": [
+                        "string",
+                        "array"
+                      ],
+                      "items": {
+                        "$ref": "#/components/schemas/error"
+                      }
+                    }
+                  }
+                }
               }
             }
           }
@@ -1262,7 +1275,8 @@
                       }
                     }
                   }
-                }
+                },
+                "examples": {}
               }
             }
           }
@@ -1293,7 +1307,7 @@
       "post": {
         "summary": "Test a push webhook",
         "operationId": "post-webhooks-id-test",
-        "description": "Test a webhook",
+        "description": "`unreleased`\n\nTest a webhook\n\n",
         "tags": [
           "Webhooks"
         ],
@@ -1522,6 +1536,7 @@
           "Shipments"
         ],
         "x-examples": {},
+        "description": "",
         "properties": {
           "id": {
             "type": "string",
@@ -1530,30 +1545,6 @@
           "relationships": {
             "type": "object",
             "properties": {
-              "voyage": {
-                "type": "object",
-                "properties": {
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "voyage"
-                        ]
-                      },
-                      "id": {
-                        "type": "string",
-                        "format": "uuid"
-                      }
-                    },
-                    "required": [
-                      "type",
-                      "id"
-                    ]
-                  }
-                }
-              },
               "destination": {
                 "type": "object",
                 "properties": {
@@ -1564,7 +1555,7 @@
                         "type": "string",
                         "enum": [
                           "port",
-                          "metro-area"
+                          "metro_area"
                         ]
                       },
                       "id": {
@@ -1579,7 +1570,7 @@
                   }
                 }
               },
-              "port-of-lading": {
+              "port_of_lading": {
                 "type": "object",
                 "properties": {
                   "data": {
@@ -1630,7 +1621,7 @@
                   }
                 }
               },
-              "port-of-discharge": {
+              "port_of_discharge": {
                 "type": "object",
                 "properties": {
                   "data": {
@@ -1656,6 +1647,7 @@
               },
               "customer": {
                 "type": "object",
+                "description": "`unreleased`",
                 "properties": {
                   "data": {
                     "type": "object",
@@ -1670,35 +1662,22 @@
                         "type": "string",
                         "format": "uuid"
                       }
-                    },
-                    "required": [
-                      "type",
-                      "id"
-                    ]
+                    }
                   }
                 }
               },
-              "shipping_line": {
+              "pod_terminal": {
                 "type": "object",
                 "properties": {
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "shipping_line"
-                        ]
-                      },
-                      "id": {
-                        "type": "string",
-                        "format": "uuid"
-                      }
-                    },
-                    "required": [
-                      "type",
-                      "id"
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "terminal"
                     ]
+                  },
+                  "id": {
+                    "type": "string",
+                    "format": "uuid"
                   }
                 }
               }
@@ -1722,24 +1701,28 @@
               },
               "tags": {
                 "type": "array",
+                "description": "`unreleased`",
                 "items": {
                   "type": "string"
                 }
               },
               "port_of_lading_locode": {
-                "type": "string"
+                "type": "string",
+                "description": "UN/LOCODE"
               },
               "port_of_lading_name": {
                 "type": "string"
               },
               "port_of_discharge_locode": {
-                "type": "string"
+                "type": "string",
+                "description": "UN/LOCODE"
               },
               "port_of_discharge_name": {
                 "type": "string"
               },
               "destination_locode": {
-                "type": "string"
+                "type": "string",
+                "description": "UN/LOCODE"
               },
               "destination_name": {
                 "type": "string"
@@ -1748,6 +1731,9 @@
                 "type": "string"
               },
               "pod_vessel_name": {
+                "type": "string"
+              },
+              "pod_vessel_imo": {
                 "type": "string"
               },
               "pod_voyage_number": {
@@ -1779,7 +1765,7 @@
               },
               "pol_timezone": {
                 "type": "string",
-                "description": "\n"
+                "description": "IANA tz"
               },
               "pod_timezone": {
                 "type": "string",
@@ -1874,7 +1860,7 @@
                   "tank"
                 ]
               },
-              "length": {
+              "equipment_length": {
                 "type": "integer",
                 "enum": [
                   10,
@@ -1883,22 +1869,15 @@
                   45
                 ]
               },
-              "height": {
+              "equipment_height": {
                 "type": "string",
                 "enum": [
                   "standard",
                   "high_cube"
                 ]
               },
-              "weight": {
+              "weight_in_lbs": {
                 "type": "string"
-              },
-              "weight_unit": {
-                "type": "string",
-                "enum": [
-                  "kgs",
-                  "lbs"
-                ]
               },
               "created_at": {
                 "type": "string",
@@ -1927,12 +1906,13 @@
                   "rail",
                   "truck",
                   "grounded"
-                ]
+                ],
+                "description": "`unreleased`"
               },
               "pod_discharged_at": {
                 "type": "string",
                 "format": "date-time",
-                "description": "Discharge time at the port of discharge"
+                "description": "`unreleased` Discharge time at the port of discharge"
               },
               "pod_picked_up_at": {
                 "type": "string",
@@ -1942,29 +1922,29 @@
               "destination_unloaded_at": {
                 "type": "string",
                 "format": "date-time",
-                "description": "Arrival or unloading time at final destination for inland moves."
+                "description": "`unreleased` Arrival or unloading time at final destination for inland moves."
               },
               "destination_picked_up_at": {
                 "type": "string",
                 "format": "date-time",
-                "description": "Pickup time at final destination for inland moves."
+                "description": "`unreleased` Pickup time at final destination for inland moves."
               },
               "empty_returned_at": {
                 "type": "string",
                 "format": "date-time",
-                "description": "Time empty container was returned."
+                "description": "`unreleased` Time empty container was returned."
               },
               "pod_timezone": {
                 "type": "string",
-                "description": "IANA tz"
+                "description": "`unreleased` IANA tz"
               },
               "destination_timezone": {
                 "type": "string",
-                "description": "IANA tz"
+                "description": "`unreleaed` IANA tz"
               },
               "empty_returned_timezone": {
                 "type": "string",
-                "description": "IANA tz"
+                "description": "`unreleased` IANA tz"
               }
             }
           },
@@ -2184,6 +2164,15 @@
             "type": "string"
           },
           "title": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "status": {
             "type": "string"
           }
         },
@@ -2565,7 +2554,7 @@
           "type": {
             "type": "string",
             "enum": [
-              "shipment-tracking_request"
+              "tracking_request"
             ]
           },
           "attributes": {
