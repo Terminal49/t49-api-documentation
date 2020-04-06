@@ -1319,7 +1319,7 @@
                   "type": "object",
                   "properties": {
                     "data": {
-                      "$ref": "#/components/schemas/hook"
+                      "$ref": "#/components/schemas/webhook"
                     }
                   }
                 }
@@ -1347,7 +1347,7 @@
                   "type": "object",
                   "properties": {
                     "data": {
-                      "$ref": "./terminal49.v1.json#/components/schemas/hook"
+                      "$ref": "#/components/schemas/webhook"
                     }
                   }
                 }
@@ -1401,7 +1401,7 @@
                     "data": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/hook"
+                        "$ref": "#/components/schemas/webhook"
                       }
                     },
                     "meta": {
@@ -1424,7 +1424,7 @@
                     "data": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/hook"
+                        "$ref": "#/components/schemas/webhook"
                       }
                     }
                   }
@@ -2228,6 +2228,12 @@
           },
           "attributes": {
             "type": "object",
+            "required": [
+              "name",
+              "country_code",
+              "timezone",
+              "locode"
+            ],
             "properties": {
               "name": {
                 "type": "string"
@@ -2255,6 +2261,7 @@
         },
         "required": [
           "id",
+          "attributes",
           "type"
         ]
       },
