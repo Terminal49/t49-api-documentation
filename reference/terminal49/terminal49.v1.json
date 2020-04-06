@@ -1496,47 +1496,57 @@
                   "data": {
                     "type": "object",
                     "required": [
-                      "url",
-                      "events",
-                      "active"
+                      "type",
+                      "attributes"
                     ],
                     "properties": {
-                      "url": {
+                      "type": {
                         "type": "string",
-                        "format": "uri"
+                        "default": "webhook"
                       },
-                      "events": {
-                        "type": "array",
-                        "items": {
-                          "type": "string"
+                      "attributes": {
+                        "type": "object",
+                        "required": [
+                          "url",
+                          "events",
+                          "active"
+                        ],
+                        "properties": {
+                          "url": {
+                            "type": "string",
+                            "format": "uri"
+                          },
+                          "events": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "active": {
+                            "type": "boolean"
+                          }
                         }
-                      },
-                      "active": {
-                        "type": "boolean"
                       }
                     }
-                  },
-                  "type": {
-                    "type": "string",
-                    "default": "webhook"
                   }
                 },
                 "required": [
-                  "data",
-                  "type"
+                  "data"
                 ]
               },
               "examples": {
                 "Testing Webhook": {
                   "value": {
                     "data": {
-                      "url": "https://webhook.site/f8f5d66e-0023-4c7f-b831-b96fe63e6104",
-                      "events": [
-                        "*"
-                      ],
-                      "active": true
-                    },
-                    "type": "webhook"
+                      "type": "webhook",
+                      "attributes": {
+                        "url": "https://webhook.site/f8f5d66e-0023-4c7f-b831-b96fe63e6104",
+                        "events": [
+                          "*"
+                        ],
+                        "active": true
+                      }
+                    }
                   }
                 }
               }
