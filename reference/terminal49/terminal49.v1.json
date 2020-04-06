@@ -8,9 +8,9 @@
       "url": "https://www.terminal49.com",
       "email": "support@terminal49.com"
     },
-    "description": "# Introduction\n\nThe Terminal 49 API offers a convenient way to programatically track your shipments from origin to destination.\n\nHere are just a few of the data points we return and possible use-cases. \n\n\nData | Example Use Case\n-----|-------------------\n Destination ETA | Surface ETA changes to your relevant teams as they're reported\n Last Free Day and terminal status¹ | Track containers approaching LFD and prioritize dispatching\n Fees and holds at destination terminal | Clear your cargo to keep you containers moving\n Actual departure and arrival times | Report journey times by route to compare your ocean carriers performance\n\n_1.  At container ports in the US_\n## How it works\nAll you need to provide are your BOL numbers and SCACs. Terminal 49 will lookup the shipment with the carrier and populate shipment details including containers. \n\nOnce the shipment is setup Terminal 49 periodically checks with the carrier and the destination terminal. If any of the details of your shipment or containers change (for example - if the ETA changes) we will post the shipment to the the webhook you provide so you are always kept up-to-date.\n\n## Supported Shipping Lines and Terminals\nPresently, the Terminal49 API supports shipments and container tracking across the following carriers:\n- American President Lines  (APL) \\[APLU]\n- Australia National Line (ANL) \\[ANNU]\n- China Ocean Shipping Company (COSCO) \\[COSU]\n- CMA CGM \\[CMDU]\n- Evergreen \\[EGLV]\n- Hamburg Süd \\[SUDU]\n- Hapag-Lloyd \\[HLCU]\n- Hyundai Merchant Marine (HMM) \\[HDMU]\n- Maersk \\[MAEU]\n- Mediterranean Shipping Company (MSC) \\[MSCU]\n- Ocean Network Express (ONE) \\[ONEY]\n- Orient Overseas Container Line (OOCL) \\[OOLU]\n- Pacific International Lines (PIL) \\[PCIU]\n- Safmarine \\[SAFM]\n- Yangming Marine Transport (YangMing) \\[YMLU]\n[CSV of support carriers with roadmap](\"https://www.terminal49.com/api/docs/assets/data/Terminal49 Shiping Line Support.csv\")\n\n[CSV of supported US terminals](\"https://www.terminal49.com/api/docs/assets/data/Terminal49 Terminal Support.csv\")\n\nIf you would you like us to support a shipping line or terminals that is not listed above please reach out to us. \n\n\n### Integrated Ports\nPresently, the Terminal 49 api integrates with terminals at the following ports:\n- Baltimore\n- Boston\n- Florida\n- Houston\n- Jacksonville\n- Long Beach\n- Los Angeles\n- Miami\n- Mobile\n- New Jersey\n- New Orleans\n- New York\n- Oakland\n- Philadelphia\n- Port Everglades\n- Savannah\n- Seattle\n- Tacoma\n- Tampa\n- Virginia\n\n# Getting-Started\n\n## Tracking flow\n\nTracking a new shipment with Terminal 49 is an asynchronous flow. Submit your tracking request to us and we will return a tracking request id so you can see the status of your request.\n\nWe recommend your register a webhook URL with us that we will call once we have processed the request.\n\nWhen we successfully lookup the BOL with the carrier we will create a shipment, and send the event `tracking_request.succeeded` to your webhook endpoint with the associated record. \n\nIf we encounter a problem we'll send the event `tracking_request.failed`.\n\n![Tracking Request Diagram](https://www.terminal49.com/api/docs/assets/images/create-shipment-flow.png  \"Tracking Request Diagram\")\n\n\nIf you don't want to use web hooks you can poll the `GET /tracking_request/{id}` endpoint to see the status of your request.\n\n## Authentication\n\nTo get your API token to Terminal 49 and go to your [account API settings](https://app.terminal49.com/settings/api)\n\nThe token should be sent with each API request in the Authentication header:\n\n```\nAuthentication: Token YOUR_API_TOKEN\n```\n\n# Webhooks\n\nYou may subscribe to events through webhooks to be alerted as to when events are triggered. See the [/webhooks endpoint documentation](#tag/Webhooks) for more information on setting up webhooks. \n\nWhen an event is triggered we will attempt to post to the URL you provided with the webhook.\n\nThe body will be in the following format: \n```json\n{\n  \"data\": {\n    \"id\": \"2250f31c-70d5-4d94-9013-82ced3544a60\",\n    \"type\": \"event\",\n    \"attributes\": {\n      \"event_type\": \"tracking_request.succeeded\",\n      \"created_at\": \"2020-03-27T20:24:36Z\"\n    },\n    \"relationships\": {\n      \"object\": {\n        \"id\": \"4a4d1dd3-6f1b-4b7b-88c5-c743a94db283\",\n        \"type\": \"tracking_request\"\n\n      }\n    },\n    \"included\": [\n      {\n        \"id\": \"4a4d1dd3-6f1b-4b7b-88c5-c743a94db283\",\n        \"type\": \"tracking_request\"\n        \"attributes\": {\n          \"bill_of_lading\": \"12345678\",\n          \"ref_numbers\": [\"my-ref-49\"]\n          \"tags\": [],\n          \"status\": \"succeeded\",\n          \"failed_reason\": null\n        },\n        \"relationships\": {\n          \"shipment\": {\n            \"id\": \"9c6bdb5b-d1fd-45f5-ab07-e46b5b8d617e\",\n            \"type\": \"shipment\"\n          }\n        }\n      },\n      {\n        \"id\": \"9c6bdb5b-d1fd-45f5-ab07-e46b5b8d617e\",\n        \"type\": \"shipment\",\n        \"attributes\": {\n          \"bill_of_lading_number\": \"12345678\",\n          \"ref_numbers\": [\"my-ref-49\"],\n          \"created_at\": \"2020-03-27T20:24:36Z\",\n          \"tags\": [ ],\n          \"port_of_lading_locode\": \"INVTZ\",\n          \"port_of_lading_name\": \"Visakhapatnam, IN\",\n          \"port_of_discharge_locode\": \"USNYC\",\n          \"port_of_discharge_name\": \"New York / New Jersey, NY\",\n          \"destination_locode\": \"USDET\",\n          \"destination_name\": \"Detroit, MI\",\n          \"shipping_line_scac\": \"HLCU\",\n          \"pod_vessel_name\": \"CMA CGM ALMAVIVA\",\n          \"pod_voyage_number\": \"0108\",\n          \"pol_etd_at\": null,\n          \"pol_atd_at\": \"2020-02-15T21:53Z\",\n          \"pol_timezone\": \"Asia/Calcutta\",\n          \"pod_eta_at\": \"2020-04-18T08:00Z\",\n          \"pod_ata_at\": null,\n          \"pod_timezone\": \"America/New_York\",\n          \"destination_eta_at\": \"2020-04-26T17:00Z\",\n          \"destination_ata_at\": null,\n          \"destination_timezone\": \"America/Detroit\"\n        },\n        \"relationships\": {\n          \"containers\": {\n            \"data\": [\n              {\n                \"id\": \"c99a81c0-ff69-4bdf-aa5f-8e33a787f5fa\",\n                \"type\": \"container\"\n              }\n            ]\n          }\n        }\n      },\n      {\n        \"id\": \"c99a81c0-ff69-4bdf-aa5f-8e33a787f5fa\",\n        \"type\": \"container\",\n        \"attributes\": {\n          \"number\": \"UACU4743531\",\n          \"equipment_type\": \"reefer\",\n          \"length\": 40,\n          \"height\": \"high_cube\",\n          \"weight\": 35075,\n          \"weight_unit\": \"kigs\",\n          \"created_at\": \"2020-03-27T20:24:36Z\",\n          \"seal_number\": null,\n          \"pickup_lfd\": null,\n          \"availability_known\": false,\n          \"available_for_pickup\": null,\n          \"current_transportation_mode\": \"vessel\",\n          \"pod_discharged_at\": null,\n          \"pod_picked_up_at\": null,\n          \"destination_unloaded_at\": null,\n          \"destination_picked_up_at\": null,\n          \"empty_returned_at\": null,\n          \"pod_timezone\": \"America/Los_Angeles\",\n          \"destination_timezone\": \"America/Detroit\",\n          \"empty_returned_timezone\": null\n        }\n      }\n    ]\n  }\n}\n```\n\n# Events\n\nEach event represents some change to a model which you may be notified of. At present there are 3 events:\n\n- tracking_request.succeeded\n- tracking_request.failed\n- shipment.updated\n\nSee the[/events endpoint documentation](#tag/Events) for more information\n\n# Roadmap\n\nBelow is the tentative schedule for the API. \n\n### Beta Release 1 - April 2020\n- `/tracking_requests` endpoint\n- `/shipments` endpoint\n- `/webhooks` endpoint\n- Webhook events:\n  - `shipment.eta_changed`\n  - `shipment.vessel_arrived`\n  - `tracking_request.succeeded` \n  - `tracking_request.failed` \n\n### Beta Release 2\n- `/containers` endpoint.\n- Webhook events:\n  - `container.created`\n  - `container.lfd_added`\n  - `container.available_for_pickup`\n  - `container.full_out`\n  - `container.empty_in`\n\n### Beta Release 3\n- Webhook events:\n  - `container.hold_added`\n  - `container.hold_released`\n  - `container.fee_added`\n  - `container.fee_paid`\n  - `container.unavailable_for_pickup`\n  - `container.yard_position_changed`\n  - `container.moved_offdock`\n\n### Beta Release 4\n- Webhook events:\n  - `shipment.etd_changed`\n  - `shipment.vessel_departed`\n  - `shipment.transshipment_arrived`\n  - `shipment.transhipment_departed`\n  - `container.empty_out`\n  - `container.full_in`\n  - `container.vessel_loaded`\n  - `container.transshipment_discharged`\n  - `container.transhipment_loaded`\n  - `container.vessel_discharged`\n\n\n\n\n\n\n",
-    "termsOfService": "https://www.terminal49.com/terms",
-    "x-label": "Beta"
+    "description": "# Introduction\n\nThe Terminal 49 API offers a convenient way to programatically track your shipments from origin to destination.\n\nHere are just a few of the data points we return and possible use-cases. \n\n\nData | Example Use Case\n-----|-------------------\n Destination ETA | Surface ETA changes to your relevant teams as they're reported\n Last Free Day and terminal status¹ | Track containers approaching LFD and prioritize dispatching\n Fees and holds at destination terminal | Clear your cargo to keep you containers moving\n Actual departure and arrival times | Report journey times by route to compare your ocean carriers performance\n\n_1.  At container ports in the US_\n## How it works\nAll you need to provide are your BOL numbers and SCACs. Terminal 49 will lookup the shipment with the carrier and populate shipment details including containers. \n\nOnce the shipment is setup Terminal 49 periodically checks with the carrier and the destination terminal. If any of the details of your shipment or containers change (for example - if the ETA changes) we will post the shipment to the the webhook you provide so you are always kept up-to-date.\n\n## Supported Shipping Lines and Terminals\nPresently, the Terminal49 API supports shipments and container tracking across the following carriers:\n- American President Lines  (APL) \\[APLU]\n- Australia National Line (ANL) \\[ANNU]\n- China Ocean Shipping Company (COSCO) \\[COSU]\n- CMA CGM \\[CMDU]\n- Evergreen \\[EGLV]\n- Hamburg Süd \\[SUDU]\n- Hapag-Lloyd \\[HLCU]\n- Hyundai Merchant Marine (HMM) \\[HDMU]\n- Maersk \\[MAEU]\n- Mediterranean Shipping Company (MSC) \\[MSCU]\n- Ocean Network Express (ONE) \\[ONEY]\n- Orient Overseas Container Line (OOCL) \\[OOLU]\n- Pacific International Lines (PIL) \\[PCIU]\n- Safmarine \\[SAFM]\n- Yangming Marine Transport (YangMing) \\[YMLU]\n\n[CSV of support carriers with roadmap](\"https://www.terminal49.com/api/docs/assets/data/Terminal49_Shiping_Line_Support.csv\")\n\n[CSV of supported US terminals](\"https://www.terminal49.com/api/docs/assets/data/Terminal49_Terminal_Support.csv\")\n\nIf you would you like us to support a shipping line or terminals that is not listed above please reach out to us. \n\n\n### Integrated Ports\nPresently, the Terminal 49 api integrates with terminals at the following ports:\n- Baltimore\n- Boston\n- Florida\n- Houston\n- Jacksonville\n- Long Beach\n- Los Angeles\n- Miami\n- Mobile\n- New Jersey\n- New Orleans\n- New York\n- Oakland\n- Philadelphia\n- Port Everglades\n- Savannah\n- Seattle\n- Tacoma\n- Tampa\n- Virginia\n\n# Getting-Started\n\n## Tracking flow\n\nTracking a new shipment with Terminal 49 is an asynchronous flow. Submit your tracking request to us and we will return a tracking request id so you can see the status of your request.\n\nWe recommend your register a webhook URL with us that we will call once we have processed the request.\n\nWhen we successfully lookup the BOL with the carrier we will create a shipment, and send the event `tracking_request.succeeded` to your webhook endpoint with the associated record. \n\nIf we encounter a problem we'll send the event `tracking_request.failed`.\n\n![Tracking Request Diagram](https://www.terminal49.com/api/docs/assets/images/create-shipment-flow.png  \"Tracking Request Diagram\")\n\n\nIf you don't want to use web hooks you can poll the `GET /tracking_request/{id}` endpoint to see the status of your request.\n\n## Authentication\n\nTo get your API token to Terminal 49 and go to your [account API settings](https://app.terminal49.com/settings/api)\n\nThe token should be sent with each API request in the Authentication header:\n\n```\nAuthentication: Token YOUR_API_TOKEN\n```\n\n# Webhooks\n\nYou may subscribe to events through webhooks to be alerted as to when events are triggered. See the [/webhooks endpoint documentation](#tag/Webhooks) for more information on setting up webhooks. \n\nWhen an event is triggered we will attempt to post to the URL you provided with the webhook.\n\nThe body will be in the following format: \n```json\n{\n  \"data\": {\n    \"id\": \"2250f31c-70d5-4d94-9013-82ced3544a60\",\n    \"type\": \"event\",\n    \"attributes\": {\n      \"event_type\": \"tracking_request.succeeded\",\n      \"created_at\": \"2020-03-27T20:24:36Z\"\n    },\n    \"relationships\": {\n      \"object\": {\n        \"id\": \"4a4d1dd3-6f1b-4b7b-88c5-c743a94db283\",\n        \"type\": \"tracking_request\"\n\n      }\n    },\n    \"included\": [\n      {\n        \"id\": \"4a4d1dd3-6f1b-4b7b-88c5-c743a94db283\",\n        \"type\": \"tracking_request\"\n        \"attributes\": {\n          \"bill_of_lading\": \"12345678\",\n          \"ref_numbers\": [\"my-ref-49\"]\n          \"tags\": [],\n          \"status\": \"succeeded\",\n          \"failed_reason\": null\n        },\n        \"relationships\": {\n          \"shipment\": {\n            \"id\": \"9c6bdb5b-d1fd-45f5-ab07-e46b5b8d617e\",\n            \"type\": \"shipment\"\n          }\n        }\n      },\n      {\n        \"id\": \"9c6bdb5b-d1fd-45f5-ab07-e46b5b8d617e\",\n        \"type\": \"shipment\",\n        \"attributes\": {\n          \"bill_of_lading_number\": \"12345678\",\n          \"ref_numbers\": [\"my-ref-49\"],\n          \"created_at\": \"2020-03-27T20:24:36Z\",\n          \"tags\": [ ],\n          \"port_of_lading_locode\": \"INVTZ\",\n          \"port_of_lading_name\": \"Visakhapatnam, IN\",\n          \"port_of_discharge_locode\": \"USNYC\",\n          \"port_of_discharge_name\": \"New York / New Jersey, NY\",\n          \"destination_locode\": \"USDET\",\n          \"destination_name\": \"Detroit, MI\",\n          \"shipping_line_scac\": \"HLCU\",\n          \"pod_vessel_name\": \"CMA CGM ALMAVIVA\",\n          \"pod_voyage_number\": \"0108\",\n          \"pol_etd_at\": null,\n          \"pol_atd_at\": \"2020-02-15T21:53Z\",\n          \"pol_timezone\": \"Asia/Calcutta\",\n          \"pod_eta_at\": \"2020-04-18T08:00Z\",\n          \"pod_ata_at\": null,\n          \"pod_timezone\": \"America/New_York\",\n          \"destination_eta_at\": \"2020-04-26T17:00Z\",\n          \"destination_ata_at\": null,\n          \"destination_timezone\": \"America/Detroit\"\n        },\n        \"relationships\": {\n          \"containers\": {\n            \"data\": [\n              {\n                \"id\": \"c99a81c0-ff69-4bdf-aa5f-8e33a787f5fa\",\n                \"type\": \"container\"\n              }\n            ]\n          }\n        }\n      },\n      {\n        \"id\": \"c99a81c0-ff69-4bdf-aa5f-8e33a787f5fa\",\n        \"type\": \"container\",\n        \"attributes\": {\n          \"number\": \"UACU4743531\",\n          \"equipment_type\": \"reefer\",\n          \"length\": 40,\n          \"height\": \"high_cube\",\n          \"weight\": 35075,\n          \"weight_unit\": \"kigs\",\n          \"created_at\": \"2020-03-27T20:24:36Z\",\n          \"seal_number\": null,\n          \"pickup_lfd\": null,\n          \"availability_known\": false,\n          \"available_for_pickup\": null,\n          \"current_transportation_mode\": \"vessel\",\n          \"pod_discharged_at\": null,\n          \"pod_picked_up_at\": null,\n          \"destination_unloaded_at\": null,\n          \"destination_picked_up_at\": null,\n          \"empty_returned_at\": null,\n          \"pod_timezone\": \"America/Los_Angeles\",\n          \"destination_timezone\": \"America/Detroit\",\n          \"empty_returned_timezone\": null\n        }\n      }\n    ]\n  }\n}\n```\n\n# Events\n\nEach event represents some change to a model which you may be notified of. At present there are 3 events:\n\n- tracking_request.succeeded\n- tracking_request.failed\n- shipment.updated\n\nSee the[/events endpoint documentation](#tag/Events) for more information\n\n# Roadmap\n\nBelow is the tentative schedule for the API. \n\n### Beta Release 1 - April 2020\n- `/tracking_requests` endpoint\n- `/shipments` endpoint\n- `/webhooks` endpoint\n- Webhook events:\n  - `shipment.eta_changed`\n  - `shipment.vessel_arrived`\n  - `tracking_request.succeeded` \n  - `tracking_request.failed` \n\n### Beta Release 2\n- `/containers` endpoint.\n- Webhook events:\n  - `container.created`\n  - `container.lfd_added`\n  - `container.available_for_pickup`\n  - `container.full_out`\n  - `container.empty_in`\n\n### Beta Release 3\n- Webhook events:\n  - `container.hold_added`\n  - `container.hold_released`\n  - `container.fee_added`\n  - `container.fee_paid`\n  - `container.unavailable_for_pickup`\n  - `container.yard_position_changed`\n  - `container.moved_offdock`\n\n### Beta Release 4\n- Webhook events:\n  - `shipment.etd_changed`\n  - `shipment.vessel_departed`\n  - `shipment.transshipment_arrived`\n  - `shipment.transhipment_departed`\n  - `container.empty_out`\n  - `container.full_in`\n  - `container.vessel_loaded`\n  - `container.transshipment_discharged`\n  - `container.transhipment_loaded`\n  - `container.vessel_discharged`\n\n\n\n\n\n\n",
+    "x-label": "Beta",
+    "termsOfService": "https://www.terminal49.com/terms"
   },
   "servers": [
     {
@@ -85,7 +85,6 @@
                           "destination_name": "Detroit, MI",
                           "shipping_line_scac": "HLCU",
                           "pod_vessel_name": "CMA CGM ALMAVIVA",
-                          "pod_vessel_imo": "9450648",
                           "pod_voyage_number": "0108",
                           "pol_etd_at": null,
                           "pol_atd_at": "2020-02-15T21:53Z",
@@ -95,7 +94,8 @@
                           "pod_timezone": "America/New_York",
                           "destination_eta_at": "2020-03-26T17:00Z",
                           "destination_ata_at": null,
-                          "destination_timezone": "America/Detroit"
+                          "destination_timezone": "America/Detroit",
+                          "pod_vessel_imo": "9450648"
                         },
                         "relationships": {
                           "containers": {
@@ -360,10 +360,695 @@
         ],
         "security": [
           {
-            "Authorization": []
+            "Header Token Auth": []
           }
         ]
       }
+    },
+    "/tracking_requests": {
+      "post": {
+        "summary": "Create a tracking request",
+        "operationId": "post-track",
+        "responses": {
+          "201": {
+            "description": "Tracking Request Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/tracking_request"
+                    },
+                    "included": {
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/components/schemas/account"
+                          },
+                          {
+                            "$ref": "#/components/schemas/shipping_line"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "Pending Tracking Request": {
+                    "value": {
+                      "data": {
+                        "id": "ba4cb904-827f-4038-8e31-1e92b3356218",
+                        "type": "tracking_request",
+                        "attributes": {
+                          "request_number": "MEDUFR030802",
+                          "request_type": "bill_of_lading",
+                          "scac": "MSCU",
+                          "ref_numbers": null,
+                          "created_at": "2020-04-04T16:13:35-07:00",
+                          "status": "pending",
+                          "failed_reason": null
+                        },
+                        "relationships": {
+                          "tracked_object": {
+                            "data": null
+                          }
+                        },
+                        "links": {
+                          "self": "/v2/tracking_requests/ba4cb904-827f-4038-8e31-1e92b3356218"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/error"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "Error Examples": {
+                    "value": {
+                      "errors": [
+                        {
+                          "status": "422",
+                          "source": {
+                            "pointer": "/data/attributes/scac"
+                          },
+                          "title": "Unprocessable Entity",
+                          "detail": "Scac can't be blank",
+                          "code": "blank"
+                        },
+                        {
+                          "status": "422",
+                          "source": {
+                            "pointer": "/data/attributes/scac"
+                          },
+                          "title": "Unprocessable Entity",
+                          "detail": "Scac 'XXXX' is not recognized",
+                          "code": "blank"
+                        },
+                        {
+                          "status": "422",
+                          "source": {
+                            "pointer": "/data/attributes/scac"
+                          },
+                          "title": "Unprocessable Entity",
+                          "detail": "Scac 'UALC' is not supported. We do not currently integrate with Universal Africa Lines",
+                          "code": "blank"
+                        },
+                        {
+                          "status": "422",
+                          "source": {
+                            "pointer": "/data/attributes/request_number"
+                          },
+                          "title": "Unprocessable Entity",
+                          "detail": "Request number can't be blank",
+                          "code": "blank"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "attributes": {
+                        "type": "object",
+                        "properties": {
+                          "request_type": {
+                            "type": "string",
+                            "example": "bill_of_lading"
+                          },
+                          "request_number": {
+                            "type": "string",
+                            "example": "MEDUFR030802"
+                          },
+                          "scac": {
+                            "type": "string",
+                            "example": "MSCU",
+                            "minLength": 4,
+                            "maxLength": 4
+                          }
+                        },
+                        "required": [
+                          "request_type",
+                          "request_number",
+                          "scac"
+                        ]
+                      },
+                      "type": {
+                        "enum": [
+                          "tracking_request"
+                        ],
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "Example: MSC BL": {
+                  "value": {
+                    "data": {
+                      "attributes": {
+                        "request_type": "bill_of_lading",
+                        "request_number": "MEDUFR030802",
+                        "scac": "MSCU"
+                      },
+                      "type": "tracking_request"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "description": "Create a shipment tracking request"
+        },
+        "security": [
+          {
+            "Header Token Auth": []
+          }
+        ],
+        "description": "To track an ocean shipment, you create a new tracking request. \nTwo attributes are required to track a shipment. A `bill of lading/booking number` and a shipping line `SCAC`. \n\nOnce a tracking request is created we will attempt to fetch the shipment details and it's related containers from the shipping line. If the attempt is successful we will create in new shipment object including any related container objects. We will send a `tracking_Request.succeeded` webhook notification to your webhooks.  \n\nIf the attempt to fetch fails then we will send a `tracking_Request.failed` webhook notification to your `webhooks`.  \n\nA `tracking_Request.succeeded` or `tracking_Request.failed` webhook notificaiton will only be sent  if you have  atleast one active webhook. ",
+        "tags": [
+          "Tracking Requests"
+        ]
+      },
+      "parameters": [],
+      "get": {
+        "summary": "List tracking requests",
+        "operationId": "get-tracking-requests",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/tracking_request"
+                      }
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/links"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/meta"
+                    },
+                    "included": {
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/components/schemas/account"
+                          },
+                          {
+                            "$ref": "#/components/schemas/shipping_line"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "format": "uuid"
+                              },
+                              "type": {
+                                "type": "string",
+                                "enum": [
+                                  "shipment"
+                                ]
+                              },
+                              "links": {
+                                "type": "object",
+                                "properties": {
+                                  "self": {
+                                    "type": "string",
+                                    "format": "uri"
+                                  }
+                                }
+                              }
+                            },
+                            "description": ""
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                "examples": {}
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": [
+                        "string",
+                        "array"
+                      ],
+                      "items": {
+                        "$ref": "#/components/schemas/error"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Returns a list of your tracking requests. The trackig requests are returned sorted by creation date, with the most recent tracking request appearing first.",
+        "tags": [
+          "Tracking Requests"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "filter": {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "type": "string",
+                        "enum": [
+                          "pending",
+                          "created",
+                          "failed"
+                        ],
+                        "description": "`unreleased`"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        },
+        "security": [
+          {
+            "Header Token Auth": []
+          }
+        ]
+      }
+    },
+    "/tracking_requests/{id}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "Tracking Request ID"
+        }
+      ],
+      "get": {
+        "summary": "Get a single tracking request",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/tracking_request"
+                    },
+                    "included": {
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/components/schemas/account"
+                          },
+                          {
+                            "$ref": "#/components/schemas/shipment"
+                          },
+                          {
+                            "$ref": "#/components/schemas/shipping_line"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "With Status Created": {
+                    "value": {
+                      "data": {
+                        "id": "ba4cb904-827f-4038-8e31-1e92b3356218",
+                        "type": "tracking_request",
+                        "attributes": {
+                          "request_number": "MEDUFR030802",
+                          "request_type": "bill_of_lading",
+                          "scac": "MSCU",
+                          "ref_numbers": null,
+                          "created_at": "2020-04-04T16:13:35-07:00",
+                          "status": "created",
+                          "failed_reason": null
+                        },
+                        "relationships": {
+                          "tracked_object": {
+                            "data": {
+                              "id": "eb6f218a-0b4a-47f9-8ef9-759aa5e0ea83",
+                              "type": "shipment"
+                            }
+                          }
+                        },
+                        "links": {
+                          "self": "/v2/tracking_requests/ba4cb904-827f-4038-8e31-1e92b3356218"
+                        }
+                      },
+                      "included": [
+                        {
+                          "id": "eb6f218a-0b4a-47f9-8ef9-759aa5e0ea83",
+                          "type": "shipment",
+                          "attributes": {
+                            "created_at": "2020-04-04T16:13:37-07:00",
+                            "bill_of_lading_number": "MEDUFR030802",
+                            "ref_numbers": [
+                              null
+                            ],
+                            "shipping_line_scac": "MSCU",
+                            "shipping_line_name": "Mediterranean Shipping Company",
+                            "port_of_lading_locode": "FRFOS",
+                            "port_of_lading_name": "Fos-Sur-Mer",
+                            "port_of_discharge_locode": "USOAK",
+                            "port_of_discharge_name": "Oakland",
+                            "pod_vessel_name": "MSC ALGECIRAS",
+                            "pod_vessel_imo": "9605243",
+                            "pod_voyage_number": "920A",
+                            "destination_locode": "USOAK",
+                            "destination_name": "Oakland",
+                            "destination_timezone": "America/Los_Angeles",
+                            "destination_ata_at": "2019-06-21T18:46:00-07:00",
+                            "destination_eta_at": null,
+                            "pol_etd_at": null,
+                            "pol_atd_at": "2019-05-24T03:00:00-07:00",
+                            "pol_timezone": "Europe/Paris",
+                            "pod_eta_at": null,
+                            "pod_ata_at": "2019-06-21T18:46:00-07:00",
+                            "pod_timezone": "America/Los_Angeles"
+                          },
+                          "relationships": {
+                            "port_of_lading": {
+                              "data": {
+                                "id": "6d8c6c29-72a6-49ad-87b7-fd045f202212",
+                                "type": "port"
+                              }
+                            },
+                            "port_of_discharge": {
+                              "data": {
+                                "id": "42d1ba3a-f4b8-431d-a6fe-49fd748a59e7",
+                                "type": "port"
+                              }
+                            },
+                            "pod_terminal": {
+                              "data": null
+                            },
+                            "destination": {
+                              "data": {
+                                "id": "42d1ba3a-f4b8-431d-a6fe-49fd748a59e7",
+                                "type": "port"
+                              }
+                            },
+                            "containers": {
+                              "data": [
+                                {
+                                  "id": "11c1fa10-52a5-48e2-82f4-5523756b3d0f",
+                                  "type": "container"
+                                }
+                              ]
+                            }
+                          },
+                          "links": {
+                            "self": "/v2/shipments/eb6f218a-0b4a-47f9-8ef9-759aa5e0ea83"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/error"
+                      }
+                    }
+                  }
+                },
+                "examples": {}
+              }
+            }
+          }
+        },
+        "operationId": "get-track-request-by-id",
+        "description": "Get the details and status of an existing tracking request. ",
+        "tags": [
+          "Tracking Requests"
+        ],
+        "security": [
+          {
+            "Header Token Auth": []
+          }
+        ]
+      }
+    },
+    "/webhooks/{id}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get single webhook",
+        "tags": [
+          "Webhooks"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/hook"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-webhooks-id",
+        "description": "Get the details of a single webhook",
+        "security": [
+          {
+            "Header Token Auth": []
+          }
+        ]
+      },
+      "patch": {
+        "summary": "Edit a webhook",
+        "operationId": "patch-webhooks-id",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "./terminal49.v1.json#/components/schemas/hook"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Update a single webhook",
+        "tags": [
+          "Webhooks"
+        ],
+        "security": [
+          {
+            "Header Token Auth": []
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Delete a webhook",
+        "operationId": "delete-webhooks-id",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Delete a webhook",
+        "tags": [
+          "Webhooks"
+        ],
+        "security": [
+          {
+            "Header Token Auth": []
+          }
+        ]
+      }
+    },
+    "/webhooks": {
+      "get": {
+        "summary": "List webhooks",
+        "tags": [
+          "Webhooks"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/hook"
+                      }
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/meta"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/links"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/hook"
+                      }
+                    }
+                  }
+                },
+                "examples": {}
+              }
+            }
+          }
+        },
+        "operationId": "get-webhooks",
+        "description": "Get a list of all the webhooks",
+        "security": [
+          {
+            "Header Token Auth": []
+          }
+        ]
+      },
+      "post": {
+        "summary": "Create a webhook",
+        "operationId": "post-webhooks",
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/error"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Webhooks"
+        ],
+        "description": "Create a webhook",
+        "security": [
+          {
+            "Header Token Auth": []
+          }
+        ]
+      },
+      "parameters": []
     },
     "/shipments/{id}": {
       "parameters": [
@@ -790,695 +1475,10 @@
         "description": "Retrieves the details of an existing shipment. You need only supply the unique shipment `id` that was returned upon `tracking_request` creation.",
         "security": [
           {
-            "Authorization": []
+            "Header Token Auth": []
           }
         ]
       }
-    },
-    "/tracking_requests": {
-      "post": {
-        "summary": "Create a tracking request",
-        "operationId": "post-track",
-        "responses": {
-          "201": {
-            "description": "Tracking Request Created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "$ref": "#/components/schemas/tracking_request"
-                    },
-                    "included": {
-                      "type": "array",
-                      "items": {
-                        "anyOf": [
-                          {
-                            "$ref": "#/components/schemas/account"
-                          },
-                          {
-                            "$ref": "#/components/schemas/shipping_line"
-                          }
-                        ]
-                      }
-                    }
-                  }
-                },
-                "examples": {
-                  "Pending Tracking Request": {
-                    "value": {
-                      "data": {
-                        "id": "ba4cb904-827f-4038-8e31-1e92b3356218",
-                        "type": "tracking_request",
-                        "attributes": {
-                          "request_number": "MEDUFR030802",
-                          "request_type": "bill_of_lading",
-                          "scac": "MSCU",
-                          "ref_numbers": null,
-                          "created_at": "2020-04-04T16:13:35-07:00",
-                          "status": "pending",
-                          "failed_reason": null
-                        },
-                        "relationships": {
-                          "tracked_object": {
-                            "data": null
-                          }
-                        },
-                        "links": {
-                          "self": "/v2/tracking_requests/ba4cb904-827f-4038-8e31-1e92b3356218"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Unprocessable Entity",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/error"
-                      }
-                    }
-                  }
-                },
-                "examples": {
-                  "Error Examples": {
-                    "value": {
-                      "errors": [
-                        {
-                          "status": "422",
-                          "source": {
-                            "pointer": "/data/attributes/scac"
-                          },
-                          "title": "Unprocessable Entity",
-                          "detail": "Scac can't be blank",
-                          "code": "blank"
-                        },
-                        {
-                          "status": "422",
-                          "source": {
-                            "pointer": "/data/attributes/scac"
-                          },
-                          "title": "Unprocessable Entity",
-                          "detail": "Scac 'XXXX' is not recognized",
-                          "code": "blank"
-                        },
-                        {
-                          "status": "422",
-                          "source": {
-                            "pointer": "/data/attributes/scac"
-                          },
-                          "title": "Unprocessable Entity",
-                          "detail": "Scac 'UALC' is not supported. We do not currently integrate with Universal Africa Lines",
-                          "code": "blank"
-                        },
-                        {
-                          "status": "422",
-                          "source": {
-                            "pointer": "/data/attributes/request_number"
-                          },
-                          "title": "Unprocessable Entity",
-                          "detail": "Request number can't be blank",
-                          "code": "blank"
-                        }
-                      ]
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "attributes": {
-                        "type": "object",
-                        "properties": {
-                          "request_type": {
-                            "type": "string",
-                            "example": "bill_of_lading"
-                          },
-                          "request_number": {
-                            "type": "string",
-                            "example": "MEDUFR030802"
-                          },
-                          "scac": {
-                            "type": "string",
-                            "example": "MSCU",
-                            "minLength": 4,
-                            "maxLength": 4
-                          }
-                        },
-                        "required": [
-                          "request_type",
-                          "request_number",
-                          "scac"
-                        ]
-                      },
-                      "type": {
-                        "enum": [
-                          "tracking_request"
-                        ],
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "type"
-                    ]
-                  }
-                }
-              },
-              "examples": {
-                "Example: MSC BL": {
-                  "value": {
-                    "data": {
-                      "attributes": {
-                        "request_type": "bill_of_lading",
-                        "request_number": "MEDUFR030802",
-                        "scac": "MSCU"
-                      },
-                      "type": "tracking_request"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "description": "Create a shipment tracking request"
-        },
-        "security": [
-          {
-            "Authorization": []
-          }
-        ],
-        "description": "To track an ocean shipment, you create a new tracking request. \nTwo attributes are required to track a shipment. A `bill of lading/booking number` and a shipping line `SCAC`. \n\nOnce a tracking request is created we will attempt to fetch the shipment details and it's related containers from the shipping line. If the attempt is successful we will create in new shipment object including any related container objects. We will send a `tracking_Request.succeeded` webhook notification to your webhooks.  \n\nIf the attempt to fetch fails then we will send a `tracking_Request.failed` webhook notification to your `webhooks`.  \n\nA `tracking_Request.succeeded` or `tracking_Request.failed` webhook notificaiton will only be sent  if you have  atleast one active webhook. ",
-        "tags": [
-          "Tracking Requests"
-        ]
-      },
-      "parameters": [],
-      "get": {
-        "summary": "List tracking requests",
-        "operationId": "get-tracking-requests",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/tracking_request"
-                      }
-                    },
-                    "links": {
-                      "$ref": "#/components/schemas/links"
-                    },
-                    "meta": {
-                      "$ref": "#/components/schemas/meta"
-                    },
-                    "included": {
-                      "type": "array",
-                      "items": {
-                        "anyOf": [
-                          {
-                            "$ref": "#/components/schemas/account"
-                          },
-                          {
-                            "$ref": "#/components/schemas/shipping_line"
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "id": {
-                                "type": "string",
-                                "format": "uuid"
-                              },
-                              "type": {
-                                "type": "string",
-                                "enum": [
-                                  "shipment"
-                                ]
-                              },
-                              "links": {
-                                "type": "object",
-                                "properties": {
-                                  "self": {
-                                    "type": "string",
-                                    "format": "uri"
-                                  }
-                                }
-                              }
-                            },
-                            "description": ""
-                          }
-                        ]
-                      }
-                    }
-                  }
-                },
-                "examples": {}
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "errors": {
-                      "type": [
-                        "string",
-                        "array"
-                      ],
-                      "items": {
-                        "$ref": "#/components/schemas/error"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "description": "Returns a list of your tracking requests. The trackig requests are returned sorted by creation date, with the most recent tracking request appearing first.",
-        "tags": [
-          "Tracking Requests"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "filter": {
-                    "type": "object",
-                    "properties": {
-                      "status": {
-                        "type": "string",
-                        "enum": [
-                          "pending",
-                          "created",
-                          "failed"
-                        ],
-                        "description": "`unreleased`"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "description": ""
-        },
-        "security": [
-          {
-            "Authorization": []
-          }
-        ]
-      }
-    },
-    "/tracking_requests/{id}": {
-      "parameters": [
-        {
-          "schema": {
-            "type": "string"
-          },
-          "name": "id",
-          "in": "path",
-          "required": true,
-          "description": "Tracking Request ID"
-        }
-      ],
-      "get": {
-        "summary": "Get a single tracking request",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "$ref": "#/components/schemas/tracking_request"
-                    },
-                    "included": {
-                      "type": "array",
-                      "items": {
-                        "anyOf": [
-                          {
-                            "$ref": "#/components/schemas/account"
-                          },
-                          {
-                            "$ref": "#/components/schemas/shipment"
-                          },
-                          {
-                            "$ref": "#/components/schemas/shipping_line"
-                          }
-                        ]
-                      }
-                    }
-                  }
-                },
-                "examples": {
-                  "With Status Created": {
-                    "value": {
-                      "data": {
-                        "id": "ba4cb904-827f-4038-8e31-1e92b3356218",
-                        "type": "tracking_request",
-                        "attributes": {
-                          "request_number": "MEDUFR030802",
-                          "request_type": "bill_of_lading",
-                          "scac": "MSCU",
-                          "ref_numbers": null,
-                          "created_at": "2020-04-04T16:13:35-07:00",
-                          "status": "created",
-                          "failed_reason": null
-                        },
-                        "relationships": {
-                          "tracked_object": {
-                            "data": {
-                              "id": "eb6f218a-0b4a-47f9-8ef9-759aa5e0ea83",
-                              "type": "shipment"
-                            }
-                          }
-                        },
-                        "links": {
-                          "self": "/v2/tracking_requests/ba4cb904-827f-4038-8e31-1e92b3356218"
-                        }
-                      },
-                      "included": [
-                        {
-                          "id": "eb6f218a-0b4a-47f9-8ef9-759aa5e0ea83",
-                          "type": "shipment",
-                          "attributes": {
-                            "created_at": "2020-04-04T16:13:37-07:00",
-                            "bill_of_lading_number": "MEDUFR030802",
-                            "ref_numbers": [
-                              null
-                            ],
-                            "shipping_line_scac": "MSCU",
-                            "shipping_line_name": "Mediterranean Shipping Company",
-                            "port_of_lading_locode": "FRFOS",
-                            "port_of_lading_name": "Fos-Sur-Mer",
-                            "port_of_discharge_locode": "USOAK",
-                            "port_of_discharge_name": "Oakland",
-                            "pod_vessel_name": "MSC ALGECIRAS",
-                            "pod_vessel_imo": "9605243",
-                            "pod_voyage_number": "920A",
-                            "destination_locode": "USOAK",
-                            "destination_name": "Oakland",
-                            "destination_timezone": "America/Los_Angeles",
-                            "destination_ata_at": "2019-06-21T18:46:00-07:00",
-                            "destination_eta_at": null,
-                            "pol_etd_at": null,
-                            "pol_atd_at": "2019-05-24T03:00:00-07:00",
-                            "pol_timezone": "Europe/Paris",
-                            "pod_eta_at": null,
-                            "pod_ata_at": "2019-06-21T18:46:00-07:00",
-                            "pod_timezone": "America/Los_Angeles"
-                          },
-                          "relationships": {
-                            "port_of_lading": {
-                              "data": {
-                                "id": "6d8c6c29-72a6-49ad-87b7-fd045f202212",
-                                "type": "port"
-                              }
-                            },
-                            "port_of_discharge": {
-                              "data": {
-                                "id": "42d1ba3a-f4b8-431d-a6fe-49fd748a59e7",
-                                "type": "port"
-                              }
-                            },
-                            "pod_terminal": {
-                              "data": null
-                            },
-                            "destination": {
-                              "data": {
-                                "id": "42d1ba3a-f4b8-431d-a6fe-49fd748a59e7",
-                                "type": "port"
-                              }
-                            },
-                            "containers": {
-                              "data": [
-                                {
-                                  "id": "11c1fa10-52a5-48e2-82f4-5523756b3d0f",
-                                  "type": "container"
-                                }
-                              ]
-                            }
-                          },
-                          "links": {
-                            "self": "/v2/shipments/eb6f218a-0b4a-47f9-8ef9-759aa5e0ea83"
-                          }
-                        }
-                      ]
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/error"
-                      }
-                    }
-                  }
-                },
-                "examples": {}
-              }
-            }
-          }
-        },
-        "operationId": "get-track-request-by-id",
-        "description": "Get the details and status of an existing tracking request. ",
-        "tags": [
-          "Tracking Requests"
-        ],
-        "security": [
-          {
-            "Authorization": []
-          }
-        ]
-      }
-    },
-    "/webhooks/{id}": {
-      "parameters": [
-        {
-          "schema": {
-            "type": "string"
-          },
-          "name": "id",
-          "in": "path",
-          "required": true
-        }
-      ],
-      "get": {
-        "summary": "Get single webhook",
-        "tags": [
-          "Webhooks"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "$ref": "#/components/schemas/hook"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "operationId": "get-webhooks-id",
-        "description": "Get the details of a single webhook",
-        "security": [
-          {
-            "Authorization": []
-          }
-        ]
-      },
-      "patch": {
-        "summary": "Edit a webhook",
-        "operationId": "patch-webhooks-id",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "$ref": "./terminal49.v1.json#/components/schemas/hook"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "description": "Update a single webhook",
-        "tags": [
-          "Webhooks"
-        ],
-        "security": [
-          {
-            "Authorization": []
-          }
-        ]
-      },
-      "delete": {
-        "summary": "Delete a webhook",
-        "operationId": "delete-webhooks-id",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        },
-        "description": "Delete a webhook",
-        "tags": [
-          "Webhooks"
-        ],
-        "security": [
-          {
-            "Authorization": []
-          }
-        ]
-      }
-    },
-    "/webhooks": {
-      "get": {
-        "summary": "List webhooks",
-        "tags": [
-          "Webhooks"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/hook"
-                      }
-                    },
-                    "meta": {
-                      "$ref": "#/components/schemas/meta"
-                    },
-                    "links": {
-                      "$ref": "#/components/schemas/links"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/hook"
-                      }
-                    }
-                  }
-                },
-                "examples": {}
-              }
-            }
-          }
-        },
-        "operationId": "get-webhooks",
-        "description": "Get a list of all the webhooks",
-        "security": [
-          {
-            "Authorization": []
-          }
-        ]
-      },
-      "post": {
-        "summary": "Create a webhook",
-        "operationId": "post-webhooks",
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "422": {
-            "description": "Unprocessable Entity",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "errors": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/error"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Webhooks"
-        ],
-        "description": "Create a webhook",
-        "security": [
-          {
-            "Authorization": []
-          }
-        ]
-      },
-      "parameters": []
     }
   },
   "x-tagGroups": [
@@ -1507,7 +1507,6 @@
           "Shipments"
         ],
         "x-examples": {},
-        "description": "",
         "properties": {
           "id": {
             "type": "string",
@@ -1527,30 +1526,6 @@
                         "enum": [
                           "port",
                           "metro_area"
-                        ]
-                      },
-                      "id": {
-                        "type": "string",
-                        "format": "uuid"
-                      }
-                    },
-                    "required": [
-                      "type",
-                      "id"
-                    ]
-                  }
-                }
-              },
-              "port_of_lading": {
-                "type": "object",
-                "properties": {
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "port"
                         ]
                       },
                       "id": {
@@ -1592,6 +1567,42 @@
                   }
                 }
               },
+              "customer": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "account"
+                        ]
+                      },
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      }
+                    }
+                  }
+                },
+                "description": "`unreleased`"
+              },
+              "pod_terminal": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "terminal"
+                    ]
+                  },
+                  "id": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              },
               "port_of_discharge": {
                 "type": "object",
                 "properties": {
@@ -1616,9 +1627,8 @@
                   }
                 }
               },
-              "customer": {
+              "port_of_lading": {
                 "type": "object",
-                "description": "`unreleased`",
                 "properties": {
                   "data": {
                     "type": "object",
@@ -1626,29 +1636,18 @@
                       "type": {
                         "type": "string",
                         "enum": [
-                          "account"
+                          "port"
                         ]
                       },
                       "id": {
                         "type": "string",
                         "format": "uuid"
                       }
-                    }
-                  }
-                }
-              },
-              "pod_terminal": {
-                "type": "object",
-                "properties": {
-                  "type": {
-                    "type": "string",
-                    "enum": [
-                      "terminal"
+                    },
+                    "required": [
+                      "type",
+                      "id"
                     ]
-                  },
-                  "id": {
-                    "type": "string",
-                    "format": "uuid"
                   }
                 }
               }
@@ -1672,10 +1671,10 @@
               },
               "tags": {
                 "type": "array",
-                "description": "`unreleased`",
                 "items": {
                   "type": "string"
-                }
+                },
+                "description": "`unreleased`"
               },
               "port_of_lading_locode": {
                 "type": "string",
@@ -1702,9 +1701,6 @@
                 "type": "string"
               },
               "pod_vessel_name": {
-                "type": "string"
-              },
-              "pod_vessel_imo": {
                 "type": "string"
               },
               "pod_voyage_number": {
@@ -1745,6 +1741,9 @@
               "destination_timezone": {
                 "type": "string",
                 "description": "IANA tz"
+              },
+              "pod_vessel_imo": {
+                "type": "string"
               }
             },
             "required": [
@@ -1761,7 +1760,8 @@
         "required": [
           "id",
           "type"
-        ]
+        ],
+        "description": ""
       },
       "meta": {
         "title": "meta",
@@ -1831,25 +1831,6 @@
                   "tank"
                 ]
               },
-              "equipment_length": {
-                "type": "integer",
-                "enum": [
-                  10,
-                  20,
-                  40,
-                  45
-                ]
-              },
-              "equipment_height": {
-                "type": "string",
-                "enum": [
-                  "standard",
-                  "high_cube"
-                ]
-              },
-              "weight_in_lbs": {
-                "type": "string"
-              },
               "created_at": {
                 "type": "string",
                 "format": "date-time"
@@ -1916,6 +1897,25 @@
               "empty_returned_timezone": {
                 "type": "string",
                 "description": "`unreleased` IANA tz"
+              },
+              "weight_in_lbs": {
+                "type": "string"
+              },
+              "equipment_height": {
+                "type": "string",
+                "enum": [
+                  "standard",
+                  "high_cube"
+                ]
+              },
+              "equipment_length": {
+                "type": "integer",
+                "enum": [
+                  10,
+                  20,
+                  40,
+                  45
+                ]
               }
             }
           },
@@ -2137,13 +2137,13 @@
           "title": {
             "type": "string"
           },
-          "source": {
+          "status": {
             "type": "string"
           },
           "code": {
             "type": "string"
           },
-          "status": {
+          "source": {
             "type": "string"
           }
         },
@@ -2732,8 +2732,8 @@
       }
     },
     "securitySchemes": {
-      "Authorization": {
-        "name": "Token YOUR_API_TOKEN",
+      "Header Token Auth": {
+        "name": "Authorization",
         "type": "apiKey",
         "in": "header",
         "description": "The APIs require authentication to be done using header-based API Key and Secret Authentication. \nAPI key and secret aare sent in the `Authorization` header.\n\nYou send your API key and secret in the following way:\n\n\n```\nAuthorization: Token YOUR_API_TOKEN\n```"
