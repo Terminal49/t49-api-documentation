@@ -359,7 +359,7 @@
         ],
         "security": [
           {
-            "Authentication": []
+            "Authorization": []
           }
         ]
       }
@@ -789,7 +789,7 @@
         "description": "Retrieves the details of an existing shipment. You need only supply the unique shipment `id` that was returned upon `tracking_request` creation.",
         "security": [
           {
-            "Authentication": []
+            "Authorization": []
           }
         ]
       }
@@ -983,7 +983,7 @@
         },
         "security": [
           {
-            "Authentication": []
+            "Authorization": []
           }
         ],
         "description": "To track an ocean shipment, you create a new tracking request. \nTwo attributes are required to track a shipment. A `bill of lading/booking number` and a shipping line `SCAC`. \n\nOnce a tracking request is created our we will attempt to fetch the shipment details and it's related containers from the shipping line. If the attempt is successful we will create in new shipment object including any related container objects. We will send a `tracking_Request.succeeded` webhook notification to your webhooks.  \n\nIf the attempt to fetch fails then we will send a `tracking_Request.failed` webhook notification to your `webhooks`.  \n\nA `tracking_Request.succeeded` or `tracking_Request.failed` webhook notificaiton will only be sent  if you have  atleast one active webhook. ",
@@ -1113,7 +1113,7 @@
         },
         "security": [
           {
-            "Authentication": []
+            "Authorization": []
           }
         ]
       }
@@ -1288,37 +1288,7 @@
         ],
         "security": [
           {
-            "Authentication": []
-          }
-        ]
-      }
-    },
-    "/webhooks/{id}/test": {
-      "parameters": [
-        {
-          "schema": {
-            "type": "string"
-          },
-          "name": "id",
-          "in": "path",
-          "required": true
-        }
-      ],
-      "post": {
-        "summary": "Test a push webhook",
-        "operationId": "post-webhooks-id-test",
-        "description": "`unreleased`\n\nTest a webhook\n\n",
-        "tags": [
-          "Webhooks"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        },
-        "security": [
-          {
-            "Authentication": []
+            "Authorization": []
           }
         ]
       }
@@ -1360,7 +1330,7 @@
         "description": "Get the details of a single webhook",
         "security": [
           {
-            "Authentication": []
+            "Authorization": []
           }
         ]
       },
@@ -1390,7 +1360,7 @@
         ],
         "security": [
           {
-            "Authentication": []
+            "Authorization": []
           }
         ]
       },
@@ -1408,7 +1378,7 @@
         ],
         "security": [
           {
-            "Authentication": []
+            "Authorization": []
           }
         ]
       }
@@ -1467,7 +1437,7 @@
         "description": "Get a list of all the webhooks",
         "security": [
           {
-            "Authentication": []
+            "Authorization": []
           }
         ]
       },
@@ -1503,7 +1473,7 @@
         "description": "Create a webhook",
         "security": [
           {
-            "Authentication": []
+            "Authorization": []
           }
         ]
       },
@@ -2761,11 +2731,11 @@
       }
     },
     "securitySchemes": {
-      "Authentication": {
+      "Authorization": {
         "name": "Token YOUR_API_TOKEN",
         "type": "apiKey",
         "in": "header",
-        "description": "Authentication: Token YOUR_API_TOKEN"
+        "description": "The APIs require authentication to be done using header-based API Key and Secret Authentication. \nAPI key and secret aare sent in the `Authorization` header.\n\nYou send your API key and secret in the following way:\n\n\n```\nAuthorization: Token YOUR_API_TOKEN\n```"
       }
     }
   }
