@@ -19,8 +19,8 @@ All you need to provide are your BOL numbers and SCACs. Terminal 49 will lookup 
 Once the shipment is setup Terminal 49 periodically checks with the carrier and the destination terminal. If any of the details of your shipment or containers change (for example - if the ETA changes) we will post the shipment to the the webhook you provide so you are always kept up-to-date.
 
 
-## Supported Carriers
-Presently, the Terminal 49 api supports shipments with the following carriers:
+## Supported Shipping Lines and Terminals
+Presently, the Terminal49 API supports shipments and container tracking across the following carriers:
 - American President Lines  (APL) \[APLU]
 - Australia National Line (ANL) \[ANNU]
 - China Ocean Shipping Company (COSCO) \[COSU]
@@ -36,6 +36,9 @@ Presently, the Terminal 49 api supports shipments with the following carriers:
 - Pacific International Lines (PIL) \[PCIU]
 - Safmarine \[SAFM]
 - Yangming Marine Transport (YangMing) \[YMLU]
+[CSV of support carriers with roadmap](https://www.terminal49.com/api/docs/assets/data/Terminal49 Shiping Line Support.csv)
+[CSV of supported US terminals](https://www.terminal49.com/api/docs/../assets/data/Terminal49 Terminal Support.csv)
+If you would you like us to support a shipping line or terminals that is not listed above please reach out to us. 
 
 ## Integrated Ports
 Presently, the Terminal 49 api integrates with terminals at the following ports:
