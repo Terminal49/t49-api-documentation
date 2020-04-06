@@ -638,10 +638,7 @@
                   "type": "object",
                   "properties": {
                     "errors": {
-                      "type": [
-                        "string",
-                        "array"
-                      ],
+                      "type": "array",
                       "items": {
                         "$ref": "#/components/schemas/error"
                       }
@@ -889,21 +886,19 @@
                   "type": "object",
                   "properties": {
                     "data": {
-                      "$ref": "#/components/schemas/hook"
+                      "$ref": "#/components/schemas/webhook"
                     }
                   }
                 }
               }
             }
+          },
+          "": {
+            "description": ""
           }
         },
         "operationId": "get-webhooks-id",
-        "description": "Get the details of a single webhook",
-        "security": [
-          {
-            "Header Token Auth": []
-          }
-        ]
+        "description": "Get the details of a single webhook"
       },
       "patch": {
         "summary": "Edit a webhook",
@@ -917,7 +912,7 @@
                   "type": "object",
                   "properties": {
                     "data": {
-                      "$ref": "./terminal49.v1.json#/components/schemas/hook"
+                      "$ref": "./terminal49.v1.json#/components/schemas/webhook"
                     }
                   }
                 }
@@ -928,11 +923,6 @@
         "description": "Update a single webhook",
         "tags": [
           "Webhooks"
-        ],
-        "security": [
-          {
-            "Header Token Auth": []
-          }
         ]
       },
       "delete": {
@@ -946,11 +936,6 @@
         "description": "Delete a webhook",
         "tags": [
           "Webhooks"
-        ],
-        "security": [
-          {
-            "Header Token Auth": []
-          }
         ]
       }
     },
@@ -971,7 +956,7 @@
                     "data": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/hook"
+                        "$ref": "#/components/schemas/webhook"
                       }
                     },
                     "meta": {
@@ -994,7 +979,7 @@
                     "data": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/hook"
+                        "$ref": "#/components/schemas/webhook"
                       }
                     }
                   }
@@ -1478,6 +1463,102 @@
             "Header Token Auth": []
           }
         ]
+      }
+    },
+    "/webhook_notifications": {
+      "get": {
+        "summary": "List webhook notifications",
+        "tags": [
+          "Webhooks"
+        ],
+        "responses": {},
+        "operationId": "get-webhook-notifications",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/webhook_notification"
+                    }
+                  },
+                  "links": {
+                    "$ref": "#/components/schemas/links"
+                  },
+                  "meta": {
+                    "$ref": "#/components/schemas/meta"
+                  },
+                  "included": {
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/components/schemas/webhook"
+                        },
+                        {
+                          "$ref": "#/components/schemas/tracking_request"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "`unreleased`<br>\n\nReturn the list of  webhook notifications. This can be useful for reconciling your data if your endpoint has been down. "
+      }
+    },
+    "/webhook_notification/{id}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get a single webhook notification",
+        "tags": [
+          "Webhooks"
+        ],
+        "responses": {},
+        "operationId": "get-webhook-notification-id",
+        "description": "`unreleased`\n",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/webhook_notification"
+                  },
+                  "included": {
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/components/schemas/webhook"
+                        },
+                        {
+                          "$ref": "#/components/schemas/tracking_request"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        }
       }
     }
   },
@@ -2339,178 +2420,6 @@
           "attributes"
         ]
       },
-      "event": {
-        "title": "Event model",
-        "type": "object",
-        "description": "Events represent a change to a model which may be subscribed to via webhook.",
-        "x-tags": [
-          "Events"
-        ],
-        "x-examples": {},
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "event"
-            ]
-          },
-          "attributes": {
-            "type": "object",
-            "required": [
-              "event_type",
-              "created_at"
-            ],
-            "properties": {
-              "event_type": {
-                "type": "string",
-                "description": "The mapped event - see the Events documentation for complete list"
-              },
-              "created_at": {
-                "type": "string",
-                "format": "date-time"
-              },
-              "source": {
-                "type": "string",
-                "enum": [
-                  "shipping_line",
-                  "terminal",
-                  "terminal_49",
-                  "ais",
-                  "manual_entry"
-                ]
-              },
-              "original_event": {
-                "type": "string",
-                "description": "The event string as received from the source\n"
-              },
-              "actual_at": {
-                "type": "string",
-                "format": "date-time"
-              },
-              "actual_at_timezone": {
-                "type": "string",
-                "description": "IANA tz"
-              },
-              "eta_at": {
-                "type": "string",
-                "format": "date-time"
-              },
-              "eta_at_timezone": {
-                "type": "string",
-                "description": "IANA tz"
-              }
-            }
-          },
-          "related": {
-            "type": "object",
-            "required": [
-              "event_object"
-            ],
-            "properties": {
-              "event_object": {
-                "type": "object",
-                "required": [
-                  "data"
-                ],
-                "properties": {
-                  "data": {
-                    "type": "object",
-                    "required": [
-                      "id",
-                      "type"
-                    ],
-                    "properties": {
-                      "id": {
-                        "type": "string",
-                        "format": "uuid"
-                      },
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "shipment",
-                          "container",
-                          "tracking_request"
-                        ]
-                      }
-                    }
-                  }
-                }
-              },
-              "vessel": {
-                "type": "object",
-                "properties": {
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string",
-                        "format": "uuid"
-                      },
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "vessel"
-                        ]
-                      }
-                    }
-                  }
-                }
-              },
-              "location": {
-                "type": "object",
-                "properties": {
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string",
-                        "format": "uuid"
-                      },
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "metro_area",
-                          "port"
-                        ]
-                      }
-                    }
-                  }
-                }
-              },
-              "terminal": {
-                "type": "object",
-                "properties": {
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string",
-                        "format": "uuid"
-                      },
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "terminal"
-                        ]
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "required": [
-          "id",
-          "type",
-          "attributes",
-          "related"
-        ]
-      },
       "tracking_request": {
         "title": "Tracking Request",
         "type": "object",
@@ -2655,7 +2564,7 @@
           "type"
         ]
       },
-      "hook": {
+      "webhook": {
         "title": "webhook",
         "type": "object",
         "properties": {
@@ -2729,6 +2638,98 @@
             }
           }
         }
+      },
+      "webhook_notification": {
+        "title": "webhook_notification",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "webhook_notification"
+            ]
+          },
+          "attributes": {
+            "type": "object",
+            "properties": {
+              "event": {
+                "type": "string"
+              },
+              "delivery_status": {
+                "type": "string",
+                "default": "pending",
+                "enum": [
+                  "pending",
+                  "succeeded",
+                  "failed"
+                ],
+                "description": "Whether the notification has been delivered to the webhook endpoint"
+              },
+              "created_at": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "event",
+              "delivery_status",
+              "created_at"
+            ]
+          },
+          "relationships": {
+            "type": "object",
+            "properties": {
+              "webhook": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "webhook"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "reference_object": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "tracking_request",
+                          "estimated_event",
+                          "transport_event"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "required": [
+              "webhook"
+            ]
+          }
+        }
       }
     },
     "securitySchemes": {
@@ -2739,5 +2740,10 @@
         "description": "The APIs require authentication to be done using header-based API Key and Secret Authentication. \nAPI key and secret aare sent in the `Authorization` header.\n\nYou send your API key and secret in the following way:\n\n\n```\nAuthorization: Token YOUR_API_TOKEN\n```"
       }
     }
-  }
+  },
+  "security": [
+    {
+      "Header Token Auth": []
+    }
+  ]
 }
