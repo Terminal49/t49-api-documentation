@@ -8,9 +8,9 @@
       "url": "https://www.terminal49.com",
       "email": "support@terminal49.com"
     },
-    "description": "# Introduction\n\nThe Terminal 49 API offers a convenient way to programatically track your shipments from origin to destination.\n\nHere are just a few of the data points we return and possible use-cases. \n\n\nData | Example Use Case\n-----|-------------------\n Destination ETA | Surface ETA changes to your relevant teams as they're reported\n Last Free Day and terminal status¹ | Track containers approaching LFD and prioritize dispatching\n Fees and holds at destination terminal | Clear your cargo to keep you containers moving\n Actual departure and arrival times | Report journey times by route to compare your ocean carriers performance\n\n_1.  At container ports in the US_\n## How it works\nAll you need to provide are your BOL numbers and SCACs. Terminal 49 will lookup the shipment with the carrier and populate shipment details including containers. \n\nOnce the shipment is setup Terminal 49 periodically checks with the carrier and the destination terminal. If any of the details of your shipment or containers change (for example - if the ETA changes) we will post the shipment to the the webhook you provide so you are always kept up-to-date.\n\n## Supported Shipping Lines and Terminals\nPresently, the Terminal49 API supports shipments and container tracking across the following carriers:\n- American President Lines  (APL) \\[APLU]\n- Australia National Line (ANL) \\[ANNU]\n- China Ocean Shipping Company (COSCO) \\[COSU]\n- CMA CGM \\[CMDU]\n- Evergreen \\[EGLV]\n- Hamburg Süd \\[SUDU]\n- Hapag-Lloyd \\[HLCU]\n- Hyundai Merchant Marine (HMM) \\[HDMU]\n- Maersk \\[MAEU]\n- Mediterranean Shipping Company (MSC) \\[MSCU]\n- Ocean Network Express (ONE) \\[ONEY]\n- Orient Overseas Container Line (OOCL) \\[OOLU]\n- Pacific International Lines (PIL) \\[PCIU]\n- Safmarine \\[SAFM]\n- Yangming Marine Transport (YangMing) \\[YMLU]\n\n[CSV of support carriers with roadmap](\"https://www.terminal49.com/api/docs/assets/data/Terminal49_Shiping_Line_Support.csv\")\n\n[CSV of supported US terminals](\"https://www.terminal49.com/api/docs/assets/data/Terminal49_Terminal_Support.csv\")\n\nIf you would you like us to support a shipping line or terminals that is not listed above please reach out to us. \n\n\n### Integrated Ports\nPresently, the Terminal 49 api integrates with terminals at the following ports:\n- Baltimore\n- Boston\n- Florida\n- Houston\n- Jacksonville\n- Long Beach\n- Los Angeles\n- Miami\n- Mobile\n- New Jersey\n- New Orleans\n- New York\n- Oakland\n- Philadelphia\n- Port Everglades\n- Savannah\n- Seattle\n- Tacoma\n- Tampa\n- Virginia\n\n\n## Tracking flow\n\nTracking a new shipment with Terminal 49 is an asynchronous flow. Submit your tracking request to us and we will return a tracking request id so you can see the status of your request.\n\nWe recommend your register a webhook URL with us that we will call once we have processed the request.\n\nWhen we successfully lookup the BOL with the carrier we will create a shipment, and send the event `tracking_request.succeeded` to your webhook endpoint with the associated record. \n\nIf we encounter a problem we'll send the event `tracking_request.failed`.\n\n![Tracking Request Diagram](https://www.terminal49.com/api/docs/assets/images/create-shipment-flow.png  \"Tracking Request Diagram\")\n\n\nIf you don't want to use web hooks you can poll the `GET /tracking_request/{id}` endpoint to see the status of your request.\n\n## Authentication\n\nTo get your API token to Terminal 49 and go to your [account API settings](https://app.terminal49.com/settings/api)\n\nThe token should be sent with each API request in the Authentication header:\n\n```\nAuthentication: Token YOUR_API_TOKEN\n```\n\n# Webhooks\n\nYou may subscribe to events through webhooks to be alerted as to when events are triggered. See the [/webhooks endpoint documentation](#tag/Webhooks) for more information on setting up webhooks. \n\nWhen an event is triggered we will attempt to post to the URL you provided with the webhook.\n\nThe body will be in the following format: \n```json\n{\n  \"data\": {\n    \"id\": \"2250f31c-70d5-4d94-9013-82ced3544a60\",\n    \"type\": \"event\",\n    \"attributes\": {\n      \"event_type\": \"tracking_request.succeeded\",\n      \"created_at\": \"2020-03-27T20:24:36Z\"\n    },\n    \"relationships\": {\n      \"object\": {\n        \"id\": \"4a4d1dd3-6f1b-4b7b-88c5-c743a94db283\",\n        \"type\": \"tracking_request\"\n\n      }\n    },\n    \"included\": [\n      {\n        \"id\": \"4a4d1dd3-6f1b-4b7b-88c5-c743a94db283\",\n        \"type\": \"tracking_request\"\n        \"attributes\": {\n          \"bill_of_lading\": \"12345678\",\n          \"ref_numbers\": [\"my-ref-49\"]\n          \"tags\": [],\n          \"status\": \"succeeded\",\n          \"failed_reason\": null\n        },\n        \"relationships\": {\n          \"shipment\": {\n            \"id\": \"9c6bdb5b-d1fd-45f5-ab07-e46b5b8d617e\",\n            \"type\": \"shipment\"\n          }\n        }\n      },\n      {\n        \"id\": \"9c6bdb5b-d1fd-45f5-ab07-e46b5b8d617e\",\n        \"type\": \"shipment\",\n        \"attributes\": {\n          \"bill_of_lading_number\": \"12345678\",\n          \"ref_numbers\": [\"my-ref-49\"],\n          \"created_at\": \"2020-03-27T20:24:36Z\",\n          \"tags\": [ ],\n          \"port_of_lading_locode\": \"INVTZ\",\n          \"port_of_lading_name\": \"Visakhapatnam, IN\",\n          \"port_of_discharge_locode\": \"USNYC\",\n          \"port_of_discharge_name\": \"New York / New Jersey, NY\",\n          \"destination_locode\": \"USDET\",\n          \"destination_name\": \"Detroit, MI\",\n          \"shipping_line_scac\": \"HLCU\",\n          \"pod_vessel_name\": \"CMA CGM ALMAVIVA\",\n          \"pod_voyage_number\": \"0108\",\n          \"pol_etd_at\": null,\n          \"pol_atd_at\": \"2020-02-15T21:53Z\",\n          \"pol_timezone\": \"Asia/Calcutta\",\n          \"pod_eta_at\": \"2020-04-18T08:00Z\",\n          \"pod_ata_at\": null,\n          \"pod_timezone\": \"America/New_York\",\n          \"destination_eta_at\": \"2020-04-26T17:00Z\",\n          \"destination_ata_at\": null,\n          \"destination_timezone\": \"America/Detroit\"\n        },\n        \"relationships\": {\n          \"containers\": {\n            \"data\": [\n              {\n                \"id\": \"c99a81c0-ff69-4bdf-aa5f-8e33a787f5fa\",\n                \"type\": \"container\"\n              }\n            ]\n          }\n        }\n      },\n      {\n        \"id\": \"c99a81c0-ff69-4bdf-aa5f-8e33a787f5fa\",\n        \"type\": \"container\",\n        \"attributes\": {\n          \"number\": \"UACU4743531\",\n          \"equipment_type\": \"reefer\",\n          \"length\": 40,\n          \"height\": \"high_cube\",\n          \"weight\": 35075,\n          \"weight_unit\": \"kigs\",\n          \"created_at\": \"2020-03-27T20:24:36Z\",\n          \"seal_number\": null,\n          \"pickup_lfd\": null,\n          \"availability_known\": false,\n          \"available_for_pickup\": null,\n          \"current_transportation_mode\": \"vessel\",\n          \"pod_discharged_at\": null,\n          \"pod_picked_up_at\": null,\n          \"destination_unloaded_at\": null,\n          \"destination_picked_up_at\": null,\n          \"empty_returned_at\": null,\n          \"pod_timezone\": \"America/Los_Angeles\",\n          \"destination_timezone\": \"America/Detroit\",\n          \"empty_returned_timezone\": null\n        }\n      }\n    ]\n  }\n}\n```\n\n# Events\n\nEach event represents some change to a model which you may be notified of. At present there are 3 events:\n\n- tracking_request.succeeded\n- tracking_request.failed\n- shipment.updated\n\nSee the[/events endpoint documentation](#tag/Events) for more information\n\n# Roadmap\n\nBelow is the tentative schedule for the API. \n\n### Beta Release 1 - April 2020\n- `/tracking_requests` endpoint\n- `/shipments` endpoint\n- `/webhooks` endpoint\n- Webhook events:\n  - `shipment.eta_changed`\n  - `shipment.vessel_arrived`\n  - `tracking_request.succeeded` \n  - `tracking_request.failed` \n\n### Beta Release 2\n- `/containers` endpoint.\n- Webhook events:\n  - `container.created`\n  - `container.lfd_added`\n  - `container.available_for_pickup`\n  - `container.full_out`\n  - `container.empty_in`\n\n### Beta Release 3\n- Webhook events:\n  - `container.hold_added`\n  - `container.hold_released`\n  - `container.fee_added`\n  - `container.fee_paid`\n  - `container.unavailable_for_pickup`\n  - `container.yard_position_changed`\n  - `container.moved_offdock`\n\n### Beta Release 4\n- Webhook events:\n  - `shipment.etd_changed`\n  - `shipment.vessel_departed`\n  - `shipment.transshipment_arrived`\n  - `shipment.transhipment_departed`\n  - `container.empty_out`\n  - `container.full_in`\n  - `container.vessel_loaded`\n  - `container.transshipment_discharged`\n  - `container.transhipment_loaded`\n  - `container.vessel_discharged`\n\n\n\n\n\n\n",
-    "termsOfService": "https://www.terminal49.com/terms",
-    "x-label": "Beta"
+    "description": "# Introduction\n\nThe Terminal 49 API offers a convenient way to programatically track your shipments from origin to destination.\n\nHere are just a few of the data points we return and possible use-cases. \n\n\n\nData | Example Use Case\n-----|-------------------\n Destination ETA | Surface ETA changes to your relevant teams as they're reported\n Last Free Day and terminal status¹ | Track containers approaching LFD and prioritize dispatching\n Fees and holds at destination terminal | Clear your cargo to keep you containers moving\n Actual departure and arrival times | Report journey times by route to compare your ocean carriers performance\n\n_1.  At container ports in the US_\n## How it works\nAll you need to provide are your BOL numbers and SCACs. Terminal 49 will lookup the shipment with the carrier and populate shipment details including containers. \n\nOnce the shipment is setup Terminal 49 periodically checks with the carrier and the destination terminal. If any of the details of your shipment or containers change (for example - if the ETA changes) we will post the shipment to the the webhook you provide so you are always kept up-to-date.\n\n## Supported Shipping Lines and Terminals\nPresently, the Terminal49 API supports shipments and container tracking across the following carriers:\n- American President Lines  (APL) \\[APLU]\n- Australia National Line (ANL) \\[ANNU]\n- China Ocean Shipping Company (COSCO) \\[COSU]\n- CMA CGM \\[CMDU]\n- Evergreen \\[EGLV]\n- Hamburg Süd \\[SUDU]\n- Hapag-Lloyd \\[HLCU]\n- Hyundai Merchant Marine (HMM) \\[HDMU]\n- Maersk \\[MAEU]\n- Mediterranean Shipping Company (MSC) \\[MSCU]\n- Ocean Network Express (ONE) \\[ONEY]\n- Orient Overseas Container Line (OOCL) \\[OOLU]\n- Pacific International Lines (PIL) \\[PCIU]\n- Safmarine \\[SAFM]\n- Yangming Marine Transport (YangMing) \\[YMLU]\n\n[CSV of support carriers with roadmap](\"https://www.terminal49.com/api/docs/assets/data/Terminal49_Shiping_Line_Support.csv\")\n\n[CSV of supported US terminals](\"https://www.terminal49.com/api/docs/assets/data/Terminal49_Terminal_Support.csv\")\n\nIf you would you like us to support a shipping line or terminals that is not listed above please reach out to us. \n\n\n### Integrated Ports\nPresently, the Terminal 49 api integrates with terminals at the following ports:\n- Baltimore\n- Boston\n- Florida\n- Houston\n- Jacksonville\n- Long Beach\n- Los Angeles\n- Miami\n- Mobile\n- New Jersey\n- New Orleans\n- New York\n- Oakland\n- Philadelphia\n- Port Everglades\n- Savannah\n- Seattle\n- Tacoma\n- Tampa\n- Virginia\n\n# Getting-Started\n\n## Step by Step Guide\n\nSo you want to start tracking your ocean shipments and containers and you have a few BL numbers. Follow the guide. \n\nOur API responses use [JSONAPI](https://jsonapi.org/) schema. There are [client libraries](https://jsonapi.org/implementations/#client-libraries) available in almost every language. Our API should work with these libs out of the box. \n\nOur APIs can be used with any HTTP client; choose your favorite! We love Postman, it's a friendly graphical interface to a powerful cross-platform HTTP client. Best of all it has support for the OpenAPI specs that we publish with all our APIs. We have created a collection of requests for you to easily test the API endpoints with your API Key. Link to the collection below. \n\n[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/4989da1ade6756b2f636#?env%5Bproduction%5D=W3sia2V5IjoiYmFzZVVybCIsInZhbHVlIjoiaHR0cHM6Ly9hcGkudGVybWluYWw0OS5jb20vdjIiLCJlbmFibGVkIjp0cnVlfSx7ImtleSI6IkFQSV9UT0tFTiIsInZhbHVlIjoiIiwiZW5hYmxlZCI6dHJ1ZX1d)\n\n### Step 1: Get API Key\n\nSign in to your Terminalk49 account and go to your [API settings](https://app.terminal49.com/settings/api) page to get your API key. \n\n> If you don't have an API key and you would you like to access the API during the beta period please reach out to us at support@terminal49.com\n\n### Step 2: Register a webhook\n\nTerminal49 API is event driven. To track a shipment you have to create a tracking request. Once a tracking request is created, our system triggers events (ex: `tracking_request.succeeded` `shipment.vessel_arrived` etc). These events can be subscribed to via Webhook. This allows us to push shipment and container changes to your sysrtem instead of you having to poll for changes at regular internvals. \n\n```json http\n{\n  \"method\": \"post\",\n  \"url\": \"https://api.terminal49.com/v2/webhooks\",\n  \"headers\": {\n    \"Authorization\": \"token YOUR_API_KEY\"\n  },\n  \"body\": \"{\\n  aadsa\\n}\"\n}\n```\n\n### Step 3: Create a Tracking Request\n### Step 4: Integrate events received via webhooks\n\n\n\n## Tracking flow\n\nTracking a new shipment with Terminal 49 is an asynchronous flow. Submit your tracking request to us and we will return a tracking request id so you can see the status of your request.\n\nWe recommend your register a webhook URL with us that we will call once we have processed the request.\n\nWhen we successfully lookup the BOL with the carrier we will create a shipment, and send the event `tracking_request.succeeded` to your webhook endpoint with the associated record. \n\nIf we encounter a problem we'll send the event `tracking_request.failed`.\n\n![Tracking Request Diagram](https://www.terminal49.com/api/docs/assets/images/create-shipment-flow.png  \"Tracking Request Diagram\")\n\n\nIf you don't want to use web hooks you can poll the `GET /tracking_request/{id}` endpoint to see the status of your request.\n\n## Authentication\n\nTo get your API token to Terminal 49 and go to your [account API settings](https://app.terminal49.com/settings/api)\n\nThe token should be sent with each API request in the Authentication header:\n\n```\nAuthentication: Token YOUR_API_TOKEN\n```\n\n# Webhooks\n\nYou may subscribe to events through webhooks to be alerted as to when events are triggered. See the [/webhooks endpoint documentation](#tag/Webhooks) for more information on setting up webhooks. \n\nWhen an event you subscribe to through a webhook happens a webhook notification is created and our server will  POST the JSON serialized webhook notification to the URL(s) you provided. \n\nSee the[/webhook notification endpoint documentation](#operation/get-webhook-notification-id) for more examples of how the JSON payload will look.\n\n\n## Webhook Events\n\nEach event represents some change to a model which you may be notified of. At present there are 4 events:\n\n  - `shipment.estimated.vessel_arrival`\n  - `shipment.transport.vessel_arrived`\n  - `tracking_request.succeeded` \n  - `tracking_request.failed` \n\n\n\n# Roadmap\n\nBelow is the tentative schedule for the API. \n\n### Beta Release 1 - April 2020\n- `/tracking_requests` endpoint\n- `/shipments` endpoint\n- `/webhooks` endpoint\n- Webhook events:\n  - `shipment.estimated.vessel_arrival`\n  - `shipment.transport.vessel_arrived`\n  - `tracking_request.succeeded` \n  - `tracking_request.failed` \n\n### Beta Release 2\n- `/containers` endpoint.\n- Webhook events:\n  - `container.created`\n  - `container.lfd_added`\n  - `container.available_for_pickup`\n  - `container.full_out`\n  - `container.empty_in`\n\n### Beta Release 3\n- Webhook events:\n  - `container.hold_added`\n  - `container.hold_released`\n  - `container.fee_added`\n  - `container.fee_paid`\n  - `container.unavailable_for_pickup`\n  - `container.yard_position_changed`\n  - `container.moved_offdock`\n\n### Beta Release 4\n- Webhook events:\n  - `shipment.etd_changed`\n  - `shipment.vessel_departed`\n  - `shipment.transshipment_arrived`\n  - `shipment.transhipment_departed`\n  - `container.empty_out`\n  - `container.full_in`\n  - `container.vessel_loaded`\n  - `container.transshipment_discharged`\n  - `container.transhipment_loaded`\n  - `container.vessel_discharged`\n\n\n\n\n\n\n",
+    "x-label": "Beta",
+    "termsOfService": "https://www.terminal49.com/terms"
   },
   "servers": [
     {
@@ -356,11 +356,6 @@
             "in": "query",
             "name": "q",
             "description": "`unreleased` Search shipments by master bill of lading, reference number, or container number."
-          }
-        ],
-        "security": [
-          {
-            "Header Token Auth": []
           }
         ]
       }
@@ -786,12 +781,9 @@
             }
           }
         },
-        "operationId": "get-shipment-id",
-        "description": "Retrieves the details of an existing shipment. You need only supply the unique shipment `id` that was returned upon `tracking_request` creation.",
-        "security": [
-          {
-            "Header Token Auth": []
-          }
+        "description": "To track an ocean shipment, you create a new tracking request. \nTwo attributes are required to track a shipment. A `bill of lading/booking number` and a shipping line `SCAC`. \n\nOnce a tracking request is created we will attempt to fetch the shipment details and it's related containers from the shipping line. If the attempt is successful we will create in new shipment object including any related container objects. We will send a `tracking_Request.succeeded` webhook notification to your webhooks.  \n\nIf the attempt to fetch fails then we will send a `tracking_Request.failed` webhook notification to your `webhooks`.  \n\nA `tracking_Request.succeeded` or `tracking_Request.failed` webhook notificaiton will only be sent  if you have  atleast one active webhook. ",
+        "tags": [
+          "Tracking Requests"
         ]
       }
     },
@@ -1068,10 +1060,7 @@
                   "type": "object",
                   "properties": {
                     "errors": {
-                      "type": [
-                        "string",
-                        "array"
-                      ],
+                      "type": "array",
                       "items": {
                         "$ref": "#/components/schemas/error"
                       }
@@ -1111,12 +1100,7 @@
             }
           },
           "description": ""
-        },
-        "security": [
-          {
-            "Header Token Auth": []
-          }
-        ]
+        }
       }
     },
     "/tracking_requests/{id}": {
@@ -1286,11 +1270,6 @@
         "description": "Get the details and status of an existing tracking request. ",
         "tags": [
           "Tracking Requests"
-        ],
-        "security": [
-          {
-            "Header Token Auth": []
-          }
         ]
       }
     },
@@ -1325,15 +1304,13 @@
                 }
               }
             }
+          },
+          "": {
+            "description": ""
           }
         },
         "operationId": "get-webhooks-id",
-        "description": "Get the details of a single webhook",
-        "security": [
-          {
-            "Header Token Auth": []
-          }
-        ]
+        "description": "Get the details of a single webhook"
       },
       "patch": {
         "summary": "Edit a webhook",
@@ -1347,7 +1324,7 @@
                   "type": "object",
                   "properties": {
                     "data": {
-                      "$ref": "#/components/schemas/webhook"
+                      "$ref": "./terminal49.v1.json#/components/schemas/webhook"
                     }
                   }
                 }
@@ -1358,11 +1335,6 @@
         "description": "Update a single webhook",
         "tags": [
           "Webhooks"
-        ],
-        "security": [
-          {
-            "Header Token Auth": []
-          }
         ]
       },
       "delete": {
@@ -1376,11 +1348,6 @@
         "description": "Delete a webhook",
         "tags": [
           "Webhooks"
-        ],
-        "security": [
-          {
-            "Header Token Auth": []
-          }
         ]
       }
     },
@@ -1435,22 +1402,7 @@
           }
         },
         "operationId": "get-webhooks",
-        "description": "Get a list of all the webhooks",
-        "security": [
-          {
-            "Header Token Auth": []
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/webhook"
-              },
-              "examples": {}
-            }
-          }
-        }
+        "description": "Get a list of all the webhooks"
       },
       "post": {
         "summary": "Create a webhook",
@@ -1481,12 +1433,440 @@
         "tags": [
           "Webhooks"
         ],
-        "description": "You can create a webhook via the API to be notified about webhook_notification ecengs that happen in your Terminal49 account.",
-        "security": [
-          {
-            "Header Token Auth": []
-          }
+        "description": "Create a webhook"
+      },
+      "parameters": []
+    },
+    "/shipments/{id}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "Shipment Id"
+        }
+      ],
+      "get": {
+        "summary": "Get a shipment",
+        "tags": [
+          "Shipments"
         ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/shipment"
+                    },
+                    "included": {
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/components/schemas/container"
+                          },
+                          {
+                            "$ref": "#/components/schemas/port"
+                          },
+                          {
+                            "$ref": "#/components/schemas/terminal"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "En-route to NY with inland move": {
+                    "value": {
+                      "data": {
+                        "id": "512ae32c-a604-44f8-9c15-2ca9cd3d2ae8",
+                        "type": "shipment",
+                        "attributes": {
+                          "bill_of_lading_number": "6140575020",
+                          "ref_numbers": [
+                            "my-ref-49",
+                            "PO#18412"
+                          ],
+                          "created_at": "2020-02-20T13:37:12Z",
+                          "tags": [],
+                          "port_of_lading_locode": "INVTZ",
+                          "port_of_lading_name": "Visakhapatnam, IN",
+                          "port_of_discharge_locode": "USNYC",
+                          "port_of_discharge_name": "New York / New Jersey, NY",
+                          "destination_locode": "USDET",
+                          "destination_name": "Detroit, MI",
+                          "shipping_line_scac": "HLCU",
+                          "pod_vessel_name": "CMA CGM ALMAVIVA",
+                          "pod_vessel_imo": "9450648",
+                          "pod_voyage_number": "0108",
+                          "pol_etd_at": null,
+                          "pol_atd_at": "2020-02-15T21:53Z",
+                          "pol_timezone": "Asia/Calcutta",
+                          "pod_eta_at": "2020-03-18T08:00Z",
+                          "pod_ata_at": null,
+                          "pod_timezone": "America/New_York",
+                          "destination_eta_at": "2020-03-26T17:00Z",
+                          "destination_ata_at": null,
+                          "destination_timezone": "America/Detroit"
+                        },
+                        "relationships": {
+                          "containers": {
+                            "data": [
+                              {
+                                "id": "c99a81c0-ff69-4bdf-aa5f-8e33a787f5fa",
+                                "type": "container"
+                              }
+                            ]
+                          },
+                          "port_of_lading": {
+                            "data": {
+                              "id": "bde5465a-1160-4fde-a026-74df9c362f65",
+                              "type": "port"
+                            }
+                          },
+                          "port_of_discharge": {
+                            "data": {
+                              "id": "f7cb530a-9e60-412c-a5bc-205a2f34ba54",
+                              "type": "port"
+                            }
+                          },
+                          "destination": {
+                            "data": {
+                              "id": "c9ae2b6b-5088-4e07-ba09-2872121e4fa2",
+                              "type": "metro_area"
+                            }
+                          },
+                          "customer": {
+                            "data": {
+                              "id": "ff76b51a-371e-45ec-86d1-9d03ccae566a",
+                              "type": "account"
+                            }
+                          }
+                        }
+                      },
+                      "included": [
+                        {
+                          "id": "c99a81c0-ff69-4bdf-aa5f-8e33a787f5fa",
+                          "type": "container",
+                          "attributes": {
+                            "number": "UACU4743531",
+                            "equipment_type": "reefer",
+                            "length": 40,
+                            "height": "high_cube",
+                            "weight": 35075,
+                            "weight_unit": "kigs",
+                            "created_at": "2020-02-20T08:19:52Z",
+                            "seal_number": null,
+                            "pickup_lfd": null,
+                            "availability_known": false,
+                            "available_for_pickup": null,
+                            "current_transportation_mode": "vessel",
+                            "pod_discharged_at": null,
+                            "pod_picked_up_at": null,
+                            "destination_unloaded_at": null,
+                            "destination_picked_up_at": null,
+                            "empty_returned_at": null,
+                            "pod_timezone": "America/Los_Angeles",
+                            "destination_timezone": "America/Detroit",
+                            "empty_returned_timezone": null
+                          },
+                          "relationships": {
+                            "most_recent_location": {
+                              "data": {
+                                "id": "dd179094-a1d4-4129-842d-b952e43df4b7",
+                                "type": "port"
+                              }
+                            },
+                            "shipment": {
+                              "data": {
+                                "id": "512ae32c-a604-44f8-9c15-2ca9cd3d2ae8",
+                                "type": "shipment"
+                              }
+                            },
+                            "current_vessel": {
+                              "data": {
+                                "id": "252a5450-2893-4207-b5c4-81ce3152ce84",
+                                "type": "vessel"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "bde5465a-1160-4fde-a026-74df9c362f65",
+                          "type": "port",
+                          "attributes": {
+                            "name": "Visakhapatnam",
+                            "locode": "INVTZ",
+                            "country_code": "IN",
+                            "timezone": "Asia/Calcutta"
+                          }
+                        },
+                        {
+                          "id": "dd179094-a1d4-4129-842d-b952e43df4b7",
+                          "type": "port",
+                          "attributes": {
+                            "name": "Damietta",
+                            "locode": "EGDAM",
+                            "country_code": "EG",
+                            "time_zone": "Africa/Cairo"
+                          }
+                        },
+                        {
+                          "id": "f7cb530a-9e60-412c-a5bc-205a2f34ba54",
+                          "type": "port",
+                          "attributes": {
+                            "name": "New York / New Jersey",
+                            "locode": "USNYC",
+                            "country_code": "US",
+                            "timezone": "America/New_York"
+                          }
+                        },
+                        {
+                          "id": "c9ae2b6b-5088-4e07-ba09-2872121e4fa2",
+                          "type": "metro_area",
+                          "attributes": {
+                            "name": "Detroit",
+                            "locode": "USDET",
+                            "country_code": "US",
+                            "state_abbr": "MI",
+                            "timezone": "America/Detroit"
+                          }
+                        },
+                        {
+                          "id": "ff76b51a-371e-45ec-86d1-9d03ccae566a",
+                          "type": "account",
+                          "attributes": {
+                            "name": "A-Z Imports"
+                          }
+                        },
+                        {
+                          "id": "252a5450-2893-4207-b5c4-81ce3152ce84",
+                          "type": "vessel",
+                          "attributes": {
+                            "name": "CMA CGM ALMAVIVA",
+                            "imo": "9450648",
+                            "mmsi": "228339600"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/error"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "En-route to NY with inland move": {
+                    "value": {
+                      "data": {
+                        "id": "512ae32c-a604-44f8-9c15-2ca9cd3d2ae8",
+                        "type": "shipment",
+                        "attributes": {
+                          "bill_of_lading_number": "6140575020",
+                          "ref_numbers": [
+                            "my-ref-49",
+                            "PO#18412"
+                          ],
+                          "created_at": "2020-02-20T13:37:12Z",
+                          "tags": [],
+                          "port_of_lading_locode": "INVTZ",
+                          "port_of_lading_name": "Visakhapatnam, IN",
+                          "port_of_discharge_locode": "USNYC",
+                          "port_of_discharge_name": "New York / New Jersey, NY",
+                          "destination_locode": "USDET",
+                          "destination_name": "Detroit, MI",
+                          "shipping_line_scac": "HLCU",
+                          "pod_vessel_name": "CMA CGM ALMAVIVA",
+                          "pod_voyage_number": "0108",
+                          "pol_etd_at": null,
+                          "pol_atd_at": "2020-02-15T21:53Z",
+                          "pol_timezone": "Asia/Calcutta",
+                          "pod_eta_at": "2020-03-18T08:00Z",
+                          "pod_ata_at": null,
+                          "pod_timezone": "America/New_York",
+                          "destination_eta_at": "2020-03-26T17:00Z",
+                          "destination_ata_at": null,
+                          "destination_timezone": "America/Detroit"
+                        },
+                        "relationships": {
+                          "containers": {
+                            "data": [
+                              {
+                                "id": "c99a81c0-ff69-4bdf-aa5f-8e33a787f5fa",
+                                "type": "container"
+                              }
+                            ]
+                          },
+                          "port_of_lading": {
+                            "data": {
+                              "id": "bde5465a-1160-4fde-a026-74df9c362f65",
+                              "type": "port"
+                            }
+                          },
+                          "port_of_discharge": {
+                            "data": {
+                              "id": "f7cb530a-9e60-412c-a5bc-205a2f34ba54",
+                              "type": "port"
+                            }
+                          },
+                          "destination": {
+                            "data": {
+                              "id": "c9ae2b6b-5088-4e07-ba09-2872121e4fa2",
+                              "type": "metro_area"
+                            }
+                          },
+                          "customer": {
+                            "data": {
+                              "id": "ff76b51a-371e-45ec-86d1-9d03ccae566a",
+                              "type": "account"
+                            }
+                          }
+                        }
+                      },
+                      "included": [
+                        {
+                          "id": "c99a81c0-ff69-4bdf-aa5f-8e33a787f5fa",
+                          "type": "container",
+                          "attributes": {
+                            "number": "UACU4743531",
+                            "equipment_type": "reefer",
+                            "length": 40,
+                            "height": "high_cube",
+                            "weight": 35075,
+                            "weight_unit": "kigs",
+                            "created_at": "2020-02-20T08:19:52Z",
+                            "seal_number": null,
+                            "pickup_lfd": null,
+                            "availability_known": false,
+                            "available_for_pickup": null,
+                            "current_transportation_mode": "vessel",
+                            "pod_discharged_at": null,
+                            "pod_picked_up_at": null,
+                            "destination_unloaded_at": null,
+                            "destination_picked_up_at": null,
+                            "empty_returned_at": null,
+                            "pod_timezone": "America/Los_Angeles",
+                            "destination_timezone": "America/Detroit",
+                            "empty_returned_timezone": null
+                          },
+                          "relationships": {
+                            "most_recent_location": {
+                              "data": {
+                                "id": "dd179094-a1d4-4129-842d-b952e43df4b7",
+                                "type": "port"
+                              }
+                            },
+                            "shipment": {
+                              "data": {
+                                "id": "512ae32c-a604-44f8-9c15-2ca9cd3d2ae8",
+                                "type": "shipment"
+                              }
+                            },
+                            "current_vessel": {
+                              "data": {
+                                "id": "252a5450-2893-4207-b5c4-81ce3152ce84",
+                                "type": "vessel"
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "id": "bde5465a-1160-4fde-a026-74df9c362f65",
+                          "type": "port",
+                          "attributes": {
+                            "name": "Visakhapatnam",
+                            "locode": "INVTZ",
+                            "country_code": "IN",
+                            "timezone": "Asia/Calcutta"
+                          }
+                        },
+                        {
+                          "id": "dd179094-a1d4-4129-842d-b952e43df4b7",
+                          "type": "port",
+                          "attributes": {
+                            "name": "Damietta",
+                            "locode": "EGDAM",
+                            "country_code": "EG",
+                            "time_zone": "Africa/Cairo"
+                          }
+                        },
+                        {
+                          "id": "f7cb530a-9e60-412c-a5bc-205a2f34ba54",
+                          "type": "port",
+                          "attributes": {
+                            "name": "New York / New Jersey",
+                            "locode": "USNYC",
+                            "country_code": "US",
+                            "timezone": "America/New_York"
+                          }
+                        },
+                        {
+                          "id": "c9ae2b6b-5088-4e07-ba09-2872121e4fa2",
+                          "type": "metro_area",
+                          "attributes": {
+                            "name": "Detroit",
+                            "locode": "USDET",
+                            "country_code": "US",
+                            "state_abbr": "MI",
+                            "timezone": "America/Detroit"
+                          }
+                        },
+                        {
+                          "id": "ff76b51a-371e-45ec-86d1-9d03ccae566a",
+                          "type": "account",
+                          "attributes": {
+                            "name": "A-Z Imports"
+                          }
+                        },
+                        {
+                          "id": "252a5450-2893-4207-b5c4-81ce3152ce84",
+                          "type": "vessel",
+                          "attributes": {
+                            "name": "CMA CGM ALMAVIVA",
+                            "imo": "9450648",
+                            "mmsi": "228339600"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-shipment-id",
+        "description": "Retrieves the details of an existing shipment. You need only supply the unique shipment `id` that was returned upon `tracking_request` creation."
+      }
+    },
+    "/webhook_notifications": {
+      "get": {
+        "summary": "List webhook notifications",
+        "responses": {},
+        "operationId": "get-webhook-notifications",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1494,68 +1874,481 @@
                 "type": "object",
                 "properties": {
                   "data": {
-                    "type": "object",
-                    "required": [
-                      "type",
-                      "attributes"
-                    ],
-                    "properties": {
-                      "type": {
-                        "type": "string",
-                        "default": "webhook"
-                      },
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/webhook_notification"
+                    }
+                  },
+                  "links": {
+                    "$ref": "#/components/schemas/links"
+                  },
+                  "meta": {
+                    "$ref": "#/components/schemas/meta"
+                  },
+                  "included": {
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/components/schemas/webhook"
+                        },
+                        {
+                          "$ref": "#/components/schemas/tracking_request"
+                        },
+                        {
+                          "$ref": "#/components/schemas/transport_event"
+                        },
+                        {
+                          "$ref": "#/components/schemas/estimated_event"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "`unreleased`<br>\n\nReturn the list of  webhook notifications. This can be useful for reconciling your data if your endpoint has been down. ",
+        "tags": [
+          "Webhook Notifications"
+        ]
+      }
+    },
+    "/webhook_notification/{id}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get a single webhook notification",
+        "responses": {},
+        "operationId": "get-webhook-notification-id",
+        "description": "`unreleased`\n",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/webhook_notification"
+                  },
+                  "included": {
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/components/schemas/webhook"
+                        },
+                        {
+                          "$ref": "#/components/schemas/tracking_request"
+                        },
+                        {
+                          "$ref": "#/components/schemas/transport_event"
+                        },
+                        {
+                          "$ref": "#/components/schemas/estimated_event"
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "Tracking Request": {
+                  "value": {
+                    "data": {
+                      "id": "fc88c6c0-3180-46b2-8d0d-f24edfdeb035",
+                      "type": "webhook_notification",
                       "attributes": {
-                        "type": "object",
-                        "required": [
-                          "url",
-                          "events",
-                          "active"
-                        ],
-                        "properties": {
-                          "url": {
-                            "type": "string",
-                            "format": "uri"
-                          },
-                          "events": {
-                            "type": "array",
-                            "items": {
-                              "type": "string"
-                            }
-                          },
-                          "active": {
-                            "type": "boolean"
+                        "id": "fc88c6c0-3180-46b2-8d0d-f24edfdeb035",
+                        "event": "tracking_request.succeeded",
+                        "delivery_status": "pending"
+                      },
+                      "relationships": {
+                        "reference_object": {
+                          "data": {
+                            "id": "cf68b280-60c9-481c-a45a-a4f27f837aa5",
+                            "type": "tracking_request"
+                          }
+                        },
+                        "webhook": {
+                          "data": {
+                            "id": "ed56aec9-5448-43af-80a5-b4a4869c8029",
+                            "type": "webhook"
                           }
                         }
                       }
-                    }
+                    },
+                    "included": [
+                      {
+                        "id": "cf68b280-60c9-481c-a45a-a4f27f837aa5",
+                        "type": "tracking_request",
+                        "attributes": {
+                          "request_number": "default",
+                          "request_type": "bill_of_lading",
+                          "scac": "MSCU",
+                          "ref_numbers": [
+                            "default"
+                          ],
+                          "created_at": "2020-04-06T18:57:39-07:00",
+                          "status": "created",
+                          "failed_reason": null
+                        },
+                        "relationships": {
+                          "tracked_object": {
+                            "data": {
+                              "id": "500e4e89-0721-479c-a39b-9edc6127a7da",
+                              "type": "shipment"
+                            }
+                          }
+                        },
+                        "links": {
+                          "self": "/v2/tracking_requests/cf68b280-60c9-481c-a45a-a4f27f837aa5"
+                        }
+                      },
+                      {
+                        "id": "500e4e89-0721-479c-a39b-9edc6127a7da",
+                        "type": "shipment",
+                        "attributes": {
+                          "created_at": "2020-04-06T18:57:39-07:00",
+                          "bill_of_lading_number": "TE492F4F52C1",
+                          "ref_numbers": [
+                            "REF-31676F"
+                          ],
+                          "shipping_line_scac": "MSCU",
+                          "shipping_line_name": "Mediterranean Shipping Company",
+                          "port_of_lading_locode": "MXZLO",
+                          "port_of_lading_name": "Manzanillo",
+                          "port_of_discharge_locode": "USOAK",
+                          "port_of_discharge_name": "Port of Oakland",
+                          "pod_vessel_name": "MSC CHANNE",
+                          "pod_vessel_imo": "9710438",
+                          "pod_voyage_number": "098N",
+                          "destination_locode": null,
+                          "destination_name": null,
+                          "destination_timezone": null,
+                          "destination_ata_at": null,
+                          "destination_eta_at": null,
+                          "pol_etd_at": null,
+                          "pol_atd_at": null,
+                          "pol_timezone": "America/Mexico_City",
+                          "pod_eta_at": "2020-04-13T18:57:39-07:00",
+                          "pod_ata_at": null,
+                          "pod_timezone": "America/Los_Angeles"
+                        },
+                        "relationships": {
+                          "port_of_lading": {
+                            "data": {
+                              "id": "810ef5ed-d71a-46a3-a6cd-498a42666bc0",
+                              "type": "port"
+                            }
+                          },
+                          "port_of_discharge": {
+                            "data": {
+                              "id": "6b6b91d5-dab8-40fb-a238-300287be5479",
+                              "type": "port"
+                            }
+                          },
+                          "pod_terminal": {
+                            "data": {
+                              "id": "64f3215f-578b-44ba-8259-22f6c986d5cc",
+                              "type": "terminal"
+                            }
+                          },
+                          "destination": {
+                            "data": null
+                          },
+                          "containers": {
+                            "data": []
+                          }
+                        },
+                        "links": {
+                          "self": "/v2/shipments/500e4e89-0721-479c-a39b-9edc6127a7da"
+                        }
+                      }
+                    ]
                   }
                 },
-                "required": [
-                  "data"
-                ]
-              },
-              "examples": {
-                "Testing Webhook": {
+                "Estimated Event": {
                   "value": {
                     "data": {
-                      "type": "webhook",
+                      "id": "d7e04138-b59d-4c41-9d2d-251d95bedd6e",
+                      "type": "webhook_notification",
                       "attributes": {
-                        "url": "https://webhook.site/f8f5d66e-0023-4c7f-b831-b96fe63e6104",
-                        "events": [
-                          "*"
-                        ],
-                        "active": true
+                        "id": "d7e04138-b59d-4c41-9d2d-251d95bedd6e",
+                        "event": "shipment.estimated.arrival",
+                        "delivery_status": "pending"
+                      },
+                      "relationships": {
+                        "reference_object": {
+                          "data": {
+                            "id": "b68bc6cb-2c37-43f6-889b-86a16b2b6fe6",
+                            "type": "estimated_event"
+                          }
+                        },
+                        "webhook": {
+                          "data": {
+                            "id": "614eab61-ae3c-4d40-bbe9-41200a172691",
+                            "type": "webhook"
+                          }
+                        }
                       }
-                    }
+                    },
+                    "included": [
+                      {
+                        "id": "b68bc6cb-2c37-43f6-889b-86a16b2b6fe6",
+                        "type": "estimated_event",
+                        "attributes": {
+                          "created_at": "2020-04-06T19:02:46-07:00",
+                          "estimated_timestamp": "2020-04-09T19:02:46-07:00",
+                          "voyage_number": "A1C",
+                          "event": "shipment.estimated.arrival",
+                          "timezone": "America/Los_Angeles"
+                        },
+                        "relationships": {
+                          "shipment": {
+                            "data": {
+                              "id": "715ed64b-6195-49f6-9407-1383a8088bfd",
+                              "type": "shipment"
+                            }
+                          },
+                          "port": {
+                            "data": {
+                              "id": "ed4001a5-ad9d-43c3-883c-79354f422510",
+                              "type": "port"
+                            }
+                          },
+                          "vessel": {
+                            "data": {
+                              "id": "ebf68c6c-9d0d-4383-aa41-e097009dfb4c",
+                              "type": "vessel"
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "id": "ed4001a5-ad9d-43c3-883c-79354f422510",
+                        "type": "port",
+                        "attributes": {
+                          "id": "ed4001a5-ad9d-43c3-883c-79354f422510",
+                          "name": "Port of Oakland",
+                          "code": "USOAK",
+                          "state_abbr": "CA",
+                          "city": "Oakland",
+                          "country_code": "US",
+                          "time_zone": "America/Los_Angeles"
+                        }
+                      },
+                      {
+                        "id": "715ed64b-6195-49f6-9407-1383a8088bfd",
+                        "type": "shipment",
+                        "attributes": {
+                          "created_at": "2020-04-06T19:02:46-07:00",
+                          "bill_of_lading_number": "TE49DD6650B9",
+                          "ref_numbers": [
+                            "REF-4A25EA"
+                          ],
+                          "shipping_line_scac": "MSCU",
+                          "shipping_line_name": "Mediterranean Shipping Company",
+                          "port_of_lading_locode": "MXZLO",
+                          "port_of_lading_name": "Manzanillo",
+                          "port_of_discharge_locode": "USOAK",
+                          "port_of_discharge_name": "Port of Oakland",
+                          "pod_vessel_name": "MSC CHANNE",
+                          "pod_vessel_imo": "9710438",
+                          "pod_voyage_number": "098N",
+                          "destination_locode": null,
+                          "destination_name": null,
+                          "destination_timezone": null,
+                          "destination_ata_at": null,
+                          "destination_eta_at": null,
+                          "pol_etd_at": null,
+                          "pol_atd_at": null,
+                          "pol_timezone": "America/Mexico_City",
+                          "pod_eta_at": "2020-04-13T19:02:46-07:00",
+                          "pod_ata_at": null,
+                          "pod_timezone": "America/Los_Angeles"
+                        },
+                        "relationships": {
+                          "port_of_lading": {
+                            "data": {
+                              "id": "1378c720-efe9-4562-a2ad-562002eb4b1d",
+                              "type": "port"
+                            }
+                          },
+                          "port_of_discharge": {
+                            "data": {
+                              "id": "ed4001a5-ad9d-43c3-883c-79354f422510",
+                              "type": "port"
+                            }
+                          },
+                          "pod_terminal": {
+                            "data": {
+                              "id": "2508d879-4451-4d7f-ab23-92258b5df553",
+                              "type": "terminal"
+                            }
+                          },
+                          "destination": {
+                            "data": null
+                          },
+                          "containers": {
+                            "data": []
+                          }
+                        },
+                        "links": {
+                          "self": "/v2/shipments/715ed64b-6195-49f6-9407-1383a8088bfd"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "Transport Event": {
+                  "value": {
+                    "data": {
+                      "id": "3c03de81-da56-4ce8-b9f4-257f35925554",
+                      "type": "webhook_notification",
+                      "attributes": {
+                        "id": "3c03de81-da56-4ce8-b9f4-257f35925554",
+                        "event": "shipment.transport.vessel_arrived",
+                        "delivery_status": "pending"
+                      },
+                      "relationships": {
+                        "reference_object": {
+                          "data": {
+                            "id": "7fed98a4-aa62-4655-aac9-da20dce3c96f",
+                            "type": "transport_event"
+                          }
+                        },
+                        "webhook": {
+                          "data": {
+                            "id": "e37f9fae-1cfe-4de8-9605-9f3537d7d48a",
+                            "type": "webhook"
+                          }
+                        }
+                      }
+                    },
+                    "included": [
+                      {
+                        "id": "7fed98a4-aa62-4655-aac9-da20dce3c96f",
+                        "type": "transport_event",
+                        "attributes": {
+                          "event": "shipment.transport.vessel_arrived",
+                          "created_at": "2020-04-06T19:05:14-07:00",
+                          "timestamp": null,
+                          "voyage_number": null,
+                          "timezone": "America/Los_Angeles"
+                        },
+                        "relationships": {
+                          "shipment": {
+                            "data": {
+                              "id": "0051290f-ddbe-477a-bfe5-81f8e16d1d6f",
+                              "type": "shipment"
+                            }
+                          },
+                          "port": {
+                            "data": {
+                              "id": "a428f09f-db57-48eb-9316-cf923a1f79d4",
+                              "type": "port"
+                            }
+                          },
+                          "vessel": {
+                            "data": null
+                          }
+                        }
+                      },
+                      {
+                        "id": "a428f09f-db57-48eb-9316-cf923a1f79d4",
+                        "type": "port",
+                        "attributes": {
+                          "id": "a428f09f-db57-48eb-9316-cf923a1f79d4",
+                          "name": "Port of Oakland",
+                          "code": "USOAK",
+                          "state_abbr": "CA",
+                          "city": "Oakland",
+                          "country_code": "US",
+                          "time_zone": "America/Los_Angeles"
+                        }
+                      },
+                      {
+                        "id": "0051290f-ddbe-477a-bfe5-81f8e16d1d6f",
+                        "type": "shipment",
+                        "attributes": {
+                          "created_at": "2020-04-06T19:05:13-07:00",
+                          "bill_of_lading_number": "TE49DD0BBB86",
+                          "ref_numbers": [
+                            "REF-D42AE6"
+                          ],
+                          "shipping_line_scac": "MSCU",
+                          "shipping_line_name": "Mediterranean Shipping Company",
+                          "port_of_lading_locode": "MXZLO",
+                          "port_of_lading_name": "Manzanillo",
+                          "port_of_discharge_locode": "USOAK",
+                          "port_of_discharge_name": "Port of Oakland",
+                          "pod_vessel_name": "MSC CHANNE",
+                          "pod_vessel_imo": "9710438",
+                          "pod_voyage_number": "098N",
+                          "destination_locode": null,
+                          "destination_name": null,
+                          "destination_timezone": null,
+                          "destination_ata_at": null,
+                          "destination_eta_at": null,
+                          "pol_etd_at": null,
+                          "pol_atd_at": null,
+                          "pol_timezone": "America/Mexico_City",
+                          "pod_eta_at": "2020-04-13T19:05:13-07:00",
+                          "pod_ata_at": null,
+                          "pod_timezone": "America/Los_Angeles"
+                        },
+                        "relationships": {
+                          "port_of_lading": {
+                            "data": {
+                              "id": "1d2d2d2f-51b8-4caf-952c-a4fa1e75da96",
+                              "type": "port"
+                            }
+                          },
+                          "port_of_discharge": {
+                            "data": {
+                              "id": "a428f09f-db57-48eb-9316-cf923a1f79d4",
+                              "type": "port"
+                            }
+                          },
+                          "pod_terminal": {
+                            "data": {
+                              "id": "1fc07393-cbc5-4260-bf7a-cee9b14bb6fc",
+                              "type": "terminal"
+                            }
+                          },
+                          "destination": {
+                            "data": null
+                          },
+                          "containers": {
+                            "data": []
+                          }
+                        },
+                        "links": {
+                          "self": "/v2/shipments/0051290f-ddbe-477a-bfe5-81f8e16d1d6f"
+                        }
+                      }
+                    ]
                   }
                 }
               }
             }
           },
           "description": ""
-        }
-      },
-      "parameters": []
+        },
+        "tags": [
+          "Webhook Notifications"
+        ]
+      }
     }
   },
   "x-tagGroups": [
@@ -1564,14 +2357,8 @@
       "tags": [
         "Shipments",
         "Tracking Requests",
-        "Webhooks"
-      ]
-    },
-    {
-      "name": "End Points in development (Feedback Requested)",
-      "tags": [
-        "Containers",
-        "Events"
+        "Webhooks",
+        "Webhook Notifications"
       ]
     }
   ],
@@ -1584,7 +2371,6 @@
           "Shipments"
         ],
         "x-examples": {},
-        "description": "",
         "properties": {
           "id": {
             "type": "string",
@@ -1604,30 +2390,6 @@
                         "enum": [
                           "port",
                           "metro_area"
-                        ]
-                      },
-                      "id": {
-                        "type": "string",
-                        "format": "uuid"
-                      }
-                    },
-                    "required": [
-                      "type",
-                      "id"
-                    ]
-                  }
-                }
-              },
-              "port_of_lading": {
-                "type": "object",
-                "properties": {
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "port"
                         ]
                       },
                       "id": {
@@ -1669,6 +2431,42 @@
                   }
                 }
               },
+              "customer": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "account"
+                        ]
+                      },
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      }
+                    }
+                  }
+                },
+                "description": "`unreleased`"
+              },
+              "pod_terminal": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "terminal"
+                    ]
+                  },
+                  "id": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              },
               "port_of_discharge": {
                 "type": "object",
                 "properties": {
@@ -1693,9 +2491,8 @@
                   }
                 }
               },
-              "customer": {
+              "port_of_lading": {
                 "type": "object",
-                "description": "`unreleased`",
                 "properties": {
                   "data": {
                     "type": "object",
@@ -1703,29 +2500,18 @@
                       "type": {
                         "type": "string",
                         "enum": [
-                          "account"
+                          "port"
                         ]
                       },
                       "id": {
                         "type": "string",
                         "format": "uuid"
                       }
-                    }
-                  }
-                }
-              },
-              "pod_terminal": {
-                "type": "object",
-                "properties": {
-                  "type": {
-                    "type": "string",
-                    "enum": [
-                      "terminal"
+                    },
+                    "required": [
+                      "type",
+                      "id"
                     ]
-                  },
-                  "id": {
-                    "type": "string",
-                    "format": "uuid"
                   }
                 }
               }
@@ -1749,10 +2535,10 @@
               },
               "tags": {
                 "type": "array",
-                "description": "`unreleased`",
                 "items": {
                   "type": "string"
-                }
+                },
+                "description": "`unreleased`"
               },
               "port_of_lading_locode": {
                 "type": "string",
@@ -1779,9 +2565,6 @@
                 "type": "string"
               },
               "pod_vessel_name": {
-                "type": "string"
-              },
-              "pod_vessel_imo": {
                 "type": "string"
               },
               "pod_voyage_number": {
@@ -1822,6 +2605,9 @@
               "destination_timezone": {
                 "type": "string",
                 "description": "IANA tz"
+              },
+              "pod_vessel_imo": {
+                "type": "string"
               }
             },
             "required": [
@@ -1838,7 +2624,8 @@
         "required": [
           "id",
           "type"
-        ]
+        ],
+        "description": ""
       },
       "meta": {
         "title": "meta",
@@ -1908,25 +2695,6 @@
                   "tank"
                 ]
               },
-              "equipment_length": {
-                "type": "integer",
-                "enum": [
-                  10,
-                  20,
-                  40,
-                  45
-                ]
-              },
-              "equipment_height": {
-                "type": "string",
-                "enum": [
-                  "standard",
-                  "high_cube"
-                ]
-              },
-              "weight_in_lbs": {
-                "type": "string"
-              },
               "created_at": {
                 "type": "string",
                 "format": "date-time"
@@ -1993,6 +2761,25 @@
               "empty_returned_timezone": {
                 "type": "string",
                 "description": "`unreleased` IANA tz"
+              },
+              "weight_in_lbs": {
+                "type": "string"
+              },
+              "equipment_height": {
+                "type": "string",
+                "enum": [
+                  "standard",
+                  "high_cube"
+                ]
+              },
+              "equipment_length": {
+                "type": "integer",
+                "enum": [
+                  10,
+                  20,
+                  40,
+                  45
+                ]
               }
             }
           },
@@ -2214,13 +3001,13 @@
           "title": {
             "type": "string"
           },
-          "source": {
+          "status": {
             "type": "string"
           },
           "code": {
             "type": "string"
           },
-          "status": {
+          "source": {
             "type": "string"
           }
         },
@@ -2254,13 +3041,7 @@
                 "type": "string",
                 "description": "UN/LOCODE"
               }
-            },
-            "required": [
-              "name",
-              "country_code",
-              "timezone",
-              "locode"
-            ]
+            }
           },
           "type": {
             "type": "string",
@@ -2271,7 +3052,6 @@
         },
         "required": [
           "id",
-          "attributes",
           "type"
         ]
       },
@@ -2423,178 +3203,6 @@
           "attributes"
         ]
       },
-      "event": {
-        "title": "Event model",
-        "type": "object",
-        "description": "Events represent a change to a model which may be subscribed to via webhook.",
-        "x-tags": [
-          "Events"
-        ],
-        "x-examples": {},
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "event"
-            ]
-          },
-          "attributes": {
-            "type": "object",
-            "required": [
-              "event_type",
-              "created_at"
-            ],
-            "properties": {
-              "event_type": {
-                "type": "string",
-                "description": "The mapped event - see the Events documentation for complete list"
-              },
-              "created_at": {
-                "type": "string",
-                "format": "date-time"
-              },
-              "source": {
-                "type": "string",
-                "enum": [
-                  "shipping_line",
-                  "terminal",
-                  "terminal_49",
-                  "ais",
-                  "manual_entry"
-                ]
-              },
-              "original_event": {
-                "type": "string",
-                "description": "The event string as received from the source\n"
-              },
-              "actual_at": {
-                "type": "string",
-                "format": "date-time"
-              },
-              "actual_at_timezone": {
-                "type": "string",
-                "description": "IANA tz"
-              },
-              "eta_at": {
-                "type": "string",
-                "format": "date-time"
-              },
-              "eta_at_timezone": {
-                "type": "string",
-                "description": "IANA tz"
-              }
-            }
-          },
-          "related": {
-            "type": "object",
-            "required": [
-              "event_object"
-            ],
-            "properties": {
-              "event_object": {
-                "type": "object",
-                "required": [
-                  "data"
-                ],
-                "properties": {
-                  "data": {
-                    "type": "object",
-                    "required": [
-                      "id",
-                      "type"
-                    ],
-                    "properties": {
-                      "id": {
-                        "type": "string",
-                        "format": "uuid"
-                      },
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "shipment",
-                          "container",
-                          "tracking_request"
-                        ]
-                      }
-                    }
-                  }
-                }
-              },
-              "vessel": {
-                "type": "object",
-                "properties": {
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string",
-                        "format": "uuid"
-                      },
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "vessel"
-                        ]
-                      }
-                    }
-                  }
-                }
-              },
-              "location": {
-                "type": "object",
-                "properties": {
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string",
-                        "format": "uuid"
-                      },
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "metro_area",
-                          "port"
-                        ]
-                      }
-                    }
-                  }
-                }
-              },
-              "terminal": {
-                "type": "object",
-                "properties": {
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string",
-                        "format": "uuid"
-                      },
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "terminal"
-                        ]
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "required": [
-          "id",
-          "type",
-          "attributes",
-          "related"
-        ]
-      },
       "tracking_request": {
         "title": "Tracking Request",
         "type": "object",
@@ -2742,12 +3350,10 @@
       "webhook": {
         "title": "webhook",
         "type": "object",
-        "description": "",
         "properties": {
           "id": {
             "type": "string",
-            "format": "uuid",
-            "description": ""
+            "format": "uuid"
           },
           "type": {
             "type": "string",
@@ -2768,10 +3374,7 @@
               },
               "events": {
                 "type": "array",
-                "description": "['*']",
-                "enum": [
-                  "*"
-                ],
+                "description": "",
                 "items": {
                   "type": "string"
                 }
@@ -2818,6 +3421,331 @@
             }
           }
         }
+      },
+      "webhook_notification": {
+        "title": "webhook_notification",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "webhook_notification"
+            ]
+          },
+          "attributes": {
+            "type": "object",
+            "properties": {
+              "event": {
+                "type": "string"
+              },
+              "delivery_status": {
+                "type": "string",
+                "default": "pending",
+                "enum": [
+                  "pending",
+                  "succeeded",
+                  "failed"
+                ],
+                "description": "Whether the notification has been delivered to the webhook endpoint"
+              },
+              "created_at": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "event",
+              "delivery_status",
+              "created_at"
+            ]
+          },
+          "relationships": {
+            "type": "object",
+            "properties": {
+              "webhook": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "webhook"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "reference_object": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "tracking_request",
+                          "estimated_event",
+                          "transport_event"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "required": [
+              "webhook"
+            ]
+          }
+        }
+      },
+      "estimated_event": {
+        "title": "Estimated Event Model",
+        "type": "object",
+        "x-tags": [
+          "Webhook Notifications"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "estimated_event"
+            ]
+          },
+          "attributes": {
+            "type": "object",
+            "required": [
+              "event",
+              "estimated_timestamp"
+            ],
+            "properties": {
+              "event": {
+                "type": "string",
+                "enum": [
+                  "shipment.estimated.arrival"
+                ]
+              },
+              "estimated_timestamp": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "voyage_number": {
+                "type": "string"
+              }
+            }
+          },
+          "relationships": {
+            "type": "object",
+            "required": [
+              "shipment"
+            ],
+            "properties": {
+              "shipment": {
+                "type": "object",
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "required": [
+                      "id",
+                      "type"
+                    ],
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "shipment"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "port": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "port"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "vessel": {
+                "type": "object",
+                "description": "\n",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "vessel"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "attributes",
+          "relationships"
+        ]
+      },
+      "transport_event": {
+        "title": "Transport Event Model",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "transport_event"
+            ]
+          },
+          "attributes": {
+            "type": "object",
+            "properties": {
+              "event": {
+                "type": "string",
+                "enum": [
+                  "shipment.transport.vessel_arrived"
+                ]
+              },
+              "voyage_number": {
+                "type": "string"
+              },
+              "timestamp": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "timezone": {
+                "type": "string",
+                "description": "IANA tz"
+              }
+            }
+          },
+          "relationships": {
+            "type": "object",
+            "properties": {
+              "shipment": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "shipment"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "port": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "port"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "vessel": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "name": {
+                        "type": "string",
+                        "enum": [
+                          "vessel"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "id",
+          "type"
+        ],
+        "x-tags": [
+          "Webhook Notifications"
+        ]
       }
     },
     "securitySchemes": {
@@ -2828,5 +3756,10 @@
         "description": "The APIs require authentication to be done using header-based API Key and Secret Authentication. \nAPI key and secret aare sent in the `Authorization` header.\n\nYou send your API key and secret in the following way:\n\n\n```\nAuthorization: Token YOUR_API_TOKEN\n```"
       }
     }
-  }
+  },
+  "security": [
+    {
+      "Header Token Auth": []
+    }
+  ]
 }
