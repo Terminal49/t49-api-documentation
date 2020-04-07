@@ -1528,6 +1528,386 @@
                     }
                   }
                 }
+              },
+              "examples": {
+                "Tracking Request": {
+                  "value": {
+                    "data": {
+                      "id": "fc88c6c0-3180-46b2-8d0d-f24edfdeb035",
+                      "type": "webhook_notification",
+                      "attributes": {
+                        "id": "fc88c6c0-3180-46b2-8d0d-f24edfdeb035",
+                        "event": "tracking_request.succeeded",
+                        "delivery_status": "pending"
+                      },
+                      "relationships": {
+                        "reference_object": {
+                          "data": {
+                            "id": "cf68b280-60c9-481c-a45a-a4f27f837aa5",
+                            "type": "tracking_request"
+                          }
+                        },
+                        "webhook": {
+                          "data": {
+                            "id": "ed56aec9-5448-43af-80a5-b4a4869c8029",
+                            "type": "webhook"
+                          }
+                        }
+                      }
+                    },
+                    "included": [
+                      {
+                        "id": "cf68b280-60c9-481c-a45a-a4f27f837aa5",
+                        "type": "tracking_request",
+                        "attributes": {
+                          "request_number": "default",
+                          "request_type": "bill_of_lading",
+                          "scac": "MSCU",
+                          "ref_numbers": [
+                            "default"
+                          ],
+                          "created_at": "2020-04-06T18:57:39-07:00",
+                          "status": "created",
+                          "failed_reason": null
+                        },
+                        "relationships": {
+                          "tracked_object": {
+                            "data": {
+                              "id": "500e4e89-0721-479c-a39b-9edc6127a7da",
+                              "type": "shipment"
+                            }
+                          }
+                        },
+                        "links": {
+                          "self": "/v2/tracking_requests/cf68b280-60c9-481c-a45a-a4f27f837aa5"
+                        }
+                      },
+                      {
+                        "id": "500e4e89-0721-479c-a39b-9edc6127a7da",
+                        "type": "shipment",
+                        "attributes": {
+                          "created_at": "2020-04-06T18:57:39-07:00",
+                          "bill_of_lading_number": "TE492F4F52C1",
+                          "ref_numbers": [
+                            "REF-31676F"
+                          ],
+                          "shipping_line_scac": "MSCU",
+                          "shipping_line_name": "Mediterranean Shipping Company",
+                          "port_of_lading_locode": "MXZLO",
+                          "port_of_lading_name": "Manzanillo",
+                          "port_of_discharge_locode": "USOAK",
+                          "port_of_discharge_name": "Port of Oakland",
+                          "pod_vessel_name": "MSC CHANNE",
+                          "pod_vessel_imo": "9710438",
+                          "pod_voyage_number": "098N",
+                          "destination_locode": null,
+                          "destination_name": null,
+                          "destination_timezone": null,
+                          "destination_ata_at": null,
+                          "destination_eta_at": null,
+                          "pol_etd_at": null,
+                          "pol_atd_at": null,
+                          "pol_timezone": "America/Mexico_City",
+                          "pod_eta_at": "2020-04-13T18:57:39-07:00",
+                          "pod_ata_at": null,
+                          "pod_timezone": "America/Los_Angeles"
+                        },
+                        "relationships": {
+                          "port_of_lading": {
+                            "data": {
+                              "id": "810ef5ed-d71a-46a3-a6cd-498a42666bc0",
+                              "type": "port"
+                            }
+                          },
+                          "port_of_discharge": {
+                            "data": {
+                              "id": "6b6b91d5-dab8-40fb-a238-300287be5479",
+                              "type": "port"
+                            }
+                          },
+                          "pod_terminal": {
+                            "data": {
+                              "id": "64f3215f-578b-44ba-8259-22f6c986d5cc",
+                              "type": "terminal"
+                            }
+                          },
+                          "destination": {
+                            "data": null
+                          },
+                          "containers": {
+                            "data": []
+                          }
+                        },
+                        "links": {
+                          "self": "/v2/shipments/500e4e89-0721-479c-a39b-9edc6127a7da"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "Estimated Event": {
+                  "value": {
+                    "data": {
+                      "id": "d7e04138-b59d-4c41-9d2d-251d95bedd6e",
+                      "type": "webhook_notification",
+                      "attributes": {
+                        "id": "d7e04138-b59d-4c41-9d2d-251d95bedd6e",
+                        "event": "shipment.estimated.arrival",
+                        "delivery_status": "pending"
+                      },
+                      "relationships": {
+                        "reference_object": {
+                          "data": {
+                            "id": "b68bc6cb-2c37-43f6-889b-86a16b2b6fe6",
+                            "type": "estimated_event"
+                          }
+                        },
+                        "webhook": {
+                          "data": {
+                            "id": "614eab61-ae3c-4d40-bbe9-41200a172691",
+                            "type": "webhook"
+                          }
+                        }
+                      }
+                    },
+                    "included": [
+                      {
+                        "id": "b68bc6cb-2c37-43f6-889b-86a16b2b6fe6",
+                        "type": "estimated_event",
+                        "attributes": {
+                          "created_at": "2020-04-06T19:02:46-07:00",
+                          "estimated_timestamp": "2020-04-09T19:02:46-07:00",
+                          "voyage_number": "A1C",
+                          "event": "shipment.estimated.arrival",
+                          "timezone": "America/Los_Angeles"
+                        },
+                        "relationships": {
+                          "shipment": {
+                            "data": {
+                              "id": "715ed64b-6195-49f6-9407-1383a8088bfd",
+                              "type": "shipment"
+                            }
+                          },
+                          "port": {
+                            "data": {
+                              "id": "ed4001a5-ad9d-43c3-883c-79354f422510",
+                              "type": "port"
+                            }
+                          },
+                          "vessel": {
+                            "data": {
+                              "id": "ebf68c6c-9d0d-4383-aa41-e097009dfb4c",
+                              "type": "vessel"
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "id": "ed4001a5-ad9d-43c3-883c-79354f422510",
+                        "type": "port",
+                        "attributes": {
+                          "id": "ed4001a5-ad9d-43c3-883c-79354f422510",
+                          "name": "Port of Oakland",
+                          "code": "USOAK",
+                          "state_abbr": "CA",
+                          "city": "Oakland",
+                          "country_code": "US",
+                          "time_zone": "America/Los_Angeles"
+                        }
+                      },
+                      {
+                        "id": "715ed64b-6195-49f6-9407-1383a8088bfd",
+                        "type": "shipment",
+                        "attributes": {
+                          "created_at": "2020-04-06T19:02:46-07:00",
+                          "bill_of_lading_number": "TE49DD6650B9",
+                          "ref_numbers": [
+                            "REF-4A25EA"
+                          ],
+                          "shipping_line_scac": "MSCU",
+                          "shipping_line_name": "Mediterranean Shipping Company",
+                          "port_of_lading_locode": "MXZLO",
+                          "port_of_lading_name": "Manzanillo",
+                          "port_of_discharge_locode": "USOAK",
+                          "port_of_discharge_name": "Port of Oakland",
+                          "pod_vessel_name": "MSC CHANNE",
+                          "pod_vessel_imo": "9710438",
+                          "pod_voyage_number": "098N",
+                          "destination_locode": null,
+                          "destination_name": null,
+                          "destination_timezone": null,
+                          "destination_ata_at": null,
+                          "destination_eta_at": null,
+                          "pol_etd_at": null,
+                          "pol_atd_at": null,
+                          "pol_timezone": "America/Mexico_City",
+                          "pod_eta_at": "2020-04-13T19:02:46-07:00",
+                          "pod_ata_at": null,
+                          "pod_timezone": "America/Los_Angeles"
+                        },
+                        "relationships": {
+                          "port_of_lading": {
+                            "data": {
+                              "id": "1378c720-efe9-4562-a2ad-562002eb4b1d",
+                              "type": "port"
+                            }
+                          },
+                          "port_of_discharge": {
+                            "data": {
+                              "id": "ed4001a5-ad9d-43c3-883c-79354f422510",
+                              "type": "port"
+                            }
+                          },
+                          "pod_terminal": {
+                            "data": {
+                              "id": "2508d879-4451-4d7f-ab23-92258b5df553",
+                              "type": "terminal"
+                            }
+                          },
+                          "destination": {
+                            "data": null
+                          },
+                          "containers": {
+                            "data": []
+                          }
+                        },
+                        "links": {
+                          "self": "/v2/shipments/715ed64b-6195-49f6-9407-1383a8088bfd"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "Transport Event": {
+                  "value": {
+                    "data": {
+                      "id": "3c03de81-da56-4ce8-b9f4-257f35925554",
+                      "type": "webhook_notification",
+                      "attributes": {
+                        "id": "3c03de81-da56-4ce8-b9f4-257f35925554",
+                        "event": "shipment.transport.vessel_arrived",
+                        "delivery_status": "pending"
+                      },
+                      "relationships": {
+                        "reference_object": {
+                          "data": {
+                            "id": "7fed98a4-aa62-4655-aac9-da20dce3c96f",
+                            "type": "transport_event"
+                          }
+                        },
+                        "webhook": {
+                          "data": {
+                            "id": "e37f9fae-1cfe-4de8-9605-9f3537d7d48a",
+                            "type": "webhook"
+                          }
+                        }
+                      }
+                    },
+                    "included": [
+                      {
+                        "id": "7fed98a4-aa62-4655-aac9-da20dce3c96f",
+                        "type": "transport_event",
+                        "attributes": {
+                          "event": "shipment.transport.vessel_arrived",
+                          "created_at": "2020-04-06T19:05:14-07:00",
+                          "timestamp": null,
+                          "voyage_number": null,
+                          "timezone": "America/Los_Angeles"
+                        },
+                        "relationships": {
+                          "shipment": {
+                            "data": {
+                              "id": "0051290f-ddbe-477a-bfe5-81f8e16d1d6f",
+                              "type": "shipment"
+                            }
+                          },
+                          "port": {
+                            "data": {
+                              "id": "a428f09f-db57-48eb-9316-cf923a1f79d4",
+                              "type": "port"
+                            }
+                          },
+                          "vessel": {
+                            "data": null
+                          }
+                        }
+                      },
+                      {
+                        "id": "a428f09f-db57-48eb-9316-cf923a1f79d4",
+                        "type": "port",
+                        "attributes": {
+                          "id": "a428f09f-db57-48eb-9316-cf923a1f79d4",
+                          "name": "Port of Oakland",
+                          "code": "USOAK",
+                          "state_abbr": "CA",
+                          "city": "Oakland",
+                          "country_code": "US",
+                          "time_zone": "America/Los_Angeles"
+                        }
+                      },
+                      {
+                        "id": "0051290f-ddbe-477a-bfe5-81f8e16d1d6f",
+                        "type": "shipment",
+                        "attributes": {
+                          "created_at": "2020-04-06T19:05:13-07:00",
+                          "bill_of_lading_number": "TE49DD0BBB86",
+                          "ref_numbers": [
+                            "REF-D42AE6"
+                          ],
+                          "shipping_line_scac": "MSCU",
+                          "shipping_line_name": "Mediterranean Shipping Company",
+                          "port_of_lading_locode": "MXZLO",
+                          "port_of_lading_name": "Manzanillo",
+                          "port_of_discharge_locode": "USOAK",
+                          "port_of_discharge_name": "Port of Oakland",
+                          "pod_vessel_name": "MSC CHANNE",
+                          "pod_vessel_imo": "9710438",
+                          "pod_voyage_number": "098N",
+                          "destination_locode": null,
+                          "destination_name": null,
+                          "destination_timezone": null,
+                          "destination_ata_at": null,
+                          "destination_eta_at": null,
+                          "pol_etd_at": null,
+                          "pol_atd_at": null,
+                          "pol_timezone": "America/Mexico_City",
+                          "pod_eta_at": "2020-04-13T19:05:13-07:00",
+                          "pod_ata_at": null,
+                          "pod_timezone": "America/Los_Angeles"
+                        },
+                        "relationships": {
+                          "port_of_lading": {
+                            "data": {
+                              "id": "1d2d2d2f-51b8-4caf-952c-a4fa1e75da96",
+                              "type": "port"
+                            }
+                          },
+                          "port_of_discharge": {
+                            "data": {
+                              "id": "a428f09f-db57-48eb-9316-cf923a1f79d4",
+                              "type": "port"
+                            }
+                          },
+                          "pod_terminal": {
+                            "data": {
+                              "id": "1fc07393-cbc5-4260-bf7a-cee9b14bb6fc",
+                              "type": "terminal"
+                            }
+                          },
+                          "destination": {
+                            "data": null
+                          },
+                          "containers": {
+                            "data": []
+                          }
+                        },
+                        "links": {
+                          "self": "/v2/shipments/0051290f-ddbe-477a-bfe5-81f8e16d1d6f"
+                        }
+                      }
+                    ]
+                  }
+                }
               }
             }
           },
