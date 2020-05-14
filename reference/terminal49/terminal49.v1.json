@@ -1836,7 +1836,7 @@
     },
     "/containers": {
       "get": {
-        "summary": "Your GET endpoint",
+        "summary": "List containers",
         "tags": [
           "Containers"
         ],
@@ -1919,7 +1919,7 @@
         }
       ],
       "get": {
-        "summary": "Your GET endpoint",
+        "summary": "Get a container",
         "responses": {
           "200": {
             "description": "OK",
