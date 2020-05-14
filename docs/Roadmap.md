@@ -12,17 +12,19 @@ Below is the tentative schedule for the API.
   - `tracking_request.succeeded` 
   - `tracking_request.failed` 
 
-### Beta Release 2
+### Beta Release 2 - May 2020
 - `/containers` endpoint.
+- Webhook events:
+  - `container.transport.vessel_arrived`
+  - `container.transport.vessel_discharged`
+  - `container.transport.full_out`
+  - `container.transport.empty_returned`
+
+### Beta Release 3
 - Webhook events:
   - `container.created`
   - `container.lfd_added`
   - `container.available_for_pickup`
-  - `container.full_out`
-  - `container.empty_in`
-
-### Beta Release 3
-- Webhook events:
   - `container.hold_added`
   - `container.hold_released`
   - `container.fee_added`
