@@ -287,7 +287,7 @@
           }
         },
         "operationId": "get-shipments",
-        "description": "Returns a list of your shipments. The shipments are returned sorted by creation date, with the most recent shipments appearing first.\n\nThis api will return all shipments associated with the account. Shipments created via the `tracking_request` API aswell as the ones added via the dashboard will be retuned via this endpoint. ",
+        "description": "Returns a list of your shipments. The shipments are returned sorted by creation date, with the most recent shipments appearing first.\n\nThis api will return all shipments associated with the account. Shipments created via the `tracking_request` API as well as the ones added via the dashboard will be retuned via this endpoint. ",
         "parameters": [
           {
             "schema": {
@@ -601,182 +601,7 @@
                     }
                   }
                 },
-                "examples": {
-                  "En-route to NY with inland move": {
-                    "value": {
-                      "data": {
-                        "id": "512ae32c-a604-44f8-9c15-2ca9cd3d2ae8",
-                        "type": "shipment",
-                        "attributes": {
-                          "bill_of_lading_number": "6140575020",
-                          "ref_numbers": [
-                            "my-ref-49",
-                            "PO#18412"
-                          ],
-                          "created_at": "2020-02-20T13:37:12Z",
-                          "tags": [],
-                          "port_of_lading_locode": "INVTZ",
-                          "port_of_lading_name": "Visakhapatnam, IN",
-                          "port_of_discharge_locode": "USNYC",
-                          "port_of_discharge_name": "New York / New Jersey, NY",
-                          "destination_locode": "USDET",
-                          "destination_name": "Detroit, MI",
-                          "shipping_line_scac": "HLCU",
-                          "pod_vessel_name": "CMA CGM ALMAVIVA",
-                          "pod_voyage_number": "0108",
-                          "pol_etd_at": null,
-                          "pol_atd_at": "2020-02-15T21:53Z",
-                          "pol_timezone": "Asia/Calcutta",
-                          "pod_eta_at": "2020-03-18T08:00Z",
-                          "pod_ata_at": null,
-                          "pod_timezone": "America/New_York",
-                          "destination_eta_at": "2020-03-26T17:00Z",
-                          "destination_ata_at": null,
-                          "destination_timezone": "America/Detroit"
-                        },
-                        "relationships": {
-                          "containers": {
-                            "data": [
-                              {
-                                "id": "c99a81c0-ff69-4bdf-aa5f-8e33a787f5fa",
-                                "type": "container"
-                              }
-                            ]
-                          },
-                          "port_of_lading": {
-                            "data": {
-                              "id": "bde5465a-1160-4fde-a026-74df9c362f65",
-                              "type": "port"
-                            }
-                          },
-                          "port_of_discharge": {
-                            "data": {
-                              "id": "f7cb530a-9e60-412c-a5bc-205a2f34ba54",
-                              "type": "port"
-                            }
-                          },
-                          "destination": {
-                            "data": {
-                              "id": "c9ae2b6b-5088-4e07-ba09-2872121e4fa2",
-                              "type": "metro_area"
-                            }
-                          },
-                          "customer": {
-                            "data": {
-                              "id": "ff76b51a-371e-45ec-86d1-9d03ccae566a",
-                              "type": "account"
-                            }
-                          }
-                        }
-                      },
-                      "included": [
-                        {
-                          "id": "c99a81c0-ff69-4bdf-aa5f-8e33a787f5fa",
-                          "type": "container",
-                          "attributes": {
-                            "number": "UACU4743531",
-                            "equipment_type": "reefer",
-                            "length": 40,
-                            "height": "high_cube",
-                            "weight": 35075,
-                            "weight_unit": "kigs",
-                            "created_at": "2020-02-20T08:19:52Z",
-                            "seal_number": null,
-                            "pickup_lfd": null,
-                            "availability_known": false,
-                            "available_for_pickup": null,
-                            "current_transportation_mode": "vessel",
-                            "pod_discharged_at": null,
-                            "pod_picked_up_at": null,
-                            "destination_unloaded_at": null,
-                            "destination_picked_up_at": null,
-                            "empty_returned_at": null,
-                            "pod_timezone": "America/Los_Angeles",
-                            "destination_timezone": "America/Detroit",
-                            "empty_returned_timezone": null
-                          },
-                          "relationships": {
-                            "most_recent_location": {
-                              "data": {
-                                "id": "dd179094-a1d4-4129-842d-b952e43df4b7",
-                                "type": "port"
-                              }
-                            },
-                            "shipment": {
-                              "data": {
-                                "id": "512ae32c-a604-44f8-9c15-2ca9cd3d2ae8",
-                                "type": "shipment"
-                              }
-                            },
-                            "current_vessel": {
-                              "data": {
-                                "id": "252a5450-2893-4207-b5c4-81ce3152ce84",
-                                "type": "vessel"
-                              }
-                            }
-                          }
-                        },
-                        {
-                          "id": "bde5465a-1160-4fde-a026-74df9c362f65",
-                          "type": "port",
-                          "attributes": {
-                            "name": "Visakhapatnam",
-                            "locode": "INVTZ",
-                            "country_code": "IN",
-                            "timezone": "Asia/Calcutta"
-                          }
-                        },
-                        {
-                          "id": "dd179094-a1d4-4129-842d-b952e43df4b7",
-                          "type": "port",
-                          "attributes": {
-                            "name": "Damietta",
-                            "locode": "EGDAM",
-                            "country_code": "EG",
-                            "time_zone": "Africa/Cairo"
-                          }
-                        },
-                        {
-                          "id": "f7cb530a-9e60-412c-a5bc-205a2f34ba54",
-                          "type": "port",
-                          "attributes": {
-                            "name": "New York / New Jersey",
-                            "locode": "USNYC",
-                            "country_code": "US",
-                            "timezone": "America/New_York"
-                          }
-                        },
-                        {
-                          "id": "c9ae2b6b-5088-4e07-ba09-2872121e4fa2",
-                          "type": "metro_area",
-                          "attributes": {
-                            "name": "Detroit",
-                            "locode": "USDET",
-                            "country_code": "US",
-                            "state_abbr": "MI",
-                            "timezone": "America/Detroit"
-                          }
-                        },
-                        {
-                          "id": "ff76b51a-371e-45ec-86d1-9d03ccae566a",
-                          "type": "account",
-                          "attributes": {
-                            "name": "A-Z Imports"
-                          }
-                        },
-                        {
-                          "id": "252a5450-2893-4207-b5c4-81ce3152ce84",
-                          "type": "vessel",
-                          "attributes": {
-                            "name": "CMA CGM ALMAVIVA",
-                            "imo": "9450648",
-                            "mmsi": "228339600"
-                          }
-                        }
-                      ]
-                    }
-                  }
-                }
+                "examples": {}
               }
             }
           }
@@ -1078,7 +903,8 @@
             "application/json": {
               "schema": {
                 "type": "object"
-              }
+              },
+              "examples": {}
             }
           },
           "description": ""
@@ -1774,7 +1600,7 @@
                       "type": "webhook_notification",
                       "attributes": {
                         "id": "3c03de81-da56-4ce8-b9f4-257f35925554",
-                        "event": "shipment.transport.vessel_arrived",
+                        "event": "container.transport.vessel_arrived",
                         "delivery_status": "pending"
                       },
                       "relationships": {
@@ -1797,9 +1623,9 @@
                         "id": "7fed98a4-aa62-4655-aac9-da20dce3c96f",
                         "type": "transport_event",
                         "attributes": {
-                          "event": "shipment.transport.vessel_arrived",
-                          "created_at": "2020-04-06T19:05:14-07:00",
-                          "timestamp": null,
+                          "event": "container.transport.vessel_arrived",
+                          "created_at": "2020-04-06T19:05:14Z",
+                          "timestamp": "2020-04-06T18:23:00Z",
                           "voyage_number": null,
                           "timezone": "America/Los_Angeles"
                         },
@@ -1810,14 +1636,57 @@
                               "type": "shipment"
                             }
                           },
-                          "port": {
+                          "container": {
+                            "data": {
+                              "id": "8ab6945d-0331-442d-8bbd-b1e1e4442482",
+                              "type": "container"
+                            }
+                          },
+                          "location": {
                             "data": {
                               "id": "a428f09f-db57-48eb-9316-cf923a1f79d4",
                               "type": "port"
                             }
                           },
+                          "terminal": {
+                            "data": {
+                              "id": "1fc07393-cbc5-4260-bf7a-cee9b14bb6fc",
+                              "type": "terminal"
+                            }
+                          },
                           "vessel": {
                             "data": null
+                          }
+                        }
+                      },
+                      {
+                        "data": {
+                          "id": "8ab6945d-0331-442d-8bbd-b1e1e4442482",
+                          "type": "container",
+                          "attributes": {
+                            "number": "TRLU1900703",
+                            "seal_number": "1edf18e316c6a30e",
+                            "created_at": "2020-05-14T23:15:52Z",
+                            "pod_arrived_at": "2020-05-12T12:00:00Z",
+                            "pod_discharged_at": "2020-05-12T16:00:00Z",
+                            "final_destination_full_out_at": null,
+                            "equipment_type": "dry",
+                            "equipment_length": 40,
+                            "equipment_height": "standard",
+                            "weight_in_lbs": 58064,
+                            "pickup_lfd": "2020-05-14T00:00:00Z",
+                            "availability_known": true,
+                            "available_for_pickup": true,
+                            "pod_full_out_at": "2020-05-13T09:00:00Z",
+                            "empty_terminated_at": null
+                          },
+                          "relationships": {
+                            "shipment": {
+                              "data": {
+                                "id": "0051290f-ddbe-477a-bfe5-81f8e16d1d6f",
+                                "type": "shipment"
+                              }
+                            }
                           }
                         }
                       },
@@ -1887,7 +1756,12 @@
                             "data": null
                           },
                           "containers": {
-                            "data": []
+                            "data": [
+                              {
+                                "id": "8ab6945d-0331-442d-8bbd-b1e1e4442482",
+                                "type": "container"
+                              }
+                            ]
                           }
                         },
                         "links": {
@@ -1959,6 +1833,168 @@
           "Webhook Notifications"
         ]
       }
+    },
+    "/containers": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [
+          "Containers"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/container"
+                      }
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/links"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/meta"
+                    }
+                  }
+                },
+                "examples": {
+                  "Single picked up container": {
+                    "value": {
+                      "data": [
+                        {
+                          "id": "8ab6945d-0331-442d-8bbd-b1e1e4442482",
+                          "type": "container",
+                          "attributes": {
+                            "number": "TRLU1900703",
+                            "seal_number": "1edf18e316c6a30e",
+                            "created_at": "2020-05-14T23:15:52Z",
+                            "pod_arrived_at": "2020-05-14T23:15:52Z",
+                            "pod_discharged_at": "2020-05-14T23:15:52Z",
+                            "final_destination_full_out_at": "2020-05-14T23:15:52Z",
+                            "equipment_type": "dry",
+                            "equipment_length": 40,
+                            "equipment_height": "standard",
+                            "weight_in_lbs": 58064,
+                            "pickup_lfd": "2020-05-14T00:00:00Z",
+                            "availability_known": true,
+                            "available_for_pickup": true,
+                            "pod_full_out_at": "2020-05-13T00:00:00Z",
+                            "empty_terminated_at": null
+                          },
+                          "relationships": {
+                            "shipment": {
+                              "data": {
+                                "id": "b6b110d1-d42d-4127-ae3c-547c37d00c70",
+                                "type": "shipment"
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-containers",
+        "description": "Returns a list of your containers."
+      }
+    },
+    "/containers/{id}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Your GET endpoint",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/container"
+                    }
+                  }
+                },
+                "examples": {
+                  "Picked Up Container": {
+                    "value": {
+                      "data": {
+                        "id": "8ab6945d-0331-442d-8bbd-b1e1e4442482",
+                        "type": "container",
+                        "attributes": {
+                          "number": "TRLU1900703",
+                          "seal_number": "1edf18e316c6a30e",
+                          "created_at": "2020-05-14T23:15:52Z",
+                          "pod_arrived_at": "2020-05-12T12:00:00Z",
+                          "pod_discharged_at": "2020-05-12T16:00:00Z",
+                          "final_destination_full_out_at": null,
+                          "equipment_type": "dry",
+                          "equipment_length": 40,
+                          "equipment_height": "standard",
+                          "weight_in_lbs": 58064,
+                          "pickup_lfd": "2020-05-14T00:00:00Z",
+                          "availability_known": true,
+                          "available_for_pickup": true,
+                          "pod_full_out_at": "2020-05-13T09:00:00Z",
+                          "empty_terminated_at": null
+                        },
+                        "relationships": {
+                          "shipment": {
+                            "data": {
+                              "id": "b6b110d1-d42d-4127-ae3c-547c37d00c70",
+                              "type": "shipment"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/error"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-containers-id",
+        "tags": [
+          "Containers"
+        ]
+      }
     }
   },
   "x-tagGroups": [
@@ -1966,6 +2002,7 @@
       "name": "End Points",
       "tags": [
         "Shipments",
+        "Containers",
         "Tracking Requests",
         "Webhooks",
         "Webhook Notifications"
@@ -2280,7 +2317,7 @@
         "type": "object",
         "x-examples": {},
         "x-tags": [
-          "containers"
+          "Containers"
         ],
         "description": "Represents the equipment during a specific journey.",
         "properties": {
@@ -2475,17 +2512,10 @@
                 }
               }
             }
-          },
-          "name": {
-            "type": "string",
-            "enum": [
-              "container"
-            ]
           }
         },
         "required": [
-          "id",
-          "name"
+          "id"
         ]
       },
       "port": {
