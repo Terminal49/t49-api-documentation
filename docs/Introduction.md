@@ -20,23 +20,34 @@ Once the shipment is setup Terminal 49 periodically checks with the carrier and 
 
 
 ## Supported Shipping Lines and Terminals
-Presently, the Terminal49 API supports shipments and container tracking across the following carriers:
-- American President Lines  (APL) \[APLU]
-- Australia National Line (ANL) \[ANNU]
-- China Ocean Shipping Company (COSCO) \[COSU]
-- CMA CGM \[CMDU]
-- Evergreen \[EGLV]
-- Hamburg Süd \[SUDU]
-- Hapag-Lloyd \[HLCU]
-- Hyundai Merchant Marine (HMM) \[HDMU]
-- Maersk \[MAEU]
-- Mediterranean Shipping Company (MSC) \[MSCU]
-- Ocean Network Express (ONE) \[ONEY]
-- Orient Overseas Container Line (OOCL) \[OOLU]
-- Pacific International Lines (PIL) \[PCIU]
-- Safmarine \[SAFM]
-- Yangming Marine Transport (YangMing) \[YMLU]
-[CSV of support carriers with roadmap](https://www.terminal49.com/api/docs/assets/data/Terminal49 Shiping Line Support.csv)
+| # |Full Name                     |Nickname   |SCAC|BOL Prefix|Support   |Notes               |
+|---|------------------------------|-----------|----|----------|----------|--------------------|
+|1  |American President Lines      |APL        |APLU|APLU      |Yes       |                    |
+|2  |Australia National Line       |ANL        |ANNU|ANLC      |Yes       |                    |
+|3  |China Ocean Shipping Company  |COSCO      |COSU|CCMJ      |Yes       |                    |
+|4  |CMA CGM                       |CMA CGM    |CMDU|CMDU      |Yes       |                    |
+|5  |Evergreen                     |Evergreen  |EGLV|EISU      |Yes       |                    |
+|6  |Hamburg Sud                   |Hamburg Sud|SUDU|SUDU      |Yes       |                    |
+|7  |Hapag-Lloyd                   |Hapag-Lloyd|HLCU|HLCU      |Yes       |                    |
+|8  |Hyundai Merchant Marine       |Hyundai    |HDMU|HDMU      |Partial   |No container numbers|
+|9  |Maersk                        |Maersk     |MAEU|MAEU      |Yes       |                    |
+|10 |Matson Navigation Company     |Matson     |MATS|MATS      |Yes       |                    |
+|11 |Mediterranean Shipping Company|MSC        |MSCU|MEDU      |Yes       |                    |
+|12 |Ocean Network Express         |ONE        |ONEY|ONEY      |Yes       |                    |
+|13 |Orient Overseas Container Line|OOCL       |OOLU|OOLU      |Yes       |                    |
+|14 |Pacific International Lines   |PIL        |PCIU|PABV      |Yes       |                    |
+|15 |Safmarine Container Line      |Safmarine  |SAFM|SAFM      |Yes       |                    |
+|16 |SeaLand                       |SeaLand    |SEAL|SEAU      |Yes       |                    |
+|17 |Yangming Marine Transport     |Yangming   |YMLU|YMLU      |Yes       |                    |
+|18 |Wan Hai Lines                 |Wan Hai    |WHLC|          |On roadmap|June Release        |
+|19 |Matson                        |Matson     |MATS|          |On roadmap|June Release        |
+|20 |Zim                           |Zim        |ZIMU|          |On roadmap|June Release        |
+|21 |Seaboard Marine               |Seaboard   |CLAM|          |On roadmap|June Release        |
+|22 |Crowley                       |Crowley    |CLAM|          |On roadmap|June Release        |
+[CSV of support carriers with roadmap]("https://www.terminal49.com/api/docs/assets/data/Terminal49 Shiping Line Support.csv")
+
+
+
 [CSV of supported US terminals](https://www.terminal49.com/api/docs/../assets/data/Terminal49 Terminal Support.csv)
 If you would you like us to support a shipping line or terminals that is not listed above please reach out to us. 
 
