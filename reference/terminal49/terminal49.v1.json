@@ -1966,7 +1966,81 @@
         "tags": [
           "Containers"
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "attributes": {
+                            "$ref": "#/components/schemas/container"
+                          },
+                          "id": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "relationships": {
+                            "type": "object",
+                            "required": [
+                              "shipment"
+                            ],
+                            "properties": {
+                              "shipment": {
+                                "type": "object",
+                                "required": [
+                                  "data"
+                                ],
+                                "properties": {
+                                  "data": {
+                                    "type": "object",
+                                    "required": [
+                                      "id",
+                                      "type"
+                                    ],
+                                    "properties": {
+                                      "id": {
+                                        "type": "string"
+                                      },
+                                      "type": {
+                                        "type": "string",
+                                        "enum": [
+                                          "shipment"
+                                        ]
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "type": {
+                            "type": "string",
+                            "enum": [
+                              "container"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "attributes",
+                          "id",
+                          "relationships",
+                          "type"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
         "operationId": "get-containers",
         "description": "Returns a list of container. The containers are returned sorted by creation date, with the most recent container appearing first.\n\nThis API will return all containers associated with the account."
       }
@@ -1987,9 +2061,90 @@
         "tags": [
           "Containers"
         ],
-        "responses": {},
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "attributes": {
+                          "$ref": "#/components/schemas/container"
+                        },
+                        "id": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "relationships": {
+                          "type": "object",
+                          "required": [
+                            "shipment"
+                          ],
+                          "properties": {
+                            "shipment": {
+                              "type": "object",
+                              "required": [
+                                "data"
+                              ],
+                              "properties": {
+                                "data": {
+                                  "type": "object",
+                                  "required": [
+                                    "id",
+                                    "type"
+                                  ],
+                                  "properties": {
+                                    "id": {
+                                      "type": "string"
+                                    },
+                                    "type": {
+                                      "type": "string",
+                                      "enum": [
+                                        "shipment"
+                                      ]
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "container"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "attributes",
+                        "id",
+                        "relationships",
+                        "type"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
         "operationId": "get-containers-id",
-        "description": "Retrieves the details of a container. You need only supply the unique container `id` (uuid) that was returned upon `tracking_request` creation."
+        "description": "Retrieves the details of a container.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          }
+        }
       }
     }
   },
@@ -2423,6 +2578,18 @@
               "empty_returned_timezone": {
                 "type": "string",
                 "description": "`unreleased` IANA tz"
+              },
+              "pod_terminal_holds": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/terminal_hold"
+                }
+              },
+              "pod_terminal_fees": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/terminal_fee"
+                }
               }
             }
           },
@@ -3401,6 +3568,60 @@
             ]
           }
         }
+      },
+      "terminal_hold": {
+        "title": "terminal_hold",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "customs",
+              "freight",
+              "USDA",
+              "TMF",
+              "other"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "hold"
+            ]
+          },
+          "description": {
+            "type": "string",
+            "description": "Text description from the terminal (if any)"
+          }
+        },
+        "required": [
+          "type",
+          "status"
+        ]
+      },
+      "terminal_fee": {
+        "title": "terminal_fee",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "exam",
+              "demurrage",
+              "total",
+              "other"
+            ]
+          },
+          "amount": {
+            "type": "number",
+            "description": "The fee amount in USD"
+          }
+        },
+        "required": [
+          "type",
+          "amount"
+        ]
       }
     },
     "securitySchemes": {
