@@ -2006,12 +2006,6 @@
         "Webhooks",
         "Webhook Notifications"
       ]
-    },
-     {
-      "name": "Models",
-      "tags": [
-        "Locations"
-      ]
     }
   ],
   "components": {
@@ -3434,10 +3428,7 @@
       "name": "Shipments"
     },
     {
-      "name": "Locations",
-      "description": {
-        "$ref": "#/components/schemas/rail_terminal"
-      }
+      "name": "Locations"
     },
     {
       "name": "Events"
