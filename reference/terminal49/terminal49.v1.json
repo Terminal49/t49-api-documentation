@@ -1896,6 +1896,123 @@
                       }
                     ]
                   }
+                },
+                "Container Updated Event": {
+                  "value": {
+                    "data": {
+                      "id": "416e293f-4423-47f7-abf3-1ae97054f41f",
+                      "type": "webhook_notification",
+                      "attributes": {
+                        "id": "416e293f-4423-47f7-abf3-1ae97054f41f",
+                        "event": "container.updated",
+                        "delivery_status": "pending",
+                        "created_at": "2020-06-04T22:03:09Z"
+                      },
+                      "relationships": {
+                        "reference_object": {
+                          "data": {
+                            "id": "fc48cb10-b7a8-47a4-a12f-89bce7434978",
+                            "type": "container_updated_event"
+                          }
+                        },
+                        "webhook": {
+                          "data": {
+                            "id": "cda37836-aa40-455e-8b43-5fd74930c7f6",
+                            "type": "webhook"
+                          }
+                        },
+                        "webhook_notification_logs": {
+                          "data": []
+                        }
+                      }
+                    },
+                    "included": [
+                      {
+                        "id": "fc48cb10-b7a8-47a4-a12f-89bce7434978",
+                        "type": "container_updated_event",
+                        "attributes": {
+                          "changeset": {
+                            "available_for_pickup": [
+                              false,
+                              true
+                            ],
+                            "pod_terminal_holds": [
+                              null,
+                              [
+                                {
+                                  "name": "customs",
+                                  "status": "hold",
+                                  "description": "CUST EXAM"
+                                }
+                              ]
+                            ]
+                          },
+                          "timestamp": "2020-06-04T22:03:09Z",
+                          "timezone": "America/Los_Angeles"
+                        },
+                        "relationships": {
+                          "container": {
+                            "data": {
+                              "id": "1445af31-991c-4d52-a183-6c3ea97cd6e8",
+                              "type": "container"
+                            }
+                          },
+                          "terminal": {
+                            "data": {
+                              "id": "07db0258-1911-4acf-8e70-0cfe4b100f80",
+                              "type": "terminal"
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "id": "1445af31-991c-4d52-a183-6c3ea97cd6e8",
+                        "type": "container",
+                        "attributes": {
+                          "number": "GLDU1355602",
+                          "seal_number": "431ac97412228532",
+                          "created_at": "2020-05-04T22:03:09Z",
+                          "equipment_type": "dry",
+                          "equipment_length": 40,
+                          "equipment_height": "standard",
+                          "weight_in_lbs": 55634,
+                          "fees_at_pod_terminal": [],
+                          "holds_at_pod_terminal": [],
+                          "pickup_lfd": null,
+                          "availability_known": true,
+                          "available_for_pickup": null,
+                          "pod_arrived_at": "2020-06-04T22:03:08Z",
+                          "pod_discharged_at": "2020-06-04T22:03:08Z",
+                          "final_destination_full_out_at": "2020-06-04T22:03:08Z",
+                          "pod_full_out_at": null,
+                          "empty_terminated_at": null
+                        },
+                        "relationships": {
+                          "shipment": {
+                            "data": null
+                          }
+                        }
+                      },
+                      {
+                        "id": "07db0258-1911-4acf-8e70-0cfe4b100f80",
+                        "type": "terminal",
+                        "attributes": {
+                          "id": "07db0258-1911-4acf-8e70-0cfe4b100f80",
+                          "nickname": "Denesik-Hintz",
+                          "name": "Adams LLC Terminal",
+                          "firms_code": "E005"
+                        },
+                        "relationships": {
+                          "port": {
+                            "data": {
+                              "id": "d8a92775-95f9-47be-a6d2-42542a32d5fc",
+                              "type": "port"
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
                 }
               }
             }
@@ -3621,6 +3738,105 @@
         "required": [
           "type",
           "amount"
+        ]
+      },
+      "container_updated_event": {
+        "title": "container_updated_event",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "attributes": {
+            "type": "object",
+            "properties": {
+              "changeset": {
+                "type": "object",
+                "description": "A hash of all the changed attributes with the values being an array of the before and after. E.g. \n`{\"pickup_lfd\": [null, \"2020-05-20\"]}`\n\nThe current attributes that can be alerted on are:\n- `available_for_pickup`\n- `pickup_lfd`\n- `pod_terminal_fees`\n- `pod_terminal_holds`"
+              },
+              "timestamp": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "changeset",
+              "timestamp"
+            ]
+          },
+          "relationships": {
+            "type": "object",
+            "required": [
+              "container",
+              "terminal"
+            ],
+            "properties": {
+              "container": {
+                "type": "object",
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "required": [
+                      "id",
+                      "type"
+                    ],
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "container"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "terminal": {
+                "type": "object",
+                "required": [
+                  "data"
+                ],
+                "description": "",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "required": [
+                      "id",
+                      "type"
+                    ],
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "terminal"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "relationships"
         ]
       }
     },
