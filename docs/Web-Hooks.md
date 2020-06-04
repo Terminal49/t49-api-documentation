@@ -2,11 +2,9 @@
 
 You may subscribe to events through webhooks to be alerted as to when events are triggered. See the [/webhooks endpoint documentation](#tag/Webhooks) for more information on setting up webhooks. 
 
-When an event is triggered we will create a webhook notification and attempt it to post to the URL you provided with the webhook.
+When an event is triggered we will attempt to post to the URL you provided with the webhook.
 
-We expect to see a HTTP 200 response. If we do not receive a 200 or if the request times out after 10 seconds we will try to deliver the webhook notification up to 13 times over a course of 12 hours.
-
-The webhook notification body will be in the following format: 
+The body will be in the following format: 
 ```json
 {
   "data": {
@@ -112,14 +110,10 @@ The webhook notification body will be in the following format:
 
 ## Events
 
-Each event represents some change to a model which you may be notified of. At present the current events are supported
+Each event represents some change to a model which you may be notified of. At present there are 3 events:
 
 - tracking_request.succeeded
 - tracking_request.failed
-- shipment.estimated.arrival
-- container.transport.vessel_arrived':
-- container.transport.vessel_discharged
-- container.transport.full_out
-- container.transport.empty_in
+- shipment.updated
 
 See the[/events endpoint documentation](#tag/Events) for more information
