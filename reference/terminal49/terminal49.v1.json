@@ -1963,7 +1963,12 @@
     "/containers": {
       "get": {
         "summary": "Your GET endpoint",
-        "tags": [],
+        "tags": [
+          "Containers"
+        ],
+        "x-tags": [
+          "Containers"
+        ],
         "responses": {},
         "operationId": "get-containers",
         "description": "Returns a list of container. The containers are returned sorted by creation date, with the most recent container appearing first.\n\nThis API will return all containers associated with the account."
@@ -1982,7 +1987,12 @@
       ],
       "get": {
         "summary": "Your GET endpoint",
-        "tags": [],
+        "tags": [
+          "Containers"
+        ],
+        "x-tags": [
+          "Containers"
+        ],
         "responses": {},
         "operationId": "get-containers-id",
         "description": "Retrieves the details of a container. You need only supply the unique container `id` (uuid) that was returned upon `tracking_request` creation."
@@ -1994,6 +2004,7 @@
       "name": "End Points",
       "tags": [
         "Shipments",
+        "Containers",
         "Tracking Requests",
         "Webhooks",
         "Webhook Notifications"
@@ -2308,7 +2319,7 @@
         "type": "object",
         "x-examples": {},
         "x-tags": [
-          "containers"
+          "Containers"
         ],
         "description": "Represents the equipment during a specific journey.",
         "properties": {
@@ -3398,6 +3409,11 @@
   "security": [
     {
       "Header Token Auth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "containers"
     }
   ]
 }
