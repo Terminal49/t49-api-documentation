@@ -1966,7 +1966,7 @@
         "tags": [
           "Containers"
         ],
-        "x-tags": [
+        "tags": [
           "Containers"
         ],
         "responses": {},
@@ -1988,9 +1988,6 @@
       "get": {
         "summary": "Get a container",
         "tags": [
-          "Containers"
-        ],
-        "x-tags": [
           "Containers"
         ],
         "responses": {},
@@ -2022,7 +2019,7 @@
       "shipment": {
         "title": "Shipment model",
         "type": "object",
-        "x-tags": [
+        "tags": [
           "Shipments"
         ],
         "x-examples": {},
@@ -2324,7 +2321,7 @@
         "title": "Container model",
         "type": "object",
         "x-examples": {},
-        "x-tags": [
+        "tags": [
           "Containers"
         ],
         "description": "Represents the equipment during a specific journey.",
@@ -2873,7 +2870,7 @@
       "tracking_request": {
         "title": "Tracking Request",
         "type": "object",
-        "x-tags": [
+        "tags": [
           "Tracking Requests"
         ],
         "properties": {
@@ -3195,14 +3192,14 @@
           "id",
           "type"
         ],
-        "x-tags": [
+        "tags": [
           "Webhook Notifications"
         ]
       },
       "estimated_event": {
         "title": "Estimated Event Model",
         "type": "object",
-        "x-tags": [
+        "tags": [
           "Webhook Notifications"
         ],
         "properties": {
