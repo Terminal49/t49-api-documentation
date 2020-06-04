@@ -2094,63 +2094,20 @@
                     "data": {
                       "type": "array",
                       "items": {
-                        "type": "object",
-                        "properties": {
-                          "attributes": {
-                            "$ref": "#/components/schemas/container"
-                          },
-                          "id": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "relationships": {
-                            "type": "object",
-                            "required": [
-                              "shipment"
-                            ],
-                            "properties": {
-                              "shipment": {
-                                "type": "object",
-                                "required": [
-                                  "data"
-                                ],
-                                "properties": {
-                                  "data": {
-                                    "type": "object",
-                                    "required": [
-                                      "id",
-                                      "type"
-                                    ],
-                                    "properties": {
-                                      "id": {
-                                        "type": "string"
-                                      },
-                                      "type": {
-                                        "type": "string",
-                                        "enum": [
-                                          "shipment"
-                                        ]
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          },
-                          "type": {
-                            "type": "string",
-                            "enum": [
-                              "container"
-                            ]
-                          }
-                        },
-                        "required": [
-                          "attributes",
-                          "id",
-                          "relationships",
-                          "type"
-                        ]
+                        "$ref": "#/components/schemas/container"
                       }
+                    },
+                    "included": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/shipment"
+                      }
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/links"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/meta"
                     }
                   }
                 }
@@ -2187,62 +2144,13 @@
                   "type": "object",
                   "properties": {
                     "data": {
-                      "type": "object",
-                      "properties": {
-                        "attributes": {
-                          "$ref": "#/components/schemas/container"
-                        },
-                        "id": {
-                          "type": "string",
-                          "format": "uuid"
-                        },
-                        "relationships": {
-                          "type": "object",
-                          "required": [
-                            "shipment"
-                          ],
-                          "properties": {
-                            "shipment": {
-                              "type": "object",
-                              "required": [
-                                "data"
-                              ],
-                              "properties": {
-                                "data": {
-                                  "type": "object",
-                                  "required": [
-                                    "id",
-                                    "type"
-                                  ],
-                                  "properties": {
-                                    "id": {
-                                      "type": "string"
-                                    },
-                                    "type": {
-                                      "type": "string",
-                                      "enum": [
-                                        "shipment"
-                                      ]
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        },
-                        "type": {
-                          "type": "string",
-                          "enum": [
-                            "container"
-                          ]
-                        }
-                      },
-                      "required": [
-                        "attributes",
-                        "id",
-                        "relationships",
-                        "type"
-                      ]
+                      "$ref": "#/components/schemas/container"
+                    },
+                    "included": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/shipment"
+                      }
                     }
                   }
                 }
