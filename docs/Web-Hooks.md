@@ -110,10 +110,15 @@ The body will be in the following format:
 
 ## Events
 
-Each event represents some change to a model which you may be notified of. At present there are 3 events:
+Each event represents some change to a model which you may be notified of. These events are supported:
 
+- container.updated
+- container.transport.vessel_arrived
+- container.transport.vessel_discharged
+- container.transport.full_out
+- container.transport.empty_in
+- shipment.estimated.arrival
 - tracking_request.succeeded
 - tracking_request.failed
-- shipment.updated
 
-See the[/events endpoint documentation](#tag/Events) for more information
+See the[Webhook Notifications endpoint documentation](#operation/get-webhook-notification-id) for more examples of event payloads

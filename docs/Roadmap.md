@@ -7,8 +7,7 @@ Below is the tentative schedule for the API.
 - `/shipments` endpoint
 - `/webhooks` endpoint
 - Webhook events:
-  - `shipment.eta_changed`
-  - `shipment.vessel_arrived`
+  - `shipment.estimated.arrival`
   - `tracking_request.succeeded` 
   - `tracking_request.failed` 
 
