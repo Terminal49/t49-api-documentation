@@ -1962,7 +1962,7 @@
     },
     "/containers": {
       "get": {
-        "summary": "Your GET endpoint",
+        "summary": "List containers",
         "tags": [
           "Containers"
         ],
@@ -1986,7 +1986,7 @@
         }
       ],
       "get": {
-        "summary": "Your GET endpoint",
+        "summary": "Get a container",
         "tags": [
           "Containers"
         ],
@@ -2008,6 +2008,12 @@
         "Tracking Requests",
         "Webhooks",
         "Webhook Notifications"
+      ]
+    },
+     {
+      "name": "Models",
+      "tags": [
+        "Locations"
       ]
     }
   ],
@@ -2530,6 +2536,9 @@
       "port": {
         "title": "Port model",
         "type": "object",
+        "x-tags": [
+          "Locations"
+        ],
         "properties": {
           "id": {
             "type": "string",
@@ -2667,6 +2676,9 @@
       "metro_area": {
         "title": "Metro area model",
         "type": "object",
+        "x-tags": [
+          "Locations"
+        ],
         "properties": {
           "id": {
             "type": "string",
@@ -2707,6 +2719,9 @@
       "terminal": {
         "title": "Terminal model",
         "type": "object",
+        "x-tags": [
+          "Locations"
+        ],
         "properties": {
           "id": {
             "type": "string",
@@ -2773,6 +2788,9 @@
       "rail_terminal": {
         "title": "Rail Terminal model",
         "type": "object",
+        "x-tags": [
+          "Locations"
+        ],
         "properties": {
           "id": {
             "type": "string",
