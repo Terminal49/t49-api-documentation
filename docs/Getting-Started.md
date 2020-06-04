@@ -20,6 +20,8 @@ To get your API token to Terminal 49 and go to your [account API settings](https
 
 The token should be sent with each API request in the Authentication header:
 
+Support dev@terminal49.com
+
 ```
 Authentication: Token YOUR_API_TOKEN
 ```
