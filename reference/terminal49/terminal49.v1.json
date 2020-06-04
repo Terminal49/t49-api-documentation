@@ -2696,13 +2696,13 @@
                 "type": "string",
                 "description": "`unreleased` IANA tz"
               },
-              "pod_terminal_holds": {
+              "holds_at_pod_terminal": {
                 "type": "array",
                 "items": {
                   "$ref": "#/components/schemas/terminal_hold"
                 }
               },
-              "pod_terminal_fees": {
+              "fees_at_pod_terminal": {
                 "type": "array",
                 "items": {
                   "$ref": "#/components/schemas/terminal_fee"
@@ -3755,14 +3755,16 @@
             "properties": {
               "changeset": {
                 "type": "object",
-                "description": "A hash of all the changed attributes with the values being an array of the before and after. E.g. \n`{\"pickup_lfd\": [null, \"2020-05-20\"]}`\n\nThe current attributes that can be alerted on are:\n- `available_for_pickup`\n- `pickup_lfd`\n- `pod_terminal_fees`\n- `pod_terminal_holds`"
+                "description": "A hash of all the changed attributes with the values being an array of the before and after. E.g. \n`{\"pickup_lfd\": [null, \"2020-05-20\"]}`\n\nThe current attributes that can be alerted on are:\n- `available_for_pickup`\n- `pickup_lfd`\n- `fees_at_pod_terminal`\n- `holds_at_pod_terminal`"
               },
               "timestamp": {
                 "type": "string",
-                "format": "date-time"
+                "format": "date-time",
+                "description": ""
               },
-              "": {
-                "type": "string"
+              "timezone": {
+                "type": "string",
+                "description": "IANA TZ "
               }
             },
             "required": [
