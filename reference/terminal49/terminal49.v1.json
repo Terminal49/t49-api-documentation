@@ -3431,7 +3431,25 @@
   ],
   "tags": [
     {
-      "name": "containers"
+      "name": "Containers"
+    },
+    {
+      "name": "Shipments"
+    },
+    {
+      "name": "Locations"
+    },
+    {
+      "name": "Events"
+    },
+    {
+      "name": "Tracking Requests"
+    },
+    {
+      "name": "Webhooks"
+    },
+    {
+      "name": "Webhook Notifications"
     }
   ]
 }
