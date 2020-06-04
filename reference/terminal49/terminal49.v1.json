@@ -2536,7 +2536,7 @@
       "port": {
         "title": "Port model",
         "type": "object",
-        "x-tags": [
+        "tags": [
           "Locations"
         ],
         "properties": {
@@ -2676,7 +2676,7 @@
       "metro_area": {
         "title": "Metro area model",
         "type": "object",
-        "x-tags": [
+        "tags": [
           "Locations"
         ],
         "properties": {
@@ -2719,7 +2719,7 @@
       "terminal": {
         "title": "Terminal model",
         "type": "object",
-        "x-tags": [
+        "tags": [
           "Locations"
         ],
         "properties": {
@@ -2788,7 +2788,7 @@
       "rail_terminal": {
         "title": "Rail Terminal model",
         "type": "object",
-        "x-tags": [
+        "tags": [
           "Locations"
         ],
         "properties": {
