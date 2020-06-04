@@ -3436,7 +3436,7 @@
     {
       "name": "Locations",
       "description": {
-        "schemaRef": "#/components/schemas/rail_terminal"
+        "$ref": "#/components/schemas/rail_terminal"
       }
     },
     {
