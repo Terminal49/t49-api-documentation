@@ -1,5 +1,5 @@
 ---
-tags: [guide]
+tags: [getting-started]
 ---
 
 # Step by Step Guide
@@ -12,7 +12,7 @@ So you want to start tracking your ocean shipments and containers and you have a
 
 Sign in to your Terminalk49 account and go to your [API settings](https://app.terminal49.com/settings/api) page to get your API key. 
 
-> If you don't have an API key and you would you like to access the API during the beta period please reach out to us at support@terminal49.com
+> If you don't have an API key and you would you like to access the API during the beta period please reach out to us at [support@terminal49.com](mailto:support@terminal49.com)
 
 ## Step 2: Register a webhook
 
