@@ -1463,11 +1463,20 @@
                       "string",
                       "object"
                     ],
+                    "required": [
+                      "attributes",
+                      "type"
+                    ],
                     "properties": {
                       "attributes": {
                         "type": [
                           "string",
                           "object"
+                        ],
+                        "required": [
+                          "url",
+                          "events",
+                          "active"
                         ],
                         "properties": {
                           "url": {
@@ -1488,12 +1497,7 @@
                           "active": {
                             "type": "boolean"
                           }
-                        },
-                        "required": [
-                          "url",
-                          "events",
-                          "active"
-                        ]
+                        }
                       },
                       "type": {
                         "type": "string",
@@ -1501,12 +1505,12 @@
                           "webhook"
                         ]
                       }
-                    },
-                    "required": [
-                      "type"
-                    ]
+                    }
                   }
-                }
+                },
+                "required": [
+                  "data"
+                ]
               },
               "examples": {
                 "Test Webhook via webhook.site": {
