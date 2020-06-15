@@ -3857,7 +3857,7 @@
       "Authorization test": {
         "type": "http",
         "scheme": "bearer",
-        "description": ""
+        "description": "YOUR_API_KEY"
       }
     }
   },
