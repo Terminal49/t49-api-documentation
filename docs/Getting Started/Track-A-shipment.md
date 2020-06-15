@@ -1,11 +1,12 @@
 # Track A Shipment
 
-Learn how to track your first shipment
+So you want to start tracking your ocean shipments and containers and you have a few BL numbers. Follow the guide. 
 
+Our API responses use [JSONAPI](https://jsonapi.org/) schema. There are [client libraries](https://jsonapi.org/implementations/#client-libraries) available in almost every language. Our API should work with these libs out of the box. 
 
-So you want to start tracking your ocean shipments and containers and you have a few BL numbers. 
+Our APIs can be used with any HTTP client; choose your favorite! We love Postman, it's a friendly graphical interface to a powerful cross-platform HTTP client. Best of all it has support for the OpenAPI specs that we publish with all our APIs. We have created a collection of requests for you to easily test the API endpoints with your API Key. Link to the collection below. 
 
-[postman](https://www.postman.com/)
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/4989da1ade6756b2f636#?env%5Bproduction%5D=W3sia2V5IjoiYmFzZVVybCIsInZhbHVlIjoiaHR0cHM6Ly9hcGkudGVybWluYWw0OS5jb20vdjIiLCJlbmFibGVkIjp0cnVlfSx7ImtleSI6IkFQSV9UT0tFTiIsInZhbHVlIjoiIiwiZW5hYmxlZCI6dHJ1ZX1d)
 
 ## 1. Get API Key
 ---
