@@ -8,7 +8,7 @@
       "url": "https://www.terminal49.com",
       "email": "support@terminal49.com"
     },
-    "description": "",
+    "description": "The Terminal 49 API offers a convenient way to programatically track your shipments from origin to destination. \n\nSee https://developers.terminal49.com for the compelte api documenation and guide",
     "x-label": "Beta",
     "termsOfService": "https://www.terminal49.com/terms"
   },
@@ -3852,8 +3852,8 @@
       "Authorization Header": {
         "name": "API Key",
         "type": "apiKey",
-        "in": "query",
-        "description": ""
+        "in": "header",
+        "description": "`Token YOUR_API_TOKEN`\n\nThe APIs require authentication to be done using header-based API Key and Secret Authentication. \n\nAPI key and secret aare sent in the `Authorization` header.\n\nYou send your API key and secret in the following way:\n\n`Authorization: Token YOUR_API_TOKEN`"
       }
     }
   },
