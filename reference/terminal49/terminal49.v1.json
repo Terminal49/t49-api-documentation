@@ -1074,21 +1074,6 @@
         "tags": [
           "Tracking Requests"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          },
-          "description": ""
-        },
         "parameters": [
           {
             "schema": {
@@ -2208,7 +2193,8 @@
                       "$ref": "#/components/schemas/meta"
                     }
                   }
-                }
+                },
+                "examples": {}
               }
             }
           }
@@ -2257,17 +2243,7 @@
           }
         },
         "operationId": "get-containers-id",
-        "description": "Retrieves the details of a container.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {}
-              }
-            }
-          }
-        }
+        "description": "Retrieves the details of a container."
       }
     }
   },
