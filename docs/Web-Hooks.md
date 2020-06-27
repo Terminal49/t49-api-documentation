@@ -1,109 +1,152 @@
 # Webhooks
 
-You may subscribe to events through webhooks to be alerted as to when events are triggered. See the [/webhooks endpoint documentation](#tag/Webhooks) for more information on setting up webhooks. 
+## Creating Webhooks
+You may subscribe to events through webhooks to be alerted as to when events are triggered. 
+
+You may subscribe to all webhooks by subscribing to `*`. Specific webhooks by specifying the full name of the event. e.g. `container.transport.vessel_arrived`. Or even all webhooks related to a specific model. E.g. `tracking_request.*`
+
+See the webhooks [post endpoint](/docs/api/reference/terminal49/terminal49.json/paths/~1webhooks/post) for details on adding a webhooks.
+
+
+## Receiving Webhooks
 
 When an event is triggered we will attempt to post to the URL you provided with the webhook.
 
-The body will be in the following format: 
-```json
-{
-  "data": {
-    "id": "2250f31c-70d5-4d94-9013-82ced3544a60",
-    "type": "event",
-    "attributes": {
-      "event_type": "tracking_request.succeeded",
-      "created_at": "2020-03-27T20:24:36Z"
-    },
-    "relationships": {
-      "object": {
-        "id": "4a4d1dd3-6f1b-4b7b-88c5-c743a94db283",
-        "type": "tracking_request"
+The payload of every webhook is a `webhook_notification`. Each Webhook notification includes a `reference_object` in it's relationships which is the subject of that notification (e.g. a tracking request, or an updated container).
 
+```json json_schema
+{
+  "type":"object",
+  "properties":{
+    "data":{
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "webhook_notification"
+          ]
+        },
+        "attributes": {
+          "type": "object",
+          "properties": {
+            "event": {
+              "type": "string"
+            },
+            "delivery_status": {
+              "type": "string",
+              "default": "pending",
+              "enum": [
+                "pending",
+                "succeeded",
+                "failed"
+              ],
+              "description": "Whether the notification has been delivered to the webhook endpoint"
+            },
+            "created_at": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "event",
+            "delivery_status",
+            "created_at"
+          ]
+        },
+        "relationships": {
+          "type": "object",
+          "properties": {
+            "webhook": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "type": {
+                      "type": "string",
+                      "enum": [
+                        "webhook"
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "reference_object": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "type": {
+                      "type": "string",
+                      "enum": [
+                        "tracking_request",
+                        "estimated_event",
+                        "transport_event",
+                        "container_updated_event"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required": [
+            "webhook"
+          ]
+        }
       }
     },
-    "included": [
-      {
-        "id": "4a4d1dd3-6f1b-4b7b-88c5-c743a94db283",
-        "type": "tracking_request"
-        "attributes": {
-          "bill_of_lading": "12345678",
-          "ref_numbers": ["my-ref-49"]
-          "tags": [],
-          "status": "succeeded",
-          "failed_reason": null
-        },
-        "relationships": {
-          "shipment": {
-            "id": "9c6bdb5b-d1fd-45f5-ab07-e46b5b8d617e",
-            "type": "shipment"
-          }
-        }
-      },
-      {
-        "id": "9c6bdb5b-d1fd-45f5-ab07-e46b5b8d617e",
-        "type": "shipment",
-        "attributes": {
-          "bill_of_lading_number": "12345678",
-          "ref_numbers": ["my-ref-49"],
-          "created_at": "2020-03-27T20:24:36Z",
-          "tags": [ ],
-          "port_of_lading_locode": "INVTZ",
-          "port_of_lading_name": "Visakhapatnam, IN",
-          "port_of_discharge_locode": "USNYC",
-          "port_of_discharge_name": "New York / New Jersey, NY",
-          "destination_locode": "USDET",
-          "destination_name": "Detroit, MI",
-          "shipping_line_scac": "HLCU",
-          "pod_vessel_name": "CMA CGM ALMAVIVA",
-          "pod_voyage_number": "0108",
-          "pol_etd_at": null,
-          "pol_atd_at": "2020-02-15T21:53Z",
-          "pol_timezone": "Asia/Calcutta",
-          "pod_eta_at": "2020-04-18T08:00Z",
-          "pod_ata_at": null,
-          "pod_timezone": "America/New_York",
-          "destination_eta_at": "2020-04-26T17:00Z",
-          "destination_ata_at": null,
-          "destination_timezone": "America/Detroit"
-        },
-        "relationships": {
-          "containers": {
-            "data": [
-              {
-                "id": "c99a81c0-ff69-4bdf-aa5f-8e33a787f5fa",
-                "type": "container"
-              }
-            ]
-          }
-        }
-      },
-      {
-        "id": "c99a81c0-ff69-4bdf-aa5f-8e33a787f5fa",
-        "type": "container",
-        "attributes": {
-          "number": "UACU4743531",
-          "equipment_type": "reefer",
-          "length": 40,
-          "height": "high_cube",
-          "weight": 35075,
-          "weight_unit": "kigs",
-          "created_at": "2020-03-27T20:24:36Z",
-          "seal_number": null,
-          "pickup_lfd": null,
-          "availability_known": false,
-          "available_for_pickup": null,
-          "current_transportation_mode": "vessel",
-          "pod_discharged_at": null,
-          "pod_picked_up_at": null,
-          "destination_unloaded_at": null,
-          "destination_picked_up_at": null,
-          "empty_returned_at": null,
-          "pod_timezone": "America/Los_Angeles",
-          "destination_timezone": "America/Detroit",
-          "empty_returned_timezone": null
-        }
+    "included":{
+      "type":"array",
+      "items": {
+        "anyOf": [
+          {
+            "type": "object",
+            "title": "Webhook",
+          },
+          {
+            "type": "object",
+            "title": "Tracking Request",
+          },
+          {
+            "type": "object",
+            "title": "Transport Event",
+          },
+          {
+            "type": "object",
+            "title": "Estimated Event",
+          },
+          {
+            "type": "object",
+            "title": "Container Updated Event",
+          },
+          {
+            "type": "object",
+            "title": "Terminal",
+          },
+           {
+            "type": "object",
+            "title": "Port",
+          },
+          
+        ]
       }
-    ]
+    }
+
   }
 }
 ```
@@ -121,4 +164,278 @@ Each event represents some change to a model which you may be notified of. These
 - tracking_request.succeeded
 - tracking_request.failed
 
-See the[Webhook Notifications endpoint documentation](#operation/get-webhook-notification-id) for more examples of event payloads
+
+
+### container.updated
+
+The container updated event lets you know about changes to container properties at the terminal, or which terminal the container is (or will be) located at.
+
+The `changeset` attribute on is a hash of all the properties which changed on the container.
+Below are some payload examples with notes.
+
+Each changed property is the hash key. The prior value is the first item in the array, and the current value is the second item in the array. 
+
+For example:
+```
+"changeset": {
+  "pickup_lfd": [null, "2020-05-20 00:00:00]
+}
+```
+Shows that the pickup last free day has changed from not being set to May 20 2020.
+
+The properties we show changes for are:
+- fees_at_pod_terminal
+- holds_at_pod_terminal
+- pickup_lfd
+- available_for_pickup
+- pod_terminal
+
+
+
+<!--
+type: tab
+title: POD Terminal
+-->
+The pod_terminal is a relationship of the container. When the pod_terminal changes the id is included. The terminal will be serialized in the included models.
+
+N.B. the `container_updated_event` also has a relationship to a `terminal` which refers to where the information came from. Currently this is always the POD terminal. In the future this may be the final destination terminal.
+```json
+{
+  "data": {
+    "id": "7f0da45a-05e4-410e-b30b-75bbfa1bae1e",
+    "type": "webhook_notification",
+    "attributes": {
+      "id": "7f0da45a-05e4-410e-b30b-75bbfa1bae1e",
+      "event": "container.updated",
+      "delivery_status": "pending",
+      "created_at": "2020-06-26T23:30:01Z"
+    },
+    "relationships": {
+      "reference_object": {
+        "data": {
+          "id": "2356a80e-d57c-441e-89e7-9a580576f668",
+          "type": "container_updated_event"
+        }
+      },
+      "webhook": {
+        "data": {
+          "id": "6b4565c6-9d4a-49e6-987f-e8d9249697df",
+          "type": "webhook"
+        }
+      },
+      "webhook_notification_logs": {
+        "data": []
+      }
+    }
+  },
+  "included": [
+    {
+      "id": "2356a80e-d57c-441e-89e7-9a580576f668",
+      "type": "container_updated_event",
+      "attributes": {
+        "changeset": {
+          "pod_terminal": [
+            null,
+            "39613037-1dcd-4b82-bac1-a00ad6a5f972"
+          ]
+        },
+        "timestamp": "2020-06-26T23:30:01Z",
+        "timezone": "America/Los_Angeles"
+      },
+      "relationships": {
+        "container": {
+          "data": {
+            "id": "70a07a7d-9a09-455e-ad9f-dbf26aa5367d",
+            "type": "container"
+          }
+        },
+        "terminal": {
+          "data": {
+            "id": "39613037-1dcd-4b82-bac1-a00ad6a5f972",
+            "type": "terminal"
+          }
+        }
+      }
+    },
+    {
+      "id": "70a07a7d-9a09-455e-ad9f-dbf26aa5367d",
+      "type": "container",
+      "attributes": {
+        "number": "TRLU1483600",
+        "seal_number": "b229e75cd5a0fb49",
+        "created_at": "2020-06-26T23:30:01Z",
+        "equipment_type": "dry",
+        "equipment_length": 40,
+        "equipment_height": "standard",
+        "weight_in_lbs": 47544,
+        "fees_at_pod_terminal": [],
+        "holds_at_pod_terminal": [],
+        "pickup_lfd": null,
+        "availability_known": true,
+        "available_for_pickup": null,
+        "pod_arrived_at": "2020-06-26T23:30:01Z",
+        "pod_discharged_at": "2020-06-26T23:30:01Z",
+        "final_destination_full_out_at": "2020-06-26T23:30:01Z",
+        "pod_full_out_at": null,
+        "empty_terminated_at": null
+      },
+      "relationships": {
+        "shipment": {
+          "data": {
+            "id": "9e788708-c43d-4af9-9deb-890cc49e852a",
+            "type": "shipment"
+          }
+        },
+        "pod_terminal": {
+          "data": {
+            "id": "39613037-1dcd-4b82-bac1-a00ad6a5f972",
+            "type": "terminal"
+          }
+        }
+      }
+    },
+    {
+      "id": "39613037-1dcd-4b82-bac1-a00ad6a5f972",
+      "type": "terminal",
+      "attributes": {
+        "id": "39613037-1dcd-4b82-bac1-a00ad6a5f972",
+        "nickname": "Bayer-Hilpert",
+        "name": "Mann Group Terminal",
+        "firms_code": "S787"
+      },
+      "relationships": {
+        "port": {
+          "data": {
+            "id": "e9e9f38d-bf9f-455f-8862-f7067d39b29c",
+            "type": "port"
+          }
+        }
+      }
+    }
+  ]
+}
+```
+<!-- type: tab-end -->
+
+
+### tracking_request.succeeded
+
+```json
+{
+  "data": {
+    "id": "a7af6114-47f7-452e-b134-fec2fc5a7875",
+    "type": "webhook_notification",
+    "attributes": {
+      "id": "a7af6114-47f7-452e-b134-fec2fc5a7875",
+      "event": "tracking_request.succeeded",
+      "delivery_status": "pending",
+      "created_at": "2020-06-26T23:08:26Z"
+    },
+    "relationships": {
+      "reference_object": {
+        "data": {
+          "id": "10222563-9bdd-464a-98aa-1e75f4660274",
+          "type": "tracking_request"
+        }
+      },
+      "webhook": {
+        "data": {
+          "id": "5379d7dd-1ff4-4748-90c4-24ecc2ce51e8",
+          "type": "webhook"
+        }
+      },
+      "webhook_notification_logs": {
+        "data": []
+      }
+    }
+  },
+  "included": [
+    {
+      "id": "10222563-9bdd-464a-98aa-1e75f4660274",
+      "type": "tracking_request",
+      "attributes": {
+        "request_number": "TR1",
+        "request_type": "bill_of_lading",
+        "scac": "MSCU",
+        "ref_numbers": [
+          "default"
+        ],
+        "created_at": "2020-06-26T23:08:26Z",
+        "status": "created",
+        "failed_reason": null
+      },
+      "relationships": {
+        "tracked_object": {
+          "data": {
+            "id": "37e082ab-be15-4876-acd6-3892d83ddf4c",
+            "type": "shipment"
+          }
+        }
+      },
+      "links": {
+        "self": "/v2/tracking_requests/10222563-9bdd-464a-98aa-1e75f4660274"
+      }
+    },
+    {
+      "id": "37e082ab-be15-4876-acd6-3892d83ddf4c",
+      "type": "shipment",
+      "attributes": {
+        "created_at": "2020-06-26T23:08:26Z",
+        "bill_of_lading_number": "TE494470A868",
+        "ref_numbers": [
+          null
+        ],
+        "shipping_line_scac": "MSCU",
+        "shipping_line_name": "Mediterranean Shipping Company",
+        "port_of_lading_locode": "MXZLO",
+        "port_of_lading_name": "Manzanillo",
+        "port_of_discharge_locode": "USOAK",
+        "port_of_discharge_name": "Port of Oakland",
+        "pod_vessel_name": "MSC CHANNE",
+        "pod_vessel_imo": "9710438",
+        "pod_voyage_number": "098N",
+        "destination_locode": null,
+        "destination_name": null,
+        "destination_timezone": null,
+        "destination_ata_at": null,
+        "destination_eta_at": null,
+        "pol_etd_at": null,
+        "pol_atd_at": "2020-06-13T23:08:26Z",
+        "pol_timezone": "America/Mexico_City",
+        "pod_eta_at": "2020-07-03T23:08:26Z",
+        "pod_ata_at": null,
+        "pod_timezone": "America/Los_Angeles"
+      },
+      "relationships": {
+        "port_of_lading": {
+          "data": {
+            "id": "ef6463a4-30a5-4da6-8363-963d45ceea36",
+            "type": "port"
+          }
+        },
+        "port_of_discharge": {
+          "data": {
+            "id": "3ab30baf-40f3-4a7b-853b-072dac5420fd",
+            "type": "port"
+          }
+        },
+        "pod_terminal": {
+          "data": {
+            "id": "0447c3d8-5f84-446c-9e5a-75a2b898c2bd",
+            "type": "terminal"
+          }
+        },
+        "destination": {
+          "data": null
+        },
+        "containers": {
+          "data": []
+        }
+      },
+      "links": {
+        "self": "/v2/shipments/37e082ab-be15-4876-acd6-3892d83ddf4c"
+      }
+    }
+  ]
+}
+```
