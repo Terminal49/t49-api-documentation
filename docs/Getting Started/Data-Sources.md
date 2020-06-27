@@ -1,25 +1,13 @@
-# Introduction
+# Data Sources
 
-The Terminal 49 API offers a convenient way to programatically track your shipments from origin to destination.
+Our platform gets data from variety of sources. 
 
-Here are just a few of the data points we return and possible use-cases. 
+- **Ocean carriers (aka steamship lines):** bill of lading/booking details, vessel eta, containers and milestones
+- **Container terminal operators:** container availability, last free day, holds, fees etc
+- **Container rail carriers:** container milestones via rail
+- **AIS data: ** vessel details and real-time location tracking
 
-
-Data | Example Use Case
------|-------------------
- Destination ETA | Surface ETA changes to your relevant teams as they're reported
- Last Free Day and terminal status¹ | Track containers approaching LFD and prioritize dispatching
- Fees and holds at destination terminal | Clear your cargo to keep you containers moving
- Actual departure and arrival times | Report journey times by route to compare your ocean carriers performance
-
-_1.  At container ports in the US_
-## How it works
-All you need to provide are your BOL numbers and SCACs. Terminal 49 will lookup the shipment with the carrier and populate shipment details including containers. 
-
-Once the shipment is setup Terminal 49 periodically checks with the carrier and the destination terminal. If any of the details of your shipment or containers change (for example - if the ETA changes) we will post the shipment to the the webhook you provide so you are always kept up-to-date.
-
-
-## Supported Shipping Lines and Terminals
+## Supported Ocean Carriers
 | # |Full Name                     |Nickname   |SCAC|BOL Prefix|Support   |Notes               |
 |---|------------------------------|-----------|----|----------|----------|--------------------|
 |1  |American President Lines      |APL        |APLU|APLU      |Yes       |                    |
@@ -47,11 +35,7 @@ Once the shipment is setup Terminal 49 periodically checks with the carrier and 
 [CSV of support carriers with roadmap]("https://www.terminal49.com/api/docs/assets/data/Terminal49 Shiping Line Support.csv")
 
 
-
-[CSV of supported US terminals](https://www.terminal49.com/api/docs/../assets/data/Terminal49 Terminal Support.csv)
-If you would you like us to support a shipping line or terminals that is not listed above please reach out to us. 
-
-## Integrated Ports
+## Ports and Terminals
 Presently, the Terminal 49 api integrates with terminals at the following ports:
 - Baltimore
 - Boston
@@ -73,3 +57,62 @@ Presently, the Terminal 49 api integrates with terminals at the following ports:
 - Tacoma
 - Tampa
 - Virginia
+
+
+## Known Issues (ocean)
+Shipment data is populated from requests to the shipping lines. 
+
+Below are a list of known issuses with our data sources:
+
+### Cma-Cgm, APL, ANL
+- No container weight
+- No container seal number
+
+### Maersk, Sealand, Safmarine
+- Shipment departure/arrival events are not always available depending on when BL is entered into system. 
+- No container seal number
+
+### Hamburg Süd
+- No estimated departure time
+- No container weight
+- No container seal number
+
+### MSC 
+- No departure or arrival events. Actual departure and arrival times are based on lading/unlading. Estimated times are departure / arrival times. 
+- No container seal number
+
+### Hapag Lloyd
+- No container weight
+- No container seal number
+
+### Evergreen
+- All dates are provided as dates, not datetimes. We record and return them all as midnight at the location the event happened (when location is available) or midnight UTC.
+- Only Dry, Reefer, and Flatpack container types are mapped to our system
+
+### COSCO
+- No departure or arrival events. Does not affect departure/arrival times.
+
+###  OOCL
+- No container seal number
+
+### ONE
+- Only Dry, and Reefer container types are mapped to our system
+
+### Yang-Ming
+- When BL has multiple containers, the container weight returned is the average of the shipment. (i.e. the BL gross weight / number of containers)
+
+### Hyundai Merchant Marine
+- No container type
+
+### ZIM
+- No container weight
+- No container seal number
+
+### PIL
+- No departure or arrival events. All departure and arrival times are based on lading/unlading. 
+- No container weight
+- No container seal number
+
+### Westwood Shipping
+- No container weight
+- Only Dry container types are mapped to our system

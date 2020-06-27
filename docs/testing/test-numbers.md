@@ -2,7 +2,7 @@
 tags: [testing]
 ---
 
-# Testing
+# Test Numbers
 
 ## Overview
 This page includes test `shipment` numbers and other information that you can use to make sure your integration works as planned. Use it to trigger different flows in your integration and ensure they are handled accordingly.
