@@ -2770,7 +2770,15 @@
                     "type": "object",
                     "properties": {
                       "id": {
-                        "type": "string"
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "port",
+                          "metro_area"
+                        ]
                       }
                     }
                   }
@@ -2778,16 +2786,32 @@
               }
             }
           },
-          "name": {
-            "type": "string",
+          "pod_terminal": {
+            "type": "object",
             "enum": [
               "container"
-            ]
+            ],
+            "properties": {
+              "data": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "terminal"
+                    ]
+                  }
+                }
+              }
+            }
           }
         },
         "required": [
-          "id",
-          "name"
+          "id"
         ]
       },
       "port": {

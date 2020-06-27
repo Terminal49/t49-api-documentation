@@ -178,7 +178,7 @@ Each changed property is the hash key. The prior value is the first item in the 
 For example:
 ```
 "changeset": {
-  "pickup_lfd": [null, "2020-05-20 00:00:00]
+  "pickup_lfd": [null, "2020-05-20 00:00:00"]
 }
 ```
 Shows that the pickup last free day has changed from not being set to May 20 2020.
