@@ -1074,21 +1074,6 @@
         "tags": [
           "Tracking Requests"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          },
-          "description": ""
-        },
         "parameters": [
           {
             "schema": {
@@ -1610,6 +1595,9 @@
                         },
                         {
                           "$ref": "#/components/schemas/estimated_event"
+                        },
+                        {
+                          "$ref": "#/components/schemas/container_updated_event"
                         }
                       ]
                     }
@@ -2208,7 +2196,8 @@
                       "$ref": "#/components/schemas/meta"
                     }
                   }
-                }
+                },
+                "examples": {}
               }
             }
           }
@@ -2257,17 +2246,7 @@
           }
         },
         "operationId": "get-containers-id",
-        "description": "Retrieves the details of a container.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {}
-              }
-            }
-          }
-        }
+        "description": "Retrieves the details of a container."
       }
     }
   },
@@ -2791,7 +2770,15 @@
                     "type": "object",
                     "properties": {
                       "id": {
-                        "type": "string"
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "port",
+                          "metro_area"
+                        ]
                       }
                     }
                   }
@@ -2799,16 +2786,32 @@
               }
             }
           },
-          "name": {
-            "type": "string",
+          "pod_terminal": {
+            "type": "object",
             "enum": [
               "container"
-            ]
+            ],
+            "properties": {
+              "data": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "terminal"
+                    ]
+                  }
+                }
+              }
+            }
           }
         },
         "required": [
-          "id",
-          "name"
+          "id"
         ]
       },
       "port": {
@@ -3678,7 +3681,8 @@
                         "enum": [
                           "tracking_request",
                           "estimated_event",
-                          "transport_event"
+                          "transport_event",
+                          "container_updated_event"
                         ]
                       }
                     }
@@ -3846,6 +3850,27 @@
         "required": [
           "relationships"
         ]
+      },
+      "example": {
+        "title": "example",
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "object_type"
+                ]
+              }
+            }
+          }
+        }
       }
     },
     "securitySchemes": {
