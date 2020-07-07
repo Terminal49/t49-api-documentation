@@ -10,13 +10,13 @@ Our APIs can be used with any HTTP client; choose your favorite! We love Postman
 
 ---
 
-## 1. Get API Key
+## 1. Get an API Key
 
 Sign in to your Terminal49 account and go to your [developer portal](https://app.terminal49.com/developers/api_keys) page to get your API key. 
 
 > If you don't have an API key and you would you like to access the API during the beta period please reach out to us at [support@terminal49.com](mailto:support@terminal49.com)
 ---
-## Step 2: Register a webhook
+## 2. Setup a webhook
 
 The Terminal49 API is an event driven API. Once you start tracking a shipment, any updates to the shipment or it's containers such as ETA changes or milestones can trigger notification events. Events that get triggered can be subscribed to via [Webhook](https://sendgrid.com/blog/whats-webhook/). 
 
@@ -34,7 +34,7 @@ This is not a requirement to track a shipment. You can skip and do this later if
 }
 ```
 
-## Step 3: Create a Tracking Request
+## 3. Create a Tracking Request
 
 In order to start tracking your shipments you have make a request using the /tracking_request API. Tracking is asynchornous, this means once you make a request to track a shipment, Terminal49 will attempt to trace it at the ocean carrier. 
 
