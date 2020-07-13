@@ -28,7 +28,7 @@ This is not a requirement to track a shipment. You can skip and do this later if
   "url": "https://api.terminal49.com/v2/webhooks",
   "headers": {
     "Content-Type": "application/vnd.api+json",
-    "Authorization": "token YOUR_API_KEY"
+    "Authorization": "Bearer YOUR_API_KEY"
   },
   "body": "{\r\n  \"data\": {\r\n    \"type\": \"webhook\",\r\n    \"attributes\": {\r\n      \"url\": \"https:\/\/webhook.site\/\",\r\n      \"active\": true,\r\n      \"events\": [\r\n        \"*\"\r\n      ]\r\n    }\r\n  }\r\n}"
 }
@@ -52,7 +52,7 @@ Initially the response for the successful tracking_request will respond with `st
   "url": "https://api.terminal49.com/v2/tracking_requests",
   "headers": {
     "Content-Type": "application/vnd.api+json",
-    "Authorization": "token YOUR_API_KEY"
+    "Authorization": "Bearer YOUR_API_KEY"
   },
   "body": "{\r\n  \"data\": {\r\n    \"attributes\": {\r\n      \"request_type\": \"bill_of_lading\",\r\n      \"request_number\": \"\",\r\n      \"scac\": \"\"\r\n    },\r\n    \"type\": \"tracking_request\"\r\n  }\r\n}"
 }
