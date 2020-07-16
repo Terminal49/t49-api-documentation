@@ -187,6 +187,7 @@ The properties we show changes for are:
 - fees_at_pod_terminal
 - holds_at_pod_terminal
 - pickup_lfd
+- pickup_appointment_at
 - available_for_pickup
 - pod_terminal
 
