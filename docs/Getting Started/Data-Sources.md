@@ -1,8 +1,10 @@
 
 
-# Supported Data Sources
+# API Data Sources and Availability. 
 
-Our platform gets data from variety of sources.
+Our platform gets data from variety of sources in order to create a complete view of a shipment and containers. However,some data is not universally available from all sources, and some data does not become available until certain milestones pass. This page will help you understand which data sources we support, and which data items should be universally expected by your code and which you need to code more defensively around.
+
+# Data Sources
 
 - **Ocean carriers (aka steamship lines):** bill of lading/booking details, vessel eta, containers and milestones
 - **Container terminal operators:** container availability, last free day, holds, fees etc
@@ -126,7 +128,7 @@ Below is a list of data that can be retrieved via the API, including whether is 
 ## Shipment Data
 Shipment Data is the primary data that comes from the Carrier. It containers the details of the shipment retrieved from the Bill of Lading, and references multiple container objects.
 
-| Data                                           | Availability            | More details           | Notes | 
+| Data                                           | Availability            | More details           | Notes |
 | ------ |-----|-----|
 | Port of Lading                                 | Always                               | Port of Lading name, Port of Lading UN/LOCODE, Port of Lading Timezone                |                                                                            |
 | Port of Discharge                              | Always                               | Port of Discharge name, Port of discharge UN/LOCODE,Port of Discharge Timezone        |                                                                            |
@@ -155,11 +157,11 @@ At the container level, the following data is available. Container data is combi
 | Weight           | Carrier Dependent | Number                                           |                      |
 | Terminal Availability                    | Always         | Availability Known, Availability for Pickup | |
 | Holds                           | Terminal  Dependent     | Array of    statuses   |  Each status includes the hold name (one of: customs, freight, TMF, other, USDA) and the status (pending, hold) as well as any extra description|
-| Fees                            | Terminal Dependent| Array of statuses| Each status includes the fee type (one of: Demurrage, Exam, Other) and the amount the hold is for  (a float)| 
+| Fees                            | Terminal Dependent| Array of statuses| Each status includes the fee type (one of: Demurrage, Exam, Other) and the amount the hold is for  (a float)|
 | Last Free Day                   | Terminal Dependent| Date of last free day |     |
 | Arrived at Port of Discharge    | Always          | Once Arrived |        |
 | Discharged at Port of Discharge | Always         | Once discharged          |                |
-| Full Out at Port of Discharge   | Always         |  | | 
+| Full Out at Port of Discharge   | Always         |  | |
 | Full out at final destination   | Journey Dependent | Only if non-port final destination |  |
 
 
@@ -192,4 +194,3 @@ A list of milestones that the API can track, as well as the event name used in t
 | Vessel Discharged    | container.transport.vessel\_discharged |
 | Full Out             | container.transport.full\_out          |
 | Empty In             | container.transport.empty\_in          |
-
