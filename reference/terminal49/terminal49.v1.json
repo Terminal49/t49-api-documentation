@@ -1856,62 +1856,81 @@
                 "Transport Event": {
                   "value": {
                     "data": {
-                      "id": "3c03de81-da56-4ce8-b9f4-257f35925554",
+                      "id": "abec839a-48fe-4540-93d7-d3ea3d67bdbf",
                       "type": "webhook_notification",
                       "attributes": {
-                        "id": "3c03de81-da56-4ce8-b9f4-257f35925554",
-                        "event": "shipment.transport.vessel_arrived",
-                        "delivery_status": "pending"
+                        "id": "abec839a-48fe-4540-93d7-d3ea3d67bdbf",
+                        "event": "container.transport.vessel_arrived",
+                        "delivery_status": "pending",
+                        "created_at": "2020-07-28T23:12:53Z"
                       },
                       "relationships": {
                         "reference_object": {
                           "data": {
-                            "id": "7fed98a4-aa62-4655-aac9-da20dce3c96f",
+                            "id": "a6ecb8ab-98d6-4cab-8487-ce9dd7be082b",
                             "type": "transport_event"
                           }
                         },
                         "webhook": {
                           "data": {
-                            "id": "e37f9fae-1cfe-4de8-9605-9f3537d7d48a",
+                            "id": "534d498b-8332-439a-accb-129dfd144ceb",
                             "type": "webhook"
                           }
+                        },
+                        "webhook_notification_logs": {
+                          "data": []
                         }
                       }
                     },
                     "included": [
                       {
-                        "id": "7fed98a4-aa62-4655-aac9-da20dce3c96f",
+                        "id": "a6ecb8ab-98d6-4cab-8487-ce9dd7be082b",
                         "type": "transport_event",
                         "attributes": {
-                          "event": "shipment.transport.vessel_arrived",
-                          "created_at": "2020-04-06T19:05:14-07:00",
-                          "timestamp": null,
+                          "event": "container.transport.vessel_arrived",
+                          "created_at": "2020-07-28T23:12:53Z",
                           "voyage_number": null,
+                          "timestamp": "2020-07-28T23:12:53Z",
                           "timezone": "America/Los_Angeles"
                         },
                         "relationships": {
                           "shipment": {
                             "data": {
-                              "id": "0051290f-ddbe-477a-bfe5-81f8e16d1d6f",
+                              "id": "1fc35241-4c8b-420d-803a-9e6661720a05",
                               "type": "shipment"
                             }
                           },
-                          "port": {
+                          "container": {
                             "data": {
-                              "id": "a428f09f-db57-48eb-9316-cf923a1f79d4",
-                              "type": "port"
+                              "id": "8c2f335a-b155-4021-87f0-9b040159a981",
+                              "type": "container"
                             }
                           },
                           "vessel": {
-                            "data": null
+                            "data": {
+                              "id": "b381c692-8dad-4f04-873f-d9e567143335",
+                              "type": "vessel"
+                            }
+                          },
+                          "location": {
+                            "data": {
+                              "id": "f5a8a49f-d8b2-4d2a-8a43-0e4ff0ce7995",
+                              "type": "port"
+                            }
+                          },
+                          "terminal": {
+                            "data": {
+                              "id": "26fede8d-2c6d-4bf5-98d6-5a86d30f17a9",
+                              "type": "terminal"
+                            }
                           }
                         }
                       },
                       {
-                        "id": "a428f09f-db57-48eb-9316-cf923a1f79d4",
+                        "id": "f5a8a49f-d8b2-4d2a-8a43-0e4ff0ce7995",
                         "type": "port",
                         "attributes": {
-                          "id": "a428f09f-db57-48eb-9316-cf923a1f79d4",
+                          "id": "f5a8a49f-d8b2-4d2a-8a43-0e4ff0ce7995",
                           "name": "Port of Oakland",
                           "code": "USOAK",
                           "state_abbr": "CA",
@@ -1921,13 +1940,13 @@
                         }
                       },
                       {
-                        "id": "0051290f-ddbe-477a-bfe5-81f8e16d1d6f",
+                        "id": "1fc35241-4c8b-420d-803a-9e6661720a05",
                         "type": "shipment",
                         "attributes": {
-                          "created_at": "2020-04-06T19:05:13-07:00",
-                          "bill_of_lading_number": "TE49DD0BBB86",
+                          "created_at": "2020-07-28T23:12:53Z",
+                          "bill_of_lading_number": "TE491846459E",
                           "ref_numbers": [
-                            "REF-D42AE6"
+                            null
                           ],
                           "shipping_line_scac": "MSCU",
                           "shipping_line_name": "Mediterranean Shipping Company",
@@ -1944,28 +1963,28 @@
                           "destination_ata_at": null,
                           "destination_eta_at": null,
                           "pol_etd_at": null,
-                          "pol_atd_at": null,
+                          "pol_atd_at": "2020-07-15T23:12:53Z",
                           "pol_timezone": "America/Mexico_City",
-                          "pod_eta_at": "2020-04-13T19:05:13-07:00",
+                          "pod_eta_at": "2020-08-04T23:12:53Z",
                           "pod_ata_at": null,
                           "pod_timezone": "America/Los_Angeles"
                         },
                         "relationships": {
                           "port_of_lading": {
                             "data": {
-                              "id": "1d2d2d2f-51b8-4caf-952c-a4fa1e75da96",
+                              "id": "06564cb7-77d6-4e0e-8e4a-37756ca21bc9",
                               "type": "port"
                             }
                           },
                           "port_of_discharge": {
                             "data": {
-                              "id": "a428f09f-db57-48eb-9316-cf923a1f79d4",
+                              "id": "f5a8a49f-d8b2-4d2a-8a43-0e4ff0ce7995",
                               "type": "port"
                             }
                           },
                           "pod_terminal": {
                             "data": {
-                              "id": "1fc07393-cbc5-4260-bf7a-cee9b14bb6fc",
+                              "id": "06f5d3bb-f258-4f1b-8c2f-db78248f6e29",
                               "type": "terminal"
                             }
                           },
@@ -1973,11 +1992,16 @@
                             "data": null
                           },
                           "containers": {
-                            "data": []
+                            "data": [
+                              {
+                                "id": "8c2f335a-b155-4021-87f0-9b040159a981",
+                                "type": "container"
+                              }
+                            ]
                           }
                         },
                         "links": {
-                          "self": "/v2/shipments/0051290f-ddbe-477a-bfe5-81f8e16d1d6f"
+                          "self": "/v2/shipments/1fc35241-4c8b-420d-803a-9e6661720a05"
                         }
                       }
                     ]
@@ -2626,7 +2650,7 @@
                 "format": "date-time",
                 "description": "The last free day for pickup before deummurage accrues."
               },
-               "pickup_apopintment_at": {
+              "pickup_apopintment_at": {
                 "type": "string",
                 "format": "date-time",
                 "description": "When available the pickup appointment time at the terminal is returned."
