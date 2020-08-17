@@ -975,7 +975,7 @@
         },
         "security": [
           {
-            "Authorization Header": []
+            "Header API Token": []
           }
         ],
         "description": "To track an ocean shipment, you create a new tracking request. \nTwo attributes are required to track a shipment. A `bill of lading/booking number` and a shipping line `SCAC`. \n\nOnce a tracking request is created we will attempt to fetch the shipment details and it's related containers from the shipping line. If the attempt is successful we will create in new shipment object including any related container objects. We will send a `tracking_Request.succeeded` webhook notification to your webhooks.  \n\nIf the attempt to fetch fails then we will send a `tracking_Request.failed` webhook notification to your `webhooks`.  \n\nA `tracking_Request.succeeded` or `tracking_Request.failed` webhook notificaiton will only be sent  if you have  atleast one active webhook. ",
@@ -3903,17 +3903,22 @@
       }
     },
     "securitySchemes": {
-      "Authorization Header": {
+      "Header API Token": {
         "name": "authorization",
         "type": "apiKey",
         "in": "header",
         "description": "`Token YOUR_API_TOKEN`\n\nThe APIs require authentication to be done using header-based API Key and Secret Authentication. \n\nAPI key and secret aare sent in the `Authorization` header.\n\nYou send your API key and secret in the following way:\n\n`Authorization: Token YOUR_API_TOKEN`"
+      },
+      "Authorization": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "`bearer YOUR_API_TOKEN`\n\nThe APIs require authentication to be done using header-based API Key and Secret Authentication. \n\nAPI key and secret aare sent in the `Authorization` header.\n\nYou send your API key and secret in the following way:\n\n`Authorization: bearer YOUR_API_TOKEN`"
       }
     }
   },
   "security": [
     {
-      "Authorization test": []
+      "Authorization": []
     }
   ],
   "tags": [
