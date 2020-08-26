@@ -156,6 +156,8 @@ The payload of every webhook is a `webhook_notification`. Each Webhook notificat
 Each event represents some change to a model which you may be notified of. These events are supported:
 
 - container.updated
+- container.transport.vessel_loaded
+- container.transport.vessel_departed
 - container.transport.vessel_arrived
 - container.transport.vessel_discharged
 - container.transport.full_out
