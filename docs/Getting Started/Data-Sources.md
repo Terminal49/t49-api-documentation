@@ -1,6 +1,10 @@
-# Data Sources
 
-Our platform gets data from variety of sources. 
+
+# API Data Sources and Availability. 
+
+Our platform gets data from variety of sources in order to create a complete view of a shipment and containers. However,some data is not universally available from all sources, and some data does not become available until certain milestones pass. This page will help you understand which data sources we support, and which data items should be universally expected by your code and which you need to code more defensively around.
+
+# Data Sources
 
 - **Ocean carriers (aka steamship lines):** bill of lading/booking details, vessel eta, containers and milestones
 - **Container terminal operators:** container availability, last free day, holds, fees etc
@@ -60,7 +64,7 @@ Presently, the Terminal 49 api integrates with terminals at the following ports:
 
 
 ## Known Issues (ocean)
-Shipment data is populated from requests to the shipping lines. 
+Shipment data is populated from requests to the shipping lines.
 
 Below are a list of known issuses with our data sources:
 
@@ -69,7 +73,7 @@ Below are a list of known issuses with our data sources:
 - No container seal number
 
 ### Maersk, Sealand, Safmarine
-- Shipment departure/arrival events are not always available depending on when BL is entered into system. 
+- Shipment departure/arrival events are not always available depending on when BL is entered into system.
 - No container seal number
 
 ### Hamburg Süd
@@ -77,8 +81,8 @@ Below are a list of known issuses with our data sources:
 - No container weight
 - No container seal number
 
-### MSC 
-- No departure or arrival events. Actual departure and arrival times are based on lading/unlading. Estimated times are departure / arrival times. 
+### MSC
+- No departure or arrival events. Actual departure and arrival times are based on lading/unlading. Estimated times are departure / arrival times.
 - No container seal number
 
 ### Hapag Lloyd
@@ -109,10 +113,84 @@ Below are a list of known issuses with our data sources:
 - No container seal number
 
 ### PIL
-- No departure or arrival events. All departure and arrival times are based on lading/unlading. 
+- No departure or arrival events. All departure and arrival times are based on lading/unlading.
 - No container weight
 - No container seal number
 
 ### Westwood Shipping
 - No container weight
 - Only Dry container types are mapped to our system
+
+# Data Fields & Availability
+
+Below is a list of data that can be retrieved via the API, including whether is is always available, or whether it is only supported by certain carriers (Carrier Dependent), certain Terminals (Terminal Dependent) or on certain types of journeys (Journey dependent).
+
+## Shipment Data
+Shipment Data is the primary data that comes from the Carrier. It containers the details of the shipment retrieved from the Bill of Lading, and references multiple container objects.
+
+| Data                                           | Availability            | More details           | Notes |
+| ------ |-----|-----|
+| Port of Lading                                 | Always                               | Port of Lading name, Port of Lading UN/LOCODE, Port of Lading Timezone                |                                                                            |
+| Port of Discharge                              | Always                               | Port of Discharge name, Port of discharge UN/LOCODE,Port of Discharge Timezone        |                                                                            |
+| Final Destination beyond Port of Discharge     | Carrier dependent, Journey Dependent | ,Destination name, Destination UN/LOCODE, Destination UN/LOCODE, Destination Timezone | Only for shipments with inland moves provided by or booked by the carrier. |
+| Listing of Container Numbers                   | Always                               | A list of container numbers with data attributes listed below                         |                                                                            |
+| Bill of Lading Number                          | Always (inputted by user)            | BOL                                                                                   |                                                                            |
+| Shipping Line Details                          | Always                               | SCAC, SSL Name                                                                        |                                                                            |
+| Voyage Details                                 | Milestone-based                      | Vessel Name, Vessel IMO, Voyage Number                                                |                                                                            |
+| Estimated Time of Departure                    | Carrier dependent                    | Timestamp                                                                             |                                                                            |
+| Actual Time of Departure                       | Always                               | Timestamp                                                                             | After departure                                                            |
+| Estimated Time of Arrival at Port of Discharge | Carrier dependent                    | Timestamp                                                                             |                                                                            |
+| Actual Time of Arrival at Port of Discharge    | Always                               | Timestamp                                                                             | Available after arrival                                                    |
+| Estimated Time of Arrival at Final Destination | Carrier dependent, Journey dependent | Timestamp                                                                             | Only for vessels with inland moves.                                        |
+
+
+## Container Data
+At the container level, the following data is available. Container data is combined from all sources to create a single data view of the container. As such some of this data will only available when certain milestones have passed.
+
+|    Data          |     Availability          |                More Details                   |        Notes          |
+| ---------------- | ----------------- | ------------------------------------------------ | -------------------- |
+| Container Number | Always            | number                                           |                      |
+| Seal Number      | Carrier dependent | number                                           |                      |
+| Equipment Type   | Always            | Dry, reefer, open top, flat rack, tank, hard top | Enumerated data type |
+| Equipment length | Always            | 20, 40, 45, 50                                   | Enumerated Data Type |
+| Equipment height | Always            | Standard, high cube                              | Enumerated Data Type |
+| Weight           | Carrier Dependent | Number                                           |                      |
+| Terminal Availability                    | Always         | Availability Known, Availability for Pickup | |
+| Holds                           | Terminal  Dependent     | Array of    statuses   |  Each status includes the hold name (one of: customs, freight, TMF, other, USDA) and the status (pending, hold) as well as any extra description|
+| Fees                            | Terminal Dependent| Array of statuses| Each status includes the fee type (one of: Demurrage, Exam, Other) and the amount the hold is for  (a float)|
+| Last Free Day                   | Terminal Dependent| Date of last free day |     |
+| Arrived at Port of Discharge    | Always          | Once Arrived |        |
+| Discharged at Port of Discharge | Always         | Once discharged          |                |
+| Full Out at Port of Discharge   | Always         |  | |
+| Full out at final destination   | Journey Dependent | Only if non-port final destination |  |
+
+
+
+
+##  Milestone Event Data
+When a milestone passes, the Terminal49 API will ping one of your webhooks with a Milestone event. For each milestone, the following data is always provided. Container, Shipment, Vessel, Location and Terminal data will be provided as objects that contain the information listed above.
+
+| Milestone Data |         Description                                              |
+| -------------- | ---------------------------------------------------------------- |
+| Event Name     | the name of the event. e.g. 'container.transport.vessel\_loaded' |
+| Created At     | when the event was created in our system                         |
+| Timestamp      | when the event occured                                           |
+| Timezone       | Which timezone did the event occur in.                           |
+| Voyage Number  | the voyage number of the vessel                                  |
+| Container      | A link to the Container Data                                     |
+| Shipment       | A link to the Shipment Data                                      |
+| Vessel         | Which vessel did the event occur on.                             |
+| Location       | Where did the event oocur.                                       |
+| Terminal       | Which terminal did this occur at.                                |
+
+## Milestones Events Supported
+A list of milestones that the API can track, as well as the event name used in the API. In future, further events may be supported.
+
+|              Milestone Event Name        | Event Name           |
+| -------------------- | -------------------------------------- |
+| Vessel Loaded        | container.transport.vessel\_loaded     |
+| Vessel Arrived       | container.transport.vessel\_arrived    |
+| Vessel Departed      | container.transport.vessel\_departed   |
+| Vessel Discharged    | container.transport.vessel\_discharged |
+| Full Out             | container.transport.full\_out          |
+| Empty In             | container.transport.empty\_in          |
