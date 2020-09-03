@@ -8,7 +8,7 @@
       "url": "https://www.terminal49.com",
       "email": "support@terminal49.com"
     },
-    "description": "The Terminal 49 API offers a convenient way to programatically track your shipments from origin to destination. \n\nSee https://developers.terminal49.com for the compelte api documenation and guide",
+    "description": "The Terminal 49 API offers a convenient way to programmatically track your shipments from origin to destination.",
     "x-label": "Beta",
     "termsOfService": "https://www.terminal49.com/terms"
   },
