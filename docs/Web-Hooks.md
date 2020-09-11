@@ -326,24 +326,24 @@ N.B. the `container_updated_event` also has a relationship to a `terminal` which
 ```json
 {
   "data": {
-    "id": "a7af6114-47f7-452e-b134-fec2fc5a7875",
+    "id": "a76187fc-5749-43f9-9053-cfaad9790a31",
     "type": "webhook_notification",
     "attributes": {
-      "id": "a7af6114-47f7-452e-b134-fec2fc5a7875",
+      "id": "a76187fc-5749-43f9-9053-cfaad9790a31",
       "event": "tracking_request.succeeded",
       "delivery_status": "pending",
-      "created_at": "2020-06-26T23:08:26Z"
+      "created_at": "2020-09-11T21:25:34Z"
     },
     "relationships": {
       "reference_object": {
         "data": {
-          "id": "10222563-9bdd-464a-98aa-1e75f4660274",
+          "id": "bdeca506-9741-4ab1-a0a7-cfd1d908e923",
           "type": "tracking_request"
         }
       },
       "webhook": {
         "data": {
-          "id": "5379d7dd-1ff4-4748-90c4-24ecc2ce51e8",
+          "id": "914b21ce-dd7d-4c49-8503-65aba488e9a9",
           "type": "webhook"
         }
       },
@@ -354,40 +354,38 @@ N.B. the `container_updated_event` also has a relationship to a `terminal` which
   },
   "included": [
     {
-      "id": "10222563-9bdd-464a-98aa-1e75f4660274",
+      "id": "bdeca506-9741-4ab1-a0a7-cfd1d908e923",
       "type": "tracking_request",
       "attributes": {
-        "request_number": "TR1",
+        "request_number": "TE497ED1063E",
         "request_type": "bill_of_lading",
         "scac": "MSCU",
-        "ref_numbers": [
-          "default"
-        ],
-        "created_at": "2020-06-26T23:08:26Z",
+        "ref_numbers": [],
+        "created_at": "2020-09-11T21:25:34Z",
         "status": "created",
-        "failed_reason": null
+        "failed_reason": null,
+        "is_retrying": false,
+        "retry_count": null
       },
       "relationships": {
         "tracked_object": {
           "data": {
-            "id": "37e082ab-be15-4876-acd6-3892d83ddf4c",
+            "id": "b5b10c0a-8d18-46da-b4c2-4e5fa790e7da",
             "type": "shipment"
           }
         }
       },
       "links": {
-        "self": "/v2/tracking_requests/10222563-9bdd-464a-98aa-1e75f4660274"
+        "self": "/v2/tracking_requests/bdeca506-9741-4ab1-a0a7-cfd1d908e923"
       }
     },
     {
-      "id": "37e082ab-be15-4876-acd6-3892d83ddf4c",
+      "id": "b5b10c0a-8d18-46da-b4c2-4e5fa790e7da",
       "type": "shipment",
       "attributes": {
-        "created_at": "2020-06-26T23:08:26Z",
-        "bill_of_lading_number": "TE494470A868",
-        "ref_numbers": [
-          null
-        ],
+        "created_at": "2020-09-11T21:25:33Z",
+        "bill_of_lading_number": "TE497ED1063E",
+        "ref_numbers": [],
         "shipping_line_scac": "MSCU",
         "shipping_line_name": "Mediterranean Shipping Company",
         "port_of_lading_locode": "MXZLO",
@@ -403,28 +401,28 @@ N.B. the `container_updated_event` also has a relationship to a `terminal` which
         "destination_ata_at": null,
         "destination_eta_at": null,
         "pol_etd_at": null,
-        "pol_atd_at": "2020-06-13T23:08:26Z",
+        "pol_atd_at": "2020-08-29T21:25:33Z",
         "pol_timezone": "America/Mexico_City",
-        "pod_eta_at": "2020-07-03T23:08:26Z",
+        "pod_eta_at": "2020-09-18T21:25:33Z",
         "pod_ata_at": null,
         "pod_timezone": "America/Los_Angeles"
       },
       "relationships": {
         "port_of_lading": {
           "data": {
-            "id": "ef6463a4-30a5-4da6-8363-963d45ceea36",
+            "id": "4384d6a5-5ccc-43b7-8d19-4a9525e74c08",
             "type": "port"
           }
         },
         "port_of_discharge": {
           "data": {
-            "id": "3ab30baf-40f3-4a7b-853b-072dac5420fd",
+            "id": "2a765fdd-c479-4345-b71d-c4ef839952e2",
             "type": "port"
           }
         },
         "pod_terminal": {
           "data": {
-            "id": "0447c3d8-5f84-446c-9e5a-75a2b898c2bd",
+            "id": "17891bc8-52da-40bf-8ff0-0247ec05faf1",
             "type": "terminal"
           }
         },
@@ -432,11 +430,100 @@ N.B. the `container_updated_event` also has a relationship to a `terminal` which
           "data": null
         },
         "containers": {
-          "data": []
+          "data": [
+            {
+              "id": "b2fc728c-e2f5-4a99-8899-eb7b34ef22d7",
+              "type": "container"
+            }
+          ]
         }
       },
       "links": {
-        "self": "/v2/shipments/37e082ab-be15-4876-acd6-3892d83ddf4c"
+        "self": "/v2/shipments/b5b10c0a-8d18-46da-b4c2-4e5fa790e7da"
+      }
+    },
+    {
+      "id": "b2fc728c-e2f5-4a99-8899-eb7b34ef22d7",
+      "type": "container",
+      "attributes": {
+        "number": "ARDU1824900",
+        "seal_number": "139F1451",
+        "created_at": "2020-09-11T21:25:34Z",
+        "equipment_type": "dry",
+        "equipment_length": 40,
+        "equipment_height": "standard",
+        "weight_in_lbs": 53507,
+        "fees_at_pod_terminal": [],
+        "holds_at_pod_terminal": [],
+        "pickup_lfd": null,
+        "pickup_appointment_at": null,
+        "availability_known": true,
+        "available_for_pickup": false,
+        "pod_arrived_at": null,
+        "pod_discharged_at": null,
+        "final_destination_full_out_at": null,
+        "pod_full_out_at": null,
+        "empty_terminated_at": null
+      },
+      "relationships": {
+        "shipment": {
+          "data": {
+            "id": "b5b10c0a-8d18-46da-b4c2-4e5fa790e7da",
+            "type": "shipment"
+          }
+        },
+        "pod_terminal": {
+          "data": {
+            "id": "17891bc8-52da-40bf-8ff0-0247ec05faf1",
+            "type": "terminal"
+          }
+        },
+        "transport_events": {
+          "data": [
+            {
+              "id": "56078596-5293-4c84-9245-cca00a787265",
+              "type": "transport_event"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "56078596-5293-4c84-9245-cca00a787265",
+      "type": "transport_event",
+      "attributes": {
+        "event": "container.transport.vessel_departed",
+        "created_at": "2020-09-11T21:25:34Z",
+        "voyage_number": null,
+        "timestamp": "2020-08-29T21:25:33Z",
+        "location_locode": "MXZLO",
+        "timezone": "America/Los_Angeles"
+      },
+      "relationships": {
+        "shipment": {
+          "data": {
+            "id": "b5b10c0a-8d18-46da-b4c2-4e5fa790e7da",
+            "type": "shipment"
+          }
+        },
+        "container": {
+          "data": {
+            "id": "b2fc728c-e2f5-4a99-8899-eb7b34ef22d7",
+            "type": "container"
+          }
+        },
+        "vessel": {
+          "data": null
+        },
+        "location": {
+          "data": {
+            "id": "2a765fdd-c479-4345-b71d-c4ef839952e2",
+            "type": "port"
+          }
+        },
+        "terminal": {
+          "data": null
+        }
       }
     }
   ]
