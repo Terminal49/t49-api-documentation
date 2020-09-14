@@ -923,7 +923,11 @@
                         "properties": {
                           "request_type": {
                             "type": "string",
-                            "example": "bill_of_lading"
+                            "example": "bill_of_lading",
+                            "enum": [
+                              "bill_of_lading",
+                              "tracking_number"
+                            ]
                           },
                           "request_number": {
                             "type": "string",
@@ -3325,7 +3329,8 @@
               "request_type": {
                 "type": "string",
                 "enum": [
-                  "bill_of_lading"
+                  "bill_of_lading",
+                  "booking_number"
                 ],
                 "example": "bill_of_lading"
               },
