@@ -12,31 +12,9 @@ Our platform gets data from variety of sources in order to create a complete vie
 - **AIS data: ** vessel details and real-time location tracking
 
 ## Supported Ocean Carriers
-| # |Full Name                     |Nickname   |SCAC|BOL Prefix|Support   |Notes               |
-|---|------------------------------|-----------|----|----------|----------|--------------------|
-|1  |American President Lines      |APL        |APLU|APLU      |Yes       |                    |
-|2  |Australia National Line       |ANL        |ANNU|ANLC      |Yes       |                    |
-|3  |China Ocean Shipping Company  |COSCO      |COSU|CCMJ      |Yes       |                    |
-|4  |CMA CGM                       |CMA CGM    |CMDU|CMDU      |Yes       |                    |
-|5  |Evergreen                     |Evergreen  |EGLV|EISU      |Yes       |                    |
-|6  |Hamburg Sud                   |Hamburg Sud|SUDU|SUDU      |Yes       |                    |
-|7  |Hapag-Lloyd                   |Hapag-Lloyd|HLCU|HLCU      |Yes       |                    |
-|8  |Hyundai Merchant Marine       |Hyundai    |HDMU|HDMU      |Partial   |No container numbers|
-|9  |Maersk                        |Maersk     |MAEU|MAEU      |Yes       |                    |
-|10 |Matson Navigation Company     |Matson     |MATS|MATS      |Yes       |                    |
-|11 |Mediterranean Shipping Company|MSC        |MSCU|MEDU      |Yes       |                    |
-|12 |Ocean Network Express         |ONE        |ONEY|ONEY      |Yes       |                    |
-|13 |Orient Overseas Container Line|OOCL       |OOLU|OOLU      |Yes       |                    |
-|14 |Pacific International Lines   |PIL        |PCIU|PABV      |Yes       |                    |
-|15 |Safmarine Container Line      |Safmarine  |SAFM|SAFM      |Yes       |                    |
-|16 |SeaLand                       |SeaLand    |SEAL|SEAU      |Yes       |                    |
-|17 |Yangming Marine Transport     |Yangming   |YMLU|YMLU      |Yes       |                    |
-|18 |Wan Hai Lines                 |Wan Hai    |WHLC|          |On roadmap|June Release        |
-|19 |Matson                        |Matson     |MATS|          |On roadmap|June Release        |
-|20 |Zim                           |Zim        |ZIMU|          |On roadmap|June Release        |
-|21 |Seaboard Marine               |Seaboard   |CLAM|          |On roadmap|June Release        |
-|22 |Crowley                       |Crowley    |CLAM|          |On roadmap|June Release        |
-[CSV of support carriers with roadmap]("https://www.terminal49.com/api/docs/assets/data/Terminal49 Shiping Line Support.csv")
+View a complete list of supported carriers and attributes on [Google Sheets](https://docs.google.com/spreadsheets/d/1cWK8sNpkjY5V-KlXe1fHi8mU_at2HcJYqjCvGQgixQk/edit#gid=0)
+
+[![Carriers Screenshot](../../assets/images/carriers_screenshot.png  "Carriers Screenshot")](https://docs.google.com/spreadsheets/d/1cWK8sNpkjY5V-KlXe1fHi8mU_at2HcJYqjCvGQgixQk/edit#gid=0)
 
 
 ## Ports and Terminals
@@ -61,6 +39,8 @@ Presently, the Terminal 49 api integrates with terminals at the following ports:
 - Tacoma
 - Tampa
 - Virginia
+
+You can view a complete list of supported terminals and attributes on [Google Sheets](https://docs.google.com/spreadsheets/d/1cWK8sNpkjY5V-KlXe1fHi8mU_at2HcJYqjCvGQgixQk/edit#gid=1406366493)
 
 
 ## Known Issues (ocean)
