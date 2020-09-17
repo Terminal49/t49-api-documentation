@@ -1,4 +1,4 @@
-# Quick Start: Track your first container
+# 0. Read Me First!
 
 So you want to start tracking your ocean shipments and containers and you have a few BL numbers. Follow the guide. 
 
@@ -10,50 +10,9 @@ Our APIs can be used with any HTTP client; choose your favorite! We love Postman
 
 ---
 
-## 1. Get an API Key
+## Get an API Key
 
 Sign in to your Terminal49 account and go to your [developer portal](https://app.terminal49.com/developers/api_keys) page to get your API key. 
 
 > If you don't have an API key and you would you like to access the API during the beta period please reach out to us at [support@terminal49.com](mailto:support@terminal49.com)
 ---
-## 2. Setup a webhook
-
-The Terminal49 API is an event driven API. Once you start tracking a shipment, any updates to the shipment or it's containers such as ETA changes or milestones can trigger notification events. Events that get triggered can be subscribed to via [Webhook](https://sendgrid.com/blog/whats-webhook/). 
-
-This is not a requirement to track a shipment. You can skip and do this later if you'd like. 
-
-```json http
-{
-  "method": "post",
-  "url": "https://api.terminal49.com/v2/webhooks",
-  "headers": {
-    "Content-Type": "application/vnd.api+json",
-    "Authorization": "Token YOUR_API_KEY"
-  },
-  "body": "{\r\n  \"data\": {\r\n    \"type\": \"webhook\",\r\n    \"attributes\": {\r\n      \"url\": \"https:\/\/webhook.site\/\",\r\n      \"active\": true,\r\n      \"events\": [\r\n        \"*\"\r\n      ]\r\n    }\r\n  }\r\n}"
-}
-```
-
-## 3. Create a Tracking Request
-
-In order to start tracking your shipments you have make a request using the /tracking_request API. Tracking is asynchornous, this means once you make a request to track a shipment, Terminal49 will attempt to trace it at the ocean carrier. 
-
-Once found Termianl49 will create a shipment record, update the tracking_request `status` and trigger a `tracking_request.succeeded` notifcation if setup a webhook in step 2. 
-
-Initially the response for the successful tracking_request will respond with `status` attribute as `pending`.  
-
-**Try it using the request maker below!**
-1. Enter your API token in the autorization header value. 
-2. Enter a value for the `request_number` and `scac`. The request number has to be a shipping line booking or master bill of lading number. The SCAC has to be a shipping line scac (see data sources to get a list of valid SCACs)
-
-```json http
-{
-  "method": "post",
-  "url": "https://api.terminal49.com/v2/tracking_requests",
-  "headers": {
-    "Content-Type": "application/vnd.api+json",
-    "Authorization": "token YOUR_API_KEY"
-  },
-  "body": "{\r\n  \"data\": {\r\n    \"attributes\": {\r\n      \"request_type\": \"bill_of_lading\",\r\n      \"request_number\": \"\",\r\n      \"scac\": \"\"\r\n    },\r\n    \"type\": \"tracking_request\"\r\n  }\r\n}"
-}
-```
