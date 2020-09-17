@@ -1,4 +1,4 @@
-# 0. Read Me First!
+# 1. Read Me First!
 
 So you want to start tracking your ocean shipments and containers and you have a few BL numbers. Follow the guide. 
 
