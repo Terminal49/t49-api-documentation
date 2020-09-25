@@ -1,6 +1,6 @@
-# One Page Quick Start
+# Quick Start Guide
 
-## Before you Begin
+## Before You Begin
 
 You'll need a four things to get started.
 
@@ -13,7 +13,7 @@ You'll need a four things to get started.
 
 You can try this using the embedded request maker below, or using Postman.
 
-1. Enter your API token in the autorization header value.
+1. Try it below. Click "Headers" and replace YOUR_API_KEY with your API key. In the authorization header value.
 2. Enter a value for the `request_number` and `scac`. The request number has to be a shipping line booking or master bill of lading number. The SCAC has to be a shipping line scac (see data sources to get a list of valid SCACs)
 
 Note that you can also access sample code, include a cURL template, by clicking the "Code Generation" tab in the Request Maker.
@@ -30,18 +30,21 @@ Note that you can also access sample code, include a cURL template, by clicking 
 }
 ```
 
-## Check That Your Tracking Request Succceded
+## Check Your Tracking Request Succeeded
 
 We have not yet set up a webook to receive status updates from the Terminal 49 API, so we will need to manually poll to check if the Tracking Request has succeeded or failed.
 
-Try it below after replacing YOUR_API_KEY with your API key.
 
+<!-- theme: warning -->
 ### Tracking Request Troubleshooting
 The most common issue people encounter is that they are entering the wrong number.
 
 Please check that you are entering the Bill of Lading number and not a container number or a number used for internal reference at your company or by your frieght forwarder. The Bill of Lading is a number issued by the Carrier when they create your Bill of Lading.  You can test this by going to a carrier's website and using their tools to track your shipment using the Bill of Lading and SCAC. If this works, and if the SCAC is supported by T49, you should able to track it with us.
 
  You can always email us at support@terminal49.com if you have persistent issues.
+
+** Try it below. Click "Headers" and replace YOUR_API_KEY with your API key.**
+
 
 
 ```json http
@@ -59,7 +62,7 @@ Please check that you are entering the Bill of Lading number and not a container
 
 If your tracking request was successful, you will now be able to list your tracked shipments.
 
-Try it below after replacing YOUR_API_KEY with your API key.
+**Try it below. Click "Headers" and replace YOUR_API_KEY with your API key.**
 
 Sometimes it may take a while for the tracking request to show up, but usually no more than a few minutes.
 
@@ -100,7 +103,7 @@ The true power of Terminal 49's API is that it is asynchronous. You can register
 
 To try this, you will need to first set up a URL on the open web to receive POST requests. Once you have done this, you'll be able to receive status updates from containers and shipments as they happen, which means you don't need to poll us for updates; we'll notify you.
 
-Update your API key below, and register a simple Webhook.
+** Try it below. Click "Headers" and replace YOUR_API_KEY with your API key.**
 
 Once this is done, any changes to shipments and containers you're tracking in step 2 will now be sent to your webhook URL as Http POST Requests.
 
