@@ -36,16 +36,12 @@ We have not yet set up a webook to receive status updates from the Terminal 49 A
 
 
 <!-- theme: warning -->
-### Tracking Request Troubleshooting
-The most common issue people encounter is that they are entering the wrong number.
-
-Please check that you are entering the Bill of Lading number and not a container number or a number used for internal reference at your company or by your frieght forwarder. The Bill of Lading is a number issued by the Carrier when they create your Bill of Lading.  You can test this by going to a carrier's website and using their tools to track your shipment using the Bill of Lading and SCAC. If this works, and if the SCAC is supported by T49, you should able to track it with us.
-
- You can always email us at support@terminal49.com if you have persistent issues.
+>### Tracking Request Troubleshooting
+>The most common issue people encounter is that they are entering the wrong number.
+>Please check that you are entering the Bill of Lading number and not a container number or a number used for internal reference at your company or by your frieght forwarder. The Bill of Lading is a number issued by the Carrier when they create your Bill of Lading.  You can test this by going to a carrier's website and using their tools to track your shipment using the Bill of Lading and SCAC. If this works, and if the SCAC is supported by T49, you should able to track it with us.
+>You can always email us at support@terminal49.com if you have persistent issues.
 
 ** Try it below. Click "Headers" and replace YOUR_API_KEY with your API key.**
-
-
 
 ```json http
 {
