@@ -2959,11 +2959,11 @@
                 "type": "string",
                 "description": "2 digit country code"
               },
-              "timezone": {
+              "time_zone": {
                 "type": "string",
                 "description": "IANA tz"
               },
-              "locode": {
+              "code": {
                 "type": "string",
                 "description": "UN/LOCODE"
               }
@@ -3463,7 +3463,8 @@
         "required": [
           "id",
           "type"
-        ]
+        ],
+        "x-examples": {}
       },
       "vessel": {
         "title": "vessel",
@@ -3977,22 +3978,154 @@
           "relationships"
         ]
       },
-      "example": {
-        "title": "example",
+      "raw_event": {
+        "title": "raw_event",
         "type": "object",
+        "description": "Raw Events represent the milestones from the shipping line for a given container.\n\n### About raw_event datetimes\n\nThe events may include estimated future events. The event is a future event if an `estimated_` timestamp is not null. \n\nThe datetime properties `actual_on`, `estimated_on`, `actual_at`, and `estimated_at` are all mutually exclusive. \n\nWhen the `time_zone` property is present the datetimes are UTC timestamps, which can be converted to the local time by parsing the provided `time_zone`.\n\nWhen the `time_zone` property is absent, the datetimes represent local times which serialized as UTC timestamps for consistency. ",
         "properties": {
-          "data": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "description": "",
+            "enum": [
+              "raw_event"
+            ]
+          },
+          "attributes": {
             "type": "object",
             "properties": {
-              "id": {
-                "type": "string",
-                "format": "uuid"
-              },
-              "type": {
+              "event": {
                 "type": "string",
                 "enum": [
-                  "object_type"
-                ]
+                  "empty_out",
+                  "full_in",
+                  "positioned_in",
+                  "positioned_out",
+                  "vessel_loaded",
+                  "vessel_departed",
+                  "transshipment_arrived",
+                  "transshipment_discharged",
+                  "transshipment_loaded",
+                  "transshipment_departed",
+                  "rail_arrived",
+                  "rail_loaded",
+                  "rail_unloaded",
+                  "rail_departed",
+                  "vessel_arrived",
+                  "vessel_discharged",
+                  "arrived_at_destination",
+                  "delivered",
+                  "full_out",
+                  "empty_in",
+                  "vgm_received",
+                  "carrier_release",
+                  "customs_release"
+                ],
+                "description": "Normalized string representing the event"
+              },
+              "original_event": {
+                "type": "string",
+                "description": "The event name as returned by the carrier"
+              },
+              "actual_on": {
+                "type": "string",
+                "format": "date",
+                "description": "The date of the event at the event location when no time information is available. "
+              },
+              "estimated_on": {
+                "type": "string",
+                "format": "date",
+                "description": "The estimated date of the event at the event location when no time information is available. "
+              },
+              "actual_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "The datetime the event transpired in UTC"
+              },
+              "estimated_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "The estimated datetime the event will occur in UTC"
+              },
+              "time_zone": {
+                "type": "string",
+                "description": "IANA TZ where the event occured"
+              },
+              "created_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "When the raw_event was created in UTC"
+              },
+              "location_name": {
+                "type": "string",
+                "description": "The city or facility name of the event location"
+              },
+              "location_locode": {
+                "type": "string",
+                "description": "UNLOCODE of the event location"
+              },
+              "vessel_name": {
+                "type": "string",
+                "description": "The name of the vessel where applicable"
+              },
+              "vessel_imo": {
+                "type": "string",
+                "description": "The IMO of the vessel where applicable"
+              },
+              "index": {
+                "type": "integer",
+                "description": "The order of the event. Thishelpful when only dates (i.e. actual_on) are available."
+              },
+              "voyage_number": {
+                "type": "string"
+              }
+            }
+          },
+          "relationships": {
+            "type": "object",
+            "properties": {
+              "location": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "port",
+                          "metro_area"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "vessel": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "vessel"
+                        ]
+                      }
+                    }
+                  }
+                }
               }
             }
           }
