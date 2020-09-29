@@ -2367,6 +2367,42 @@
         "operationId": "get-containers-id",
         "description": "Retrieves the details of a container."
       }
+    },
+    "/containers/{id}/raw_events": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get a container's raw events",
+        "tags": [],
+        "responses": {},
+        "operationId": "get-containers-id-raw_events",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/raw_event"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Returns the carrier raw_events for a container"
+      }
     }
   },
   "x-tagGroups": [
@@ -3979,7 +4015,7 @@
         ]
       },
       "raw_event": {
-        "title": "raw_event",
+        "title": "Raw Event Model",
         "type": "object",
         "description": "Raw Events represent the milestones from the shipping line for a given container.\n\n### About raw_event datetimes\n\nThe events may include estimated future events. The event is a future event if an `estimated_` timestamp is not null. \n\nThe datetime properties `actual_on`, `estimated_on`, `actual_at`, and `estimated_at` are all mutually exclusive. \n\nWhen the `time_zone` property is present the datetimes are UTC timestamps, which can be converted to the local time by parsing the provided `time_zone`.\n\nWhen the `time_zone` property is absent, the datetimes represent local times which serialized as UTC timestamps for consistency. ",
         "properties": {
