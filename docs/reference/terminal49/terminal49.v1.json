@@ -2403,6 +2403,42 @@
         },
         "description": "Returns the carrier raw_events for a container"
       }
+    },
+    "/containers/{id}/transport_events": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get a container's transport events",
+        "tags": [],
+        "responses": {},
+        "operationId": "get-containers-id-transport_events",
+        "description": "The canonical transport events for the container.\n\nThese are a verified subset of the raw events may also be sent as push notifications. ",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/transport_event"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "x-tagGroups": [
@@ -3535,6 +3571,10 @@
       "transport_event": {
         "title": "Transport Event Model",
         "type": "object",
+        "tags": [
+          "Webhook Notifications"
+        ],
+        "description": "",
         "properties": {
           "id": {
             "type": "string",
@@ -3552,7 +3592,12 @@
               "event": {
                 "type": "string",
                 "enum": [
-                  "shipment.transport.vessel_arrived"
+                  "container.transport.vessel_loaded",
+                  "container.transport.vessel_arrived",
+                  "container.transport.vessel_departed",
+                  "container.transport.vessel_discharged",
+                  "container.transport.full_out",
+                  "container.transport.empty_in"
                 ]
               },
               "voyage_number": {
@@ -3591,7 +3636,7 @@
                   }
                 }
               },
-              "port": {
+              "location": {
                 "type": "object",
                 "properties": {
                   "data": {
@@ -3604,7 +3649,8 @@
                       "type": {
                         "type": "string",
                         "enum": [
-                          "port"
+                          "port",
+                          "metro_area"
                         ]
                       }
                     }
@@ -3630,6 +3676,50 @@
                     }
                   }
                 }
+              },
+              "terminal": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "terminal",
+                          "rail_terminal"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "container": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "container"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "": {
+                "type": "string"
               }
             }
           }
@@ -3637,11 +3727,7 @@
         "required": [
           "id",
           "type"
-        ],
-        "tags": [
-          "Webhook Notifications"
-        ],
-        "description": ""
+        ]
       },
       "estimated_event": {
         "title": "Estimated Event Model",
@@ -4085,7 +4171,7 @@
                 "format": "date-time",
                 "description": "The estimated datetime the event will occur in UTC"
               },
-              "time_zone": {
+              "timezone": {
                 "type": "string",
                 "description": "IANA TZ where the event occured"
               },
