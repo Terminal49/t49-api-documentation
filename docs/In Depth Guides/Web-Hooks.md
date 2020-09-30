@@ -160,6 +160,26 @@ This signature is added as the header `X-T49-Webhook-Signature`
 
 If you would like to verify that the webhook payload has not been tampered with by a 3rd party, then you can perform the same operation on the response body with the webhook secret and confirm that the digests match. 
 
+Below is a basic example of how this might look in a rails application.
+```ruby
+class WebhooksController < ApplicationController
+  def receive_tracking_request
+    secret = ENV.fetch('TRACKING_REQUEST_WEBHOOK_SECRET')
+    raise 'InvalidSignature' unless valid_signature?(request, secret)
+
+    # continue processing webhook payload...
+
+  end
+
+  private
+
+  def valid_signature?(request, secret)
+    hmac = OpenSSL::HMAC.hexdigest('SHA256', secret, request.body.read)
+    request.headers['X-T49-Webhook-Signature'] == hmac
+  end
+end
+```
+
 ## Events
 
 Each event represents some change to a model which you may be notified of. These events are supported:
