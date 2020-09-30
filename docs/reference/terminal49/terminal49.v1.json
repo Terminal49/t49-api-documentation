@@ -3495,6 +3495,7 @@
       "webhook": {
         "title": "webhook",
         "type": "object",
+        "x-examples": {},
         "properties": {
           "id": {
             "type": "string",
@@ -3511,32 +3512,40 @@
             "properties": {
               "url": {
                 "type": "string",
-                "format": "uri"
+                "format": "uri",
+                "description": "https end point"
               },
               "active": {
                 "type": "boolean",
-                "default": true
+                "default": true,
+                "description": "whether the webhook will be delivered when events are triggered"
               },
               "events": {
                 "type": "array",
                 "description": "",
+                "uniqueItems": false,
+                "minItems": 1,
                 "items": {
                   "type": "string"
                 }
+              },
+              "secret": {
+                "type": "string",
+                "description": "A random token that will sign all delivered webhooks"
               }
             },
             "required": [
               "url",
               "active",
-              "events"
+              "events",
+              "secret"
             ]
           }
         },
         "required": [
           "id",
           "type"
-        ],
-        "x-examples": {}
+        ]
       },
       "vessel": {
         "title": "vessel",
