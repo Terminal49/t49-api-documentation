@@ -151,6 +151,35 @@ The payload of every webhook is a `webhook_notification`. Each Webhook notificat
 }
 ```
 
+## Verifying the webhook signature (optional)
+When you create or get a webhook the model will include an attribute `secret`.
+
+Whenever a webhook notification is delivered we create a signature by using the webhook `secret` as the key to generate a HMAC hex digest with SHA-256 on the body.
+
+This signature is added as the header `X-T49-Webhook-Signature`
+
+If you would like to verify that the webhook payload has not been tampered with by a 3rd party, then you can perform the same operation on the response body with the webhook secret and confirm that the digests match. 
+
+Below is a basic example of how this might look in a rails application.
+```ruby
+class WebhooksController < ApplicationController
+  def receive_tracking_request
+    secret = ENV.fetch('TRACKING_REQUEST_WEBHOOK_SECRET')
+    raise 'InvalidSignature' unless valid_signature?(request, secret)
+
+    # continue processing webhook payload...
+
+  end
+
+  private
+
+  def valid_signature?(request, secret)
+    hmac = OpenSSL::HMAC.hexdigest('SHA256', secret, request.body.read)
+    request.headers['X-T49-Webhook-Signature'] == hmac
+  end
+end
+```
+
 ## Events
 
 Each event represents some change to a model which you may be notified of. These events are supported:
@@ -201,7 +230,7 @@ title: POD Terminal
 -->
 The pod_terminal is a relationship of the container. When the pod_terminal changes the id is included. The terminal will be serialized in the included models.
 
-N.B. the `container_updated_event` also has a relationship to a `terminal` which refers to where the information came from. Currently this is always the POD terminal. In the future this may be the final destination terminal.
+N.B. the `container_updated_event` also has a relationship to a `terminal` which refers to where the information came from. Currently this is always the POD terminal. In the future this may be the final destination terminal or an off-dock location.
 ```json
 {
   "data": {
