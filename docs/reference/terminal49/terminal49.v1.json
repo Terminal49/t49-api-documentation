@@ -3396,7 +3396,8 @@
                 "enum": [
                   "shipping_line_unavailable",
                   "unrecognized_response"
-                ]
+                ],
+                "description": "If the tracking request has failed, or is currently failing, the last reason we were unable to complete the request"
               },
               "request_type": {
                 "type": "string",
@@ -3411,12 +3412,26 @@
                 "example": "ONEY",
                 "minLength": 4,
                 "maxLength": 4
+              },
+              "created_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "is_retrying": {
+                "type": "boolean",
+                "description": ""
+              },
+              "retry_count": {
+                "type": "integer",
+                "description": "How many times T49 has attempted to get the shipment from the shipping line"
               }
             },
             "required": [
               "request_number",
+              "status",
               "request_type",
-              "scac"
+              "scac",
+              "created_at"
             ]
           },
           "relationships": {

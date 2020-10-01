@@ -4,4 +4,4 @@ tags: [See Also]
 
 # Pricing
 
-The beginning of an awesome article...
+View our [standard API pricing on our website](https://www.terminal49.com/pricing-plans#API-Section)
