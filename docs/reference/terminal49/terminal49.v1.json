@@ -291,63 +291,21 @@
         "parameters": [
           {
             "schema": {
-              "type": "array"
-            },
-            "in": "query",
-            "name": "filter[port_of_discharge]",
-            "description": "`unreleased` "
-          },
-          {
-            "schema": {
-              "type": "string"
-            },
-            "in": "query",
-            "name": "filter[arrival_date_from]",
-            "description": "`unreleased` Shipments arriving (or arrived) after date (inclusive)"
-          },
-          {
-            "schema": {
-              "type": "string"
-            },
-            "in": "query",
-            "name": "filter[arrival_date_to]",
-            "description": "`unreleased` Shipments arriving (or arrived) before date (inclusive)"
-          },
-          {
-            "schema": {
-              "type": "array"
-            },
-            "in": "query",
-            "name": "filter[port_of_lading]",
-            "description": "`unreleased` Array of UN/LOCODEs"
-          },
-          {
-            "schema": {
-              "type": "integer"
+              "type": "integer",
+              "default": 1
             },
             "in": "query",
             "name": "page[number]",
-            "description": "`unreleased` "
+            "description": "\n"
           },
           {
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "default": 30
             },
             "in": "query",
             "name": "page[size]",
-            "description": "`unreleased` "
-          },
-          {
-            "schema": {
-              "type": "string",
-              "enum": [
-                "ASC",
-                "DESC"
-              ]
-            },
-            "in": "query",
-            "name": "sort",
-            "description": "`unreleased` "
+            "description": "\n"
           },
           {
             "schema": {
@@ -355,7 +313,7 @@
             },
             "in": "query",
             "name": "q",
-            "description": "`unreleased` Search shipments by master bill of lading, reference number, or container number."
+            "description": "\nSearch shipments by master bill of lading, reference number, or container number."
           }
         ]
       }
@@ -2322,7 +2280,26 @@
           }
         },
         "operationId": "get-containers",
-        "description": "Returns a list of container. The containers are returned sorted by creation date, with the most recent container appearing first.\n\nThis API will return all containers associated with the account."
+        "description": "Returns a list of container. The containers are returned sorted by creation date, with the most recent container appearing first.\n\nThis API will return all containers associated with the account.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "default": 1
+            },
+            "in": "query",
+            "name": "page[number]"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "default": 30
+            },
+            "in": "query",
+            "name": "page[size]",
+            "description": ""
+          }
+        ]
       }
     },
     "/containers/{id}": {
@@ -2381,7 +2358,9 @@
       ],
       "get": {
         "summary": "Get a container's raw events",
-        "tags": [],
+        "tags": [
+          "Containers"
+        ],
         "responses": {},
         "operationId": "get-containers-id-raw_events",
         "requestBody": {
@@ -2417,7 +2396,9 @@
       ],
       "get": {
         "summary": "Get a container's transport events",
-        "tags": [],
+        "tags": [
+          "Containers"
+        ],
         "responses": {},
         "operationId": "get-containers-id-transport_events",
         "description": "The canonical transport events for the container.\n\nThese are a verified subset of the raw events may also be sent as push notifications. ",
