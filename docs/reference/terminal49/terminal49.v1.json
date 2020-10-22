@@ -1323,7 +1323,82 @@
         "description": "Update a single webhook",
         "tags": [
           "Webhooks"
-        ]
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": [
+                      "string",
+                      "object"
+                    ],
+                    "required": [
+                      "attributes",
+                      "type"
+                    ],
+                    "properties": {
+                      "attributes": {
+                        "type": [
+                          "string",
+                          "object"
+                        ],
+                        "properties": {
+                          "url": {
+                            "type": "string",
+                            "example": "https://webhook.site/#!/39084fbb-d887-42e8-be08-b9183ad02362",
+                            "format": "uri",
+                            "description": "The URL of the webhook endpoint."
+                          },
+                          "events": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "description": "The list of events to enable for this endpoint. You may specify `['*']` to enable all events.",
+                            "items": {
+                              "type": "string",
+                              "example": "['*']"
+                            }
+                          },
+                          "active": {
+                            "type": "boolean"
+                          },
+                          "headers": {
+                            "type": "array",
+                            "description": "Optional custom headers to pass with each webhook invocation",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "name": {
+                                  "type": "string",
+                                  "description": "The name of the header. (Please not this will be auto-capitalized) "
+                                },
+                                "value": {
+                                  "type": "string",
+                                  "description": "The value to pass for the header\n"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "webhook"
+                        ]
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        }
       },
       "delete": {
         "summary": "Delete a webhook",
