@@ -1485,6 +1485,23 @@
                           },
                           "active": {
                             "type": "boolean"
+                          },
+                          "headers": {
+                            "type": "array",
+                            "description": "Optional custom headers to pass with each webhook invocation",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "name": {
+                                  "type": "string",
+                                  "description": "The name of the header. (Please not this will be auto-capitalized) "
+                                },
+                                "value": {
+                                  "type": "string",
+                                  "description": "The value to pass for the header\n"
+                                }
+                              }
+                            }
                           }
                         }
                       },
