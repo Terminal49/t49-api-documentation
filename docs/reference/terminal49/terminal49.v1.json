@@ -896,6 +896,13 @@
                             "example": "MSCU",
                             "minLength": 4,
                             "maxLength": 4
+                          },
+                          "ref_numbers": {
+                            "type": "array",
+                            "description": "Optional list of reference numbers to be added to the shipment when tracking request completes",
+                            "items": {
+                              "type": "string"
+                            }
                           }
                         },
                         "required": [
@@ -3510,28 +3517,7 @@
           "relationships": {
             "type": "object",
             "properties": {
-              "customer": {
-                "type": "object",
-                "properties": {
-                  "data": {
-                    "type": "object",
-                    "format": "uuid",
-                    "properties": {
-                      "id": {
-                        "type": "string",
-                        "format": "uuid"
-                      },
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "account"
-                        ]
-                      }
-                    }
-                  }
-                }
-              },
-              "shipment": {
+              "tracked_object": {
                 "type": "object",
                 "properties": {
                   "data": {
@@ -3546,26 +3532,6 @@
                         "type": "string",
                         "enum": [
                           "shipment"
-                        ]
-                      }
-                    }
-                  }
-                }
-              },
-              "shipping_line": {
-                "type": "object",
-                "properties": {
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string",
-                        "format": "uuid"
-                      },
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "shipping_line"
                         ]
                       }
                     }
