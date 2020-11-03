@@ -66,72 +66,74 @@
                 "examples": {
                   "En-route to NY with inland move": {
                     "value": {
-                      "data": {
-                        "id": "512ae32c-a604-44f8-9c15-2ca9cd3d2ae8",
-                        "type": "shipment",
-                        "attributes": {
-                          "bill_of_lading_number": "6140575020",
-                          "ref_numbers": [
-                            "my-ref-49",
-                            "PO#18412"
-                          ],
-                          "created_at": "2020-02-20T13:37:12Z",
-                          "tags": [],
-                          "port_of_lading_locode": "INVTZ",
-                          "port_of_lading_name": "Visakhapatnam, IN",
-                          "port_of_discharge_locode": "USNYC",
-                          "port_of_discharge_name": "New York / New Jersey, NY",
-                          "destination_locode": "USDET",
-                          "destination_name": "Detroit, MI",
-                          "shipping_line_scac": "HLCU",
-                          "pod_vessel_name": "CMA CGM ALMAVIVA",
-                          "pod_vessel_imo": "9450648",
-                          "pod_voyage_number": "0108",
-                          "pol_etd_at": null,
-                          "pol_atd_at": "2020-02-15T21:53Z",
-                          "pol_timezone": "Asia/Calcutta",
-                          "pod_eta_at": "2020-03-18T08:00Z",
-                          "pod_ata_at": null,
-                          "pod_timezone": "America/New_York",
-                          "destination_eta_at": "2020-03-26T17:00Z",
-                          "destination_ata_at": null,
-                          "destination_timezone": "America/Detroit"
-                        },
-                        "relationships": {
-                          "containers": {
-                            "data": [
-                              {
-                                "id": "c99a81c0-ff69-4bdf-aa5f-8e33a787f5fa",
-                                "type": "container"
+                      "data": [
+                        {
+                          "id": "512ae32c-a604-44f8-9c15-2ca9cd3d2ae8",
+                          "type": "shipment",
+                          "attributes": {
+                            "bill_of_lading_number": "6140575020",
+                            "ref_numbers": [
+                              "my-ref-49",
+                              "PO#18412"
+                            ],
+                            "created_at": "2020-02-20T13:37:12Z",
+                            "tags": [],
+                            "port_of_lading_locode": "INVTZ",
+                            "port_of_lading_name": "Visakhapatnam, IN",
+                            "port_of_discharge_locode": "USNYC",
+                            "port_of_discharge_name": "New York / New Jersey, NY",
+                            "destination_locode": "USDET",
+                            "destination_name": "Detroit, MI",
+                            "shipping_line_scac": "HLCU",
+                            "pod_vessel_name": "CMA CGM ALMAVIVA",
+                            "pod_vessel_imo": "9450648",
+                            "pod_voyage_number": "0108",
+                            "pol_etd_at": null,
+                            "pol_atd_at": "2020-02-15T21:53:00Z",
+                            "pol_timezone": "Asia/Calcutta",
+                            "pod_eta_at": "2020-03-18T08:00:00Z",
+                            "pod_ata_at": null,
+                            "pod_timezone": "America/New_York",
+                            "destination_eta_at": "2020-03-26T17:00:00Z",
+                            "destination_ata_at": null,
+                            "destination_timezone": "America/Detroit"
+                          },
+                          "relationships": {
+                            "containers": {
+                              "data": [
+                                {
+                                  "id": "c99a81c0-ff69-4bdf-aa5f-8e33a787f5fa",
+                                  "type": "container"
+                                }
+                              ]
+                            },
+                            "port_of_lading": {
+                              "data": {
+                                "id": "bde5465a-1160-4fde-a026-74df9c362f65",
+                                "type": "port"
                               }
-                            ]
-                          },
-                          "port_of_lading": {
-                            "data": {
-                              "id": "bde5465a-1160-4fde-a026-74df9c362f65",
-                              "type": "port"
-                            }
-                          },
-                          "port_of_discharge": {
-                            "data": {
-                              "id": "f7cb530a-9e60-412c-a5bc-205a2f34ba54",
-                              "type": "port"
-                            }
-                          },
-                          "destination": {
-                            "data": {
-                              "id": "c9ae2b6b-5088-4e07-ba09-2872121e4fa2",
-                              "type": "metro_area"
-                            }
-                          },
-                          "customer": {
-                            "data": {
-                              "id": "ff76b51a-371e-45ec-86d1-9d03ccae566a",
-                              "type": "account"
+                            },
+                            "port_of_discharge": {
+                              "data": {
+                                "id": "f7cb530a-9e60-412c-a5bc-205a2f34ba54",
+                                "type": "port"
+                              }
+                            },
+                            "destination": {
+                              "data": {
+                                "id": "c9ae2b6b-5088-4e07-ba09-2872121e4fa2",
+                                "type": "metro_area"
+                              }
+                            },
+                            "customer": {
+                              "data": {
+                                "id": "ff76b51a-371e-45ec-86d1-9d03ccae566a",
+                                "type": "account"
+                              }
                             }
                           }
                         }
-                      },
+                      ],
                       "included": [
                         {
                           "id": "c99a81c0-ff69-4bdf-aa5f-8e33a787f5fa",
@@ -389,12 +391,12 @@
                           "pod_vessel_imo": "9450648",
                           "pod_voyage_number": "0108",
                           "pol_etd_at": null,
-                          "pol_atd_at": "2020-02-15T21:53Z",
+                          "pol_atd_at": "2020-02-15T21:53:00Z",
                           "pol_timezone": "Asia/Calcutta",
-                          "pod_eta_at": "2020-03-18T08:00Z",
+                          "pod_eta_at": "2020-03-18T08:00:00Z",
                           "pod_ata_at": null,
                           "pod_timezone": "America/New_York",
-                          "destination_eta_at": "2020-03-26T17:00Z",
+                          "destination_eta_at": "2020-03-26T17:00:00Z",
                           "destination_ata_at": null,
                           "destination_timezone": "America/Detroit"
                         },
@@ -783,7 +785,7 @@
                           "request_number": "MEDUFR030802",
                           "request_type": "bill_of_lading",
                           "scac": "MSCU",
-                          "ref_numbers": null,
+                          "ref_numbers": [],
                           "created_at": "2020-04-04T16:13:35-07:00",
                           "status": "pending",
                           "failed_reason": null
@@ -1151,7 +1153,7 @@
                           "request_number": "MEDUFR030802",
                           "request_type": "bill_of_lading",
                           "scac": "MSCU",
-                          "ref_numbers": null,
+                          "ref_numbers": [],
                           "created_at": "2020-04-04T16:13:35-07:00",
                           "status": "created",
                           "failed_reason": null
@@ -1488,20 +1490,15 @@
                 "type": "object",
                 "properties": {
                   "data": {
-                    "type": [
-                      "string",
-                      "object"
-                    ],
+                    "type": "object",
                     "required": [
                       "attributes",
-                      "type"
+                      "type",
+                      "id"
                     ],
                     "properties": {
                       "attributes": {
-                        "type": [
-                          "string",
-                          "object"
-                        ],
+                        "type": "object",
                         "required": [
                           "url",
                           "events",
@@ -1550,6 +1547,10 @@
                         "enum": [
                           "webhook"
                         ]
+                      },
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"
                       }
                     }
                   }
@@ -1563,6 +1564,7 @@
                   "value": {
                     "data": {
                       "type": "webhook",
+                      "id": "9809fb96-7754-488f-99df-29ca8d410d89",
                       "attributes": {
                         "url": "https://webhook.site/",
                         "active": true,
@@ -1591,8 +1593,8 @@
                     "value": {
                       "data": {
                         "type": "webhook",
+                        "id": "9809fb96-7754-488f-99df-29ca8d410d89",
                         "attributes": {
-                          "id": "9809fb96-7754-488f-99df-29ca8d410d89",
                           "url": "https://webhook.site/",
                           "active": true,
                           "events": [
@@ -2538,9 +2540,6 @@
       "shipment": {
         "title": "Shipment model",
         "type": "object",
-        "tags": [
-          "Shipments"
-        ],
         "x-examples": {},
         "description": "",
         "properties": {
@@ -2703,7 +2702,7 @@
               },
               "created_at": {
                 "type": "string",
-                "format": "uri"
+                "format": "date-time"
               },
               "tags": {
                 "type": "array",
@@ -2746,39 +2745,66 @@
                 "type": "string"
               },
               "pol_etd_at": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "format": "date-time"
               },
               "pol_atd_at": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "format": "date-time"
               },
               "pod_eta_at": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "format": "date-time"
               },
               "pod_ata_at": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "format": "date-time"
               },
               "destination_eta_at": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "format": "date-time"
               },
               "destination_ata_at": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "format": "date-time"
               },
               "pol_timezone": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "description": "IANA tz"
               },
               "pod_timezone": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "description": "IANA tz"
               },
               "destination_timezone": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "description": "IANA tz"
               }
             },
@@ -2856,7 +2882,10 @@
                 "type": "string"
               },
               "equipment_type": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "enum": [
                   "dry",
                   "reefer",
@@ -2867,7 +2896,10 @@
                 ]
               },
               "equipment_length": {
-                "type": "integer",
+                "type": [
+                  "integer",
+                  "null"
+                ],
                 "enum": [
                   10,
                   20,
@@ -2876,29 +2908,44 @@
                 ]
               },
               "equipment_height": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "enum": [
                   "standard",
                   "high_cube"
                 ]
               },
               "weight_in_lbs": {
-                "type": "string"
+                "type": [
+                  "string",
+                  "null"
+                ]
               },
               "created_at": {
                 "type": "string",
                 "format": "date-time"
               },
               "seal_number": {
-                "type": "string"
+                "type": [
+                  "string",
+                  "null"
+                ]
               },
               "pickup_lfd": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "format": "date-time",
                 "description": "The last free day for pickup before deummurage accrues."
               },
               "pickup_apopintment_at": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "format": "date-time",
                 "description": "When available the pickup appointment time at the terminal is returned."
               },
@@ -2907,11 +2954,17 @@
                 "description": "Whether Terminal 49 is receiving availability status from the terminal."
               },
               "available_for_pickup": {
-                "type": "boolean",
+                "type": [
+                  "boolean",
+                  "null"
+                ],
                 "description": "If availability_known is true, then whether container is available to be picked up at terminal."
               },
               "current_transportation_mode": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "enum": [
                   "vessel",
                   "rail",
@@ -2921,40 +2974,64 @@
                 "description": "`unreleased`"
               },
               "pod_discharged_at": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "format": "date-time",
                 "description": "`unreleased` Discharge time at the port of discharge"
               },
               "pod_full_out_at": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "format": "date-time",
                 "description": "Full Out time at port of discharge. Null for inland moves."
               },
               "destination_unloaded_at": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "format": "date-time",
                 "description": "`unreleased` Arrival or unloading time at final destination for inland moves."
               },
               "final_destination_full_out_at": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "format": "date-time",
                 "description": "`unreleased` Pickup time at final destination for inland moves."
               },
               "empty_terminated_at": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "format": "date-time",
                 "description": "`unreleased` Time empty container was returned."
               },
               "pod_timezone": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "description": "`unreleased` IANA tz"
               },
               "destination_timezone": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "description": "`unreleaed` IANA tz"
               },
               "empty_returned_timezone": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "description": "`unreleased` IANA tz"
               },
               "holds_at_pod_terminal": {
@@ -3217,7 +3294,15 @@
             "type": "string"
           },
           "source": {
-            "type": "string"
+            "type": "object",
+            "properties": {
+              "pointer": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
           },
           "code": {
             "type": "string"
@@ -3472,7 +3557,10 @@
                 ]
               },
               "failed_reason": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "enum": [
                   "shipping_line_unavailable",
                   "unrecognized_response"
