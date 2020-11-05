@@ -933,6 +933,11 @@
                       "attributes": {
                         "request_type": "bill_of_lading",
                         "request_number": "MEDUFR030802",
+                        "ref_numbers": [
+                          "PO12345",
+                          "HBL12345",
+                          "CUSREF1234"
+                        ],
                         "scac": "MSCU"
                       },
                       "type": "tracking_request"
