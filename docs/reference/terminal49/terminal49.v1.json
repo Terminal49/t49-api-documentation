@@ -1559,7 +1559,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/webhook"
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/webhook"
+                    }
+                  }
                 },
                 "examples": {
                   "Test Endpoint Created": {
@@ -1573,6 +1578,7 @@
                           "events": [
                             "*"
                           ],
+                          "secret": "C193J3QOXMFH",
                           "created_at": "2020-06-05T19:06:13Z"
                         }
                       }
@@ -1854,7 +1860,8 @@
                         "attributes": {
                           "id": "d7e04138-b59d-4c41-9d2d-251d95bedd6e",
                           "event": "shipment.estimated.arrival",
-                          "delivery_status": "pending"
+                          "delivery_status": "pending",
+                          "created_at": "2020-09-11T21:25:34Z"
                         },
                         "relationships": {
                           "reference_object": {
@@ -2256,7 +2263,7 @@
           }
         },
         "operationId": "get-webhook-notification-id",
-        "description": "",
+        "description": "\n",
         "tags": [
           "Webhook Notifications"
         ]
@@ -2726,7 +2733,8 @@
               },
               "pol_etd_at": {
                 "type": "string",
-                "format": "date-time"
+                "format": "date-time",
+                "nullable": true
               },
               "pol_atd_at": {
                 "type": "string",
@@ -2738,15 +2746,18 @@
               },
               "pod_ata_at": {
                 "type": "string",
-                "format": "date-time"
+                "format": "date-time",
+                "nullable": true
               },
               "destination_eta_at": {
                 "type": "string",
-                "format": "date-time"
+                "format": "date-time",
+                "nullable": true
               },
               "destination_ata_at": {
                 "type": "string",
-                "format": "date-time"
+                "format": "date-time",
+                "nullable": true
               },
               "pol_timezone": {
                 "type": "string",
@@ -2866,12 +2877,14 @@
                 "format": "date-time"
               },
               "seal_number": {
-                "type": "string"
+                "type": "string",
+                "nullable": true
               },
               "pickup_lfd": {
                 "type": "string",
                 "format": "date-time",
-                "description": "The last free day for pickup before deummurage accrues."
+                "description": "The last free day for pickup before deummurage accrues.",
+                "nullable": true
               },
               "pickup_apopintment_at": {
                 "type": "string",
@@ -2884,7 +2897,8 @@
               },
               "available_for_pickup": {
                 "type": "boolean",
-                "description": "If availability_known is true, then whether container is available to be picked up at terminal."
+                "description": "If availability_known is true, then whether container is available to be picked up at terminal.",
+                "nullable": true
               },
               "current_transportation_mode": {
                 "type": "string",
@@ -2899,27 +2913,32 @@
               "pod_discharged_at": {
                 "type": "string",
                 "format": "date-time",
-                "description": "`unreleased` Discharge time at the port of discharge"
+                "description": "`unreleased` Discharge time at the port of discharge",
+                "nullable": true
               },
               "pod_full_out_at": {
                 "type": "string",
                 "format": "date-time",
-                "description": "Full Out time at port of discharge. Null for inland moves."
+                "description": "Full Out time at port of discharge. Null for inland moves.",
+                "nullable": true
               },
               "destination_unloaded_at": {
                 "type": "string",
                 "format": "date-time",
-                "description": "`unreleased` Arrival or unloading time at final destination for inland moves."
+                "description": "`unreleased` Arrival or unloading time at final destination for inland moves.",
+                "nullable": true
               },
               "final_destination_full_out_at": {
                 "type": "string",
                 "format": "date-time",
-                "description": "`unreleased` Pickup time at final destination for inland moves."
+                "description": "`unreleased` Pickup time at final destination for inland moves.",
+                "nullable": true
               },
               "empty_terminated_at": {
                 "type": "string",
                 "format": "date-time",
-                "description": "`unreleased` Time empty container was returned."
+                "description": "`unreleased` Time empty container was returned.",
+                "nullable": true
               },
               "pod_timezone": {
                 "type": "string",
@@ -2931,7 +2950,8 @@
               },
               "empty_returned_timezone": {
                 "type": "string",
-                "description": "`unreleased` IANA tz"
+                "description": "`unreleased` IANA tz",
+                "nullable": true
               },
               "holds_at_pod_terminal": {
                 "type": "array",
@@ -3443,7 +3463,8 @@
                   "shipping_line_unavailable",
                   "unrecognized_response"
                 ],
-                "description": "If the tracking request has failed, or is currently failing, the last reason we were unable to complete the request"
+                "description": "If the tracking request has failed, or is currently failing, the last reason we were unable to complete the request",
+                "nullable": true
               },
               "request_type": {
                 "type": "string",
