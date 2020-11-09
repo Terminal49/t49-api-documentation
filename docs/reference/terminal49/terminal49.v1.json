@@ -1342,7 +1342,7 @@
                 "type": "object",
                 "properties": {
                   "data": {
-                    "type": "string",
+                    "type": "object",
                     "required": [
                       "attributes",
                       "type"
