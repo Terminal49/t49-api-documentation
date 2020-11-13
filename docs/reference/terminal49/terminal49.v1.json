@@ -316,6 +316,14 @@
             "in": "query",
             "name": "q",
             "description": "\nSearch shipments by master bill of lading, reference number, or container number."
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "include",
+            "description": "Comma delimited list of relations to include"
           }
         ]
       }
@@ -742,7 +750,17 @@
           }
         },
         "operationId": "get-shipment-id",
-        "description": "Retrieves the details of an existing shipment. You need only supply the unique shipment `id` that was returned upon `tracking_request` creation."
+        "description": "Retrieves the details of an existing shipment. You need only supply the unique shipment `id` that was returned upon `tracking_request` creation.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "include",
+            "description": "Comma delimited list of relations to include"
+          }
+        ]
       }
     },
     "/tracking_requests": {
@@ -957,7 +975,8 @@
         "description": "To track an ocean shipment, you create a new tracking request. \nTwo attributes are required to track a shipment. A `bill of lading/booking number` and a shipping line `SCAC`. \n\nOnce a tracking request is created we will attempt to fetch the shipment details and it's related containers from the shipping line. If the attempt is successful we will create in new shipment object including any related container objects. We will send a `tracking_Request.succeeded` webhook notification to your webhooks.  \n\nIf the attempt to fetch fails then we will send a `tracking_Request.failed` webhook notification to your `webhooks`.  \n\nA `tracking_Request.succeeded` or `tracking_Request.failed` webhook notificaiton will only be sent  if you have  atleast one active webhook. ",
         "tags": [
           "Tracking Requests"
-        ]
+        ],
+        "parameters": []
       },
       "parameters": [],
       "get": {
@@ -1101,6 +1120,28 @@
             "in": "query",
             "description": "filter by tracking_requests `created_at` before a certain ISO8601 timestamp",
             "name": "filter[created_at][end]"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "include",
+            "description": "Comma delimited list of relations to include. 'tracked_object' is included by default."
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "page[number]"
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "page[size]"
           }
         ]
       }
@@ -1272,6 +1313,16 @@
         "description": "Get the details and status of an existing tracking request. ",
         "tags": [
           "Tracking Requests"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "include",
+            "description": "Comma delimited list of relations to include. 'tracked_object' is included by default."
+          }
         ]
       }
     },
@@ -1452,7 +1503,23 @@
           }
         },
         "operationId": "get-webhooks",
-        "description": "Get a list of all the webhooks"
+        "description": "Get a list of all the webhooks",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "page[number]"
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "page[size]"
+          }
+        ]
       },
       "post": {
         "summary": "Create a webhook",
@@ -2271,6 +2338,16 @@
         "description": "\n",
         "tags": [
           "Webhook Notifications"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "description": "Comma delimited list of relations to include.",
+            "name": "include"
+          }
         ]
       }
     },
@@ -2323,9 +2400,33 @@
           }
         },
         "operationId": "get-webhook-notifications",
-        "description": "`unreleased`<br>\n\nReturn the list of  webhook notifications. This can be useful for reconciling your data if your endpoint has been down. ",
+        "description": "Return the list of  webhook notifications. This can be useful for reconciling your data if your endpoint has been down. ",
         "tags": [
           "Webhook Notifications"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "page[number]"
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "page[size]"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "include",
+            "description": "Comma delimited list of relations to include."
+          }
         ]
       }
     },
@@ -2387,6 +2488,14 @@
             "in": "query",
             "name": "page[size]",
             "description": ""
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "include",
+            "description": "Comma delimited list of relations to include"
           }
         ]
       }
@@ -2421,7 +2530,17 @@
                     "included": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/shipment"
+                        "anyOf": [
+                          {
+                            "$ref": "#/components/schemas/shipment"
+                          },
+                          {
+                            "$ref": "#/components/schemas/terminal"
+                          },
+                          {
+                            "$ref": "#/components/schemas/transport_event"
+                          }
+                        ]
                       }
                     }
                   }
@@ -2431,7 +2550,17 @@
           }
         },
         "operationId": "get-containers-id",
-        "description": "Retrieves the details of a container."
+        "description": "Retrieves the details of a container.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "include",
+            "description": "Comma delimited list of relations to include"
+          }
+        ]
       }
     },
     "/containers/{id}/raw_events": {
@@ -2511,7 +2640,17 @@
           }
         },
         "operationId": "get-containers-id-transport_events",
-        "description": "The canonical transport events for the container.\n\nThese are a verified subset of the raw events may also be sent as push notifications. "
+        "description": "The canonical transport events for the container.\n\nThese are a verified subset of the raw events may also be sent as push notifications. ",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "header",
+            "name": "include",
+            "description": "Comma delimited list of relations to include"
+          }
+        ]
       }
     }
   },
@@ -2975,45 +3114,25 @@
           "relationships": {
             "type": "object",
             "properties": {
-              "most_recent_location": {
-                "type": "object",
+              "transport_events": {
                 "description": "The current, or most recent land location.",
-                "properties": {
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string",
-                        "format": "uuid"
-                      },
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "terminal",
-                          "port",
-                          "metroArea"
-                        ]
-                      }
-                    }
-                  }
-                }
-              },
-              "current_vessel": {
                 "type": "object",
-                "description": "The vessel the container is currently laden on.",
                 "properties": {
                   "data": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string",
-                        "format": "uuid"
-                      },
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "vessel"
-                        ]
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "transport_event"
+                          ]
+                        }
                       }
                     }
                   }
@@ -3039,9 +3158,8 @@
                   }
                 }
               },
-              "final_destination": {
+              "pod_terminal": {
                 "type": "object",
-                "description": "[PROPOSED]",
                 "properties": {
                   "data": {
                     "type": "object",
@@ -3053,34 +3171,10 @@
                       "type": {
                         "type": "string",
                         "enum": [
-                          "port",
-                          "metro_area"
+                          "terminal"
                         ]
                       }
                     }
-                  }
-                }
-              }
-            }
-          },
-          "pod_terminal": {
-            "type": "object",
-            "enum": [
-              "container"
-            ],
-            "properties": {
-              "data": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "string",
-                    "format": "uuid"
-                  },
-                  "type": {
-                    "type": "string",
-                    "enum": [
-                      "terminal"
-                    ]
                   }
                 }
               }
