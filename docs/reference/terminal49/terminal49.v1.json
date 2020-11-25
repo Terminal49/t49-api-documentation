@@ -3014,7 +3014,7 @@
                 ]
               },
               "weight_in_lbs": {
-                "type": "string"
+                "type": "number"
               },
               "created_at": {
                 "type": "string",
