@@ -2646,7 +2646,7 @@
             "schema": {
               "type": "string"
             },
-            "in": "header",
+            "in": "query",
             "name": "include",
             "description": "Comma delimited list of relations to include"
           }
@@ -2864,6 +2864,9 @@
                 "type": "string"
               },
               "shipping_line_scac": {
+                "type": "string"
+              },
+              "shipping_line_name": {
                 "type": "string"
               },
               "pod_vessel_name": {
