@@ -2632,6 +2632,40 @@
                       "items": {
                         "$ref": "#/components/schemas/transport_event"
                       }
+                    },
+                    "included": {
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/components/schemas/shipment"
+                          },
+                          {
+                            "$ref": "#/components/schemas/container"
+                          },
+                          {
+                            "$ref": "#/components/schemas/port"
+                          },
+                          {
+                            "$ref": "#/components/schemas/metro_area"
+                          },
+                          {
+                            "$ref": "#/components/schemas/terminal"
+                          },
+                          {
+                            "$ref": "#/components/schemas/rail_terminal"
+                          },
+                          {
+                            "$ref": "#/components/schemas/vessel"
+                          }
+                        ]
+                      }
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/links"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/meta"
                     }
                   }
                 }
@@ -3759,6 +3793,10 @@
               "timezone": {
                 "type": "string",
                 "description": "IANA tz"
+              },
+              "location_locode": {
+                "type": "string",
+                "description": "UNLOCODE of the event location"
               }
             }
           },
@@ -3866,9 +3904,6 @@
                     }
                   }
                 }
-              },
-              "": {
-                "type": "string"
               }
             }
           }
