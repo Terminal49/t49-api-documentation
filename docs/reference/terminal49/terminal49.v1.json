@@ -3076,7 +3076,8 @@
               "pickup_apopintment_at": {
                 "type": "string",
                 "format": "date-time",
-                "description": "When available the pickup appointment time at the terminal is returned."
+                "description": "When available the pickup appointment time at the terminal is returned.",
+                "nullable": true
               },
               "availability_known": {
                 "type": "boolean",
@@ -3086,16 +3087,6 @@
                 "type": "boolean",
                 "description": "If availability_known is true, then whether container is available to be picked up at terminal.",
                 "nullable": true
-              },
-              "current_transportation_mode": {
-                "type": "string",
-                "enum": [
-                  "vessel",
-                  "rail",
-                  "truck",
-                  "grounded"
-                ],
-                "description": "`unreleased`"
               },
               "pod_arrived_at": {
                 "type": "string",
