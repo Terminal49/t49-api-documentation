@@ -2919,11 +2919,14 @@
               },
               "pol_atd_at": {
                 "type": "string",
-                "format": "date-time"
+                "format": "date-time",
+                "nullable": true
+
               },
               "pod_eta_at": {
                 "type": "string",
-                "format": "date-time"
+                "format": "date-time",
+                "nullable": true
               },
               "pod_ata_at": {
                 "type": "string",
