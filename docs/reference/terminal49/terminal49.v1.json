@@ -2921,7 +2921,6 @@
                 "type": "string",
                 "format": "date-time",
                 "nullable": true
-
               },
               "pod_eta_at": {
                 "type": "string",
@@ -3035,7 +3034,8 @@
                   "flat rack",
                   "bulk",
                   "tank"
-                ]
+                ],
+                "nullable": true
               },
               "equipment_length": {
                 "type": "integer",
@@ -3044,17 +3044,20 @@
                   20,
                   40,
                   45
-                ]
+                ],
+                "nullable": true
               },
               "equipment_height": {
                 "type": "string",
                 "enum": [
                   "standard",
                   "high_cube"
-                ]
+                ],
+                "nullable": true
               },
               "weight_in_lbs": {
-                "type": "number"
+                "type": "number",
+                "nullable": true
               },
               "created_at": {
                 "type": "string",
@@ -3094,10 +3097,16 @@
                 ],
                 "description": "`unreleased`"
               },
+              "pod_arrived_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "Time the vessel arrived at the POD",
+                "nullable": true
+              },
               "pod_discharged_at": {
                 "type": "string",
                 "format": "date-time",
-                "description": "`unreleased` Discharge time at the port of discharge",
+                "description": "Discharge time at the port of discharge",
                 "nullable": true
               },
               "pod_full_out_at": {
@@ -3106,35 +3115,16 @@
                 "description": "Full Out time at port of discharge. Null for inland moves.",
                 "nullable": true
               },
-              "destination_unloaded_at": {
-                "type": "string",
-                "format": "date-time",
-                "description": "`unreleased` Arrival or unloading time at final destination for inland moves.",
-                "nullable": true
-              },
               "final_destination_full_out_at": {
                 "type": "string",
                 "format": "date-time",
-                "description": "`unreleased` Pickup time at final destination for inland moves.",
+                "description": "Pickup time at final destination for inland moves.",
                 "nullable": true
               },
               "empty_terminated_at": {
                 "type": "string",
                 "format": "date-time",
-                "description": "`unreleased` Time empty container was returned.",
-                "nullable": true
-              },
-              "pod_timezone": {
-                "type": "string",
-                "description": "`unreleased` IANA tz"
-              },
-              "destination_timezone": {
-                "type": "string",
-                "description": "`unreleaed` IANA tz"
-              },
-              "empty_returned_timezone": {
-                "type": "string",
-                "description": "`unreleased` IANA tz",
+                "description": "Time empty container was returned.",
                 "nullable": true
               },
               "holds_at_pod_terminal": {
@@ -3147,75 +3137,6 @@
                 "type": "array",
                 "items": {
                   "$ref": "#/components/schemas/terminal_fee"
-                }
-              }
-            }
-          },
-          "relationships": {
-            "type": "object",
-            "properties": {
-              "transport_events": {
-                "description": "The current, or most recent land location.",
-                "type": "object",
-                "properties": {
-                  "data": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "string",
-                          "format": "uuid"
-                        },
-                        "type": {
-                          "type": "string",
-                          "enum": [
-                            "transport_event"
-                          ]
-                        }
-                      }
-                    }
-                  }
-                }
-              },
-              "shipment": {
-                "type": "object",
-                "properties": {
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string",
-                        "format": "uuid"
-                      },
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "shipment"
-                        ]
-                      }
-                    }
-                  }
-                }
-              },
-              "pod_terminal": {
-                "type": "object",
-                "properties": {
-                  "data": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string",
-                        "format": "uuid"
-                      },
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "terminal"
-                        ]
-                      }
-                    }
-                  }
                 }
               }
             }
