@@ -3073,7 +3073,7 @@
                 "description": "The last free day for pickup before deummurage accrues.",
                 "nullable": true
               },
-              "pickup_apopintment_at": {
+              "pickup_appointment_at": {
                 "type": "string",
                 "format": "date-time",
                 "description": "When available the pickup appointment time at the terminal is returned.",
