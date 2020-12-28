@@ -3703,7 +3703,8 @@
               },
               "timestamp": {
                 "type": "string",
-                "format": "date-time"
+                "format": "date-time",
+                "nullable": true
               },
               "timezone": {
                 "type": "string",
@@ -3712,6 +3713,10 @@
               "location_locode": {
                 "type": "string",
                 "description": "UNLOCODE of the event location"
+              },
+              "created_at": {
+                "type": "string",
+                "format": "date-time"
               }
             }
           },
