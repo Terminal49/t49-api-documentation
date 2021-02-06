@@ -2944,15 +2944,48 @@
               },
               "pol_timezone": {
                 "type": "string",
-                "description": "IANA tz"
+                "description": "IANA tz",
+                "nullable": true
               },
               "pod_timezone": {
                 "type": "string",
-                "description": "IANA tz"
+                "description": "IANA tz",
+                "nullable": true
               },
               "destination_timezone": {
                 "type": "string",
-                "description": "IANA tz"
+                "description": "IANA tz",
+                "nullable": true
+              },
+              "line_tracking_last_attempted_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "When Terminal49 last tried to update the shipment status from the shipping line",
+                "nullable": true
+              },
+              "line_tracking_last_succeeded_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "When Terminal49 last successfully updated the shipment status from the shipping line",
+                "nullable": true
+              },
+              "line_tracking_stopped_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "When Terminal49 stopped checking at the shipping line",
+                "nullable": true
+              },
+              "line_tracking_stopped_reason": {
+                "type": "string",
+                "enum": [
+                  "all_containers_terminated",
+                  "past_arrival_window",
+                  "not_found_at_line",
+                  "no_updates_at_line",
+                  "cancelled_by_user"
+                ],
+                "description": "The reason Terminal49 stopped checking",
+                "nullable": true
               }
             },
             "required": [

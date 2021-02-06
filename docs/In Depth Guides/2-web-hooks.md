@@ -189,6 +189,7 @@ Each event represents some change to a model which you may be notified of. These
 - container.transport.vessel_departed
 - container.transport.vessel_arrived
 - container.transport.vessel_discharged
+- container.transport.rail_departed
 - container.transport.full_out
 - container.transport.empty_in
 - shipment.estimated.arrival
