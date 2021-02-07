@@ -1576,7 +1576,7 @@
                               "properties": {
                                 "name": {
                                   "type": "string",
-                                  "description": "The name of the header. (Please not this will be auto-capitalized) "
+                                  "description": "The name of the header. (Please note this will be auto-capitalized) "
                                 },
                                 "value": {
                                   "type": "string",
@@ -5261,6 +5261,21 @@
               "secret": {
                 "type": "string",
                 "description": "A random token that will sign all delivered webhooks"
+              },
+              "headers": {
+                "nullable": true,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": "string"
+                    }
+                  }
+                }
               }
             },
             "required": [
