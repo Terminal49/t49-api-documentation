@@ -565,131 +565,155 @@ N.B. the `container_updated_event` also has a relationship to a `terminal` which
 ```json
 {
   "data": {
-    "id": "d7e04138-b59d-4c41-9d2d-251d95bedd6e",
+    "id": "42641e9a-3c73-465f-a5f7-21ce3d7cb2a8",
     "type": "webhook_notification",
     "attributes": {
-      "id": "d7e04138-b59d-4c41-9d2d-251d95bedd6e",
-      "event": "shipment.estimated.arrival",
-      "delivery_status": "pending"
+      "id": "42641e9a-3c73-465f-a5f7-21ce3d7cb2a8",
+      "event": "container.transport.vessel_arrived",
+      "delivery_status": "pending",
+      "created_at": "2021-03-02T20:58:00Z"
     },
     "relationships": {
       "reference_object": {
         "data": {
-          "id": "b68bc6cb-2c37-43f6-889b-86a16b2b6fe6",
-          "type": "estimated_event"
+          "id": "e83a7824-b3b5-4fed-b296-2cd9c4d1b35e",
+          "type": "transport_event"
         }
       },
       "webhook": {
         "data": {
-          "id": "614eab61-ae3c-4d40-bbe9-41200a172691",
+          "id": "0b73bb88-9559-4a1c-bf18-1e872acb494f",
           "type": "webhook"
         }
+      },
+      "webhook_notification_logs": {
+        "data": []
       }
     }
   },
   "included": [
     {
-      "id": "b68bc6cb-2c37-43f6-889b-86a16b2b6fe6",
-      "type": "estimated_event",
+      "id": "e83a7824-b3b5-4fed-b296-2cd9c4d1b35e",
+      "type": "transport_event",
       "attributes": {
-        "created_at": "2020-04-06T19:02:46-07:00",
-        "estimated_timestamp": "2020-04-09T19:02:46-07:00",
-        "voyage_number": "A1C",
-        "event": "shipment.estimated.arrival",
+        "event": "container.transport.vessel_arrived",
+        "created_at": "2021-03-02T20:58:00Z",
+        "voyage_number": "E031",
+        "timestamp": "2021-03-02T20:24:00Z",
+        "location_locode": "USLAX",
         "timezone": "America/Los_Angeles"
       },
       "relationships": {
         "shipment": {
           "data": {
-            "id": "715ed64b-6195-49f6-9407-1383a8088bfd",
+            "id": "7640de8e-0d48-4fb8-b0c6-d43d77fbdd1a",
             "type": "shipment"
           }
         },
-        "port": {
+        "container": {
           "data": {
-            "id": "ed4001a5-ad9d-43c3-883c-79354f422510",
-            "type": "port"
+            "id": "5e3d9209-5232-454c-b944-e05512b8dc2d",
+            "type": "container"
           }
         },
         "vessel": {
           "data": {
-            "id": "ebf68c6c-9d0d-4383-aa41-e097009dfb4c",
+            "id": "cacaf7b4-13a6-4d0c-858b-bce46b21658c",
             "type": "vessel"
+          }
+        },
+        "location": {
+          "data": {
+            "id": "7479dc0e-f90c-457b-8f8e-88d359d54df2",
+            "type": "port"
+          }
+        },
+        "terminal": {
+          "data": {
+            "id": "eb18b31e-4b27-4641-8879-c471c3b8c336",
+            "type": "terminal"
           }
         }
       }
     },
     {
-      "id": "ed4001a5-ad9d-43c3-883c-79354f422510",
+      "id": "5e3d9209-5232-454c-b944-e05512b8dc2d",
+      "type": "container",
+      "attributes": {
+        "number": "GLDU1532502",
+        "seal_number": null,
+        "created_at": "2021-02-02T20:58:00Z",
+        "equipment_type": "dry",
+        "equipment_length": 40,
+        "equipment_height": "standard",
+        "weight_in_lbs": 59354,
+        "fees_at_pod_terminal": [],
+        "holds_at_pod_terminal": [],
+        "pickup_lfd": null,
+        "pickup_appointment_at": null,
+        "availability_known": true,
+        "available_for_pickup": false,
+        "pod_arrived_at": "2021-03-02T20:24:00Z",
+        "pod_discharged_at": null,
+        "final_destination_full_out_at": null,
+        "pod_full_out_at": null,
+        "empty_terminated_at": null
+      },
+      "relationships": {
+        "shipment": {
+          "data": null
+        },
+        "pod_terminal": {
+          "data": null
+        },
+        "transport_events": {
+          "data": [
+            {
+              "id": "e83a7824-b3b5-4fed-b296-2cd9c4d1b35e",
+              "type": "transport_event"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "7479dc0e-f90c-457b-8f8e-88d359d54df2",
       "type": "port",
       "attributes": {
-        "id": "ed4001a5-ad9d-43c3-883c-79354f422510",
-        "name": "Port of Oakland",
-        "code": "USOAK",
+        "id": "7479dc0e-f90c-457b-8f8e-88d359d54df2",
+        "name": "Los Angeles",
+        "code": "USLAX",
         "state_abbr": "CA",
-        "city": "Oakland",
+        "city": "Los Angeles",
         "country_code": "US",
         "time_zone": "America/Los_Angeles"
       }
     },
     {
-      "id": "715ed64b-6195-49f6-9407-1383a8088bfd",
-      "type": "shipment",
+      "id": "eb18b31e-4b27-4641-8879-c471c3b8c336",
+      "type": "terminal",
       "attributes": {
-        "created_at": "2020-04-06T19:02:46-07:00",
-        "bill_of_lading_number": "TE49DD6650B9",
-        "ref_numbers": [
-          "REF-4A25EA"
-        ],
-        "shipping_line_scac": "MSCU",
-        "shipping_line_name": "Mediterranean Shipping Company",
-        "port_of_lading_locode": "MXZLO",
-        "port_of_lading_name": "Manzanillo",
-        "port_of_discharge_locode": "USOAK",
-        "port_of_discharge_name": "Port of Oakland",
-        "pod_vessel_name": "MSC CHANNE",
-        "pod_vessel_imo": "9710438",
-        "pod_voyage_number": "098N",
-        "destination_locode": null,
-        "destination_name": null,
-        "destination_timezone": null,
-        "destination_ata_at": null,
-        "destination_eta_at": null,
-        "pol_etd_at": null,
-        "pol_atd_at": null,
-        "pol_timezone": "America/Mexico_City",
-        "pod_eta_at": "2020-04-13T19:02:46-07:00",
-        "pod_ata_at": null,
-        "pod_timezone": "America/Los_Angeles"
+        "id": "eb18b31e-4b27-4641-8879-c471c3b8c336",
+        "nickname": "Pier 400",
+        "name": "APM Terminals Los Angeles",
+        "firms_code": "W185"
       },
       "relationships": {
-        "port_of_lading": {
+        "port": {
           "data": {
-            "id": "1378c720-efe9-4562-a2ad-562002eb4b1d",
+            "id": "7479dc0e-f90c-457b-8f8e-88d359d54df2",
             "type": "port"
           }
-        },
-        "port_of_discharge": {
-          "data": {
-            "id": "ed4001a5-ad9d-43c3-883c-79354f422510",
-            "type": "port"
-          }
-        },
-        "pod_terminal": {
-          "data": {
-            "id": "2508d879-4451-4d7f-ab23-92258b5df553",
-            "type": "terminal"
-          }
-        },
-        "destination": {
-          "data": null
-        },
-        "containers": {
-          "data": []
         }
-      },
-      "links": {
-        "self": "/v2/shipments/715ed64b-6195-49f6-9407-1383a8088bfd"
+      }
+    },
+    {
+      "id": "cacaf7b4-13a6-4d0c-858b-bce46b21658c",
+      "type": "vessel",
+      "attributes": {
+        "name": "COSCO BOSTON",
+        "imo": "9335173",
+        "mmsi": "372934000"
       }
     }
   ]
