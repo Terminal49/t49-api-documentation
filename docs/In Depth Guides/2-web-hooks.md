@@ -719,3 +719,163 @@ N.B. the `container_updated_event` also has a relationship to a `terminal` which
   ]
 }
 ```
+
+### container.transport.vessel_arrived
+
+```json
+{
+  "data": {
+    "id": "42641e9a-3c73-465f-a5f7-21ce3d7cb2a8",
+    "type": "webhook_notification",
+    "attributes": {
+      "id": "42641e9a-3c73-465f-a5f7-21ce3d7cb2a8",
+      "event": "container.transport.vessel_arrived",
+      "delivery_status": "pending",
+      "created_at": "2021-03-02T20:58:00Z"
+    },
+    "relationships": {
+      "reference_object": {
+        "data": {
+          "id": "e83a7824-b3b5-4fed-b296-2cd9c4d1b35e",
+          "type": "transport_event"
+        }
+      },
+      "webhook": {
+        "data": {
+          "id": "0b73bb88-9559-4a1c-bf18-1e872acb494f",
+          "type": "webhook"
+        }
+      },
+      "webhook_notification_logs": {
+        "data": []
+      }
+    }
+  },
+  "included": [
+    {
+      "id": "e83a7824-b3b5-4fed-b296-2cd9c4d1b35e",
+      "type": "transport_event",
+      "attributes": {
+        "event": "container.transport.vessel_arrived",
+        "created_at": "2021-03-02T20:58:00Z",
+        "voyage_number": "E031",
+        "timestamp": "2021-03-02T20:24:00Z",
+        "location_locode": "USLAX",
+        "timezone": "America/Los_Angeles"
+      },
+      "relationships": {
+        "shipment": {
+          "data": {
+            "id": "7640de8e-0d48-4fb8-b0c6-d43d77fbdd1a",
+            "type": "shipment"
+          }
+        },
+        "container": {
+          "data": {
+            "id": "5e3d9209-5232-454c-b944-e05512b8dc2d",
+            "type": "container"
+          }
+        },
+        "vessel": {
+          "data": {
+            "id": "cacaf7b4-13a6-4d0c-858b-bce46b21658c",
+            "type": "vessel"
+          }
+        },
+        "location": {
+          "data": {
+            "id": "7479dc0e-f90c-457b-8f8e-88d359d54df2",
+            "type": "port"
+          }
+        },
+        "terminal": {
+          "data": {
+            "id": "eb18b31e-4b27-4641-8879-c471c3b8c336",
+            "type": "terminal"
+          }
+        }
+      }
+    },
+    {
+      "id": "5e3d9209-5232-454c-b944-e05512b8dc2d",
+      "type": "container",
+      "attributes": {
+        "number": "GLDU1532502",
+        "seal_number": "d60ad316104e6727",
+        "created_at": "2021-02-02T20:58:00Z",
+        "equipment_type": "dry",
+        "equipment_length": 40,
+        "equipment_height": "standard",
+        "weight_in_lbs": 59354,
+        "fees_at_pod_terminal": [],
+        "holds_at_pod_terminal": [],
+        "pickup_lfd": null,
+        "pickup_appointment_at": null,
+        "availability_known": true,
+        "available_for_pickup": false,
+        "pod_arrived_at": "2021-03-02T20:24:00Z",
+        "pod_discharged_at": null,
+        "final_destination_full_out_at": null,
+        "pod_full_out_at": null,
+        "empty_terminated_at": null
+      },
+      "relationships": {
+        "shipment": {
+          "data": null
+        },
+        "pod_terminal": {
+          "data": null
+        },
+        "transport_events": {
+          "data": [
+            {
+              "id": "e83a7824-b3b5-4fed-b296-2cd9c4d1b35e",
+              "type": "transport_event"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "7479dc0e-f90c-457b-8f8e-88d359d54df2",
+      "type": "port",
+      "attributes": {
+        "id": "7479dc0e-f90c-457b-8f8e-88d359d54df2",
+        "name": "Los Angeles",
+        "code": "USLAX",
+        "state_abbr": "CA",
+        "city": "Los Angeles",
+        "country_code": "US",
+        "time_zone": "America/Los_Angeles"
+      }
+    },
+    {
+      "id": "eb18b31e-4b27-4641-8879-c471c3b8c336",
+      "type": "terminal",
+      "attributes": {
+        "id": "eb18b31e-4b27-4641-8879-c471c3b8c336",
+        "nickname": "Pier 400",
+        "name": "APM Terminals Los Angeles",
+        "firms_code": "W185"
+      },
+      "relationships": {
+        "port": {
+          "data": {
+            "id": "7479dc0e-f90c-457b-8f8e-88d359d54df2",
+            "type": "port"
+          }
+        }
+      }
+    },
+    {
+      "id": "cacaf7b4-13a6-4d0c-858b-bce46b21658c",
+      "type": "vessel",
+      "attributes": {
+        "name": "COSCO BOSTON",
+        "imo": "9335173",
+        "mmsi": "372934000"
+      }
+    }
+  ]
+}
+```
