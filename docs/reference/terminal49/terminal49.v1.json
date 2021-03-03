@@ -5503,21 +5503,38 @@
             "type": "object",
             "required": [
               "event",
-              "estimated_timestamp"
+              "estimated_timestamp",
+              "created_at"
             ],
             "properties": {
+              "created_at": {
+                "type": "string",
+                "description": "When the estimated event was created",
+                "format": "date-time"
+              },
+               "estimated_timestamp": {
+                "type": "string",
+                "format": "date-time"
+              },
               "event": {
                 "type": "string",
                 "enum": [
                   "shipment.estimated.arrival"
                 ]
               },
-              "estimated_timestamp": {
+              "location_locode": {
                 "type": "string",
-                "format": "date-time"
+                "description": "UNLOCODE of the event location",
+                "nullable": true
+              },
+              "timezone": {
+                "type": "string",
+                "description": "IANA tz",
+                "nullable": true
               },
               "voyage_number": {
-                "type": "string"
+                "type": "string",
+                "nullable": true
               }
             }
           },
@@ -5776,7 +5793,7 @@
               },
               "timezone": {
                 "type": "string",
-                "description": "IANA TZ "
+                "description": "IANA tz "
               }
             },
             "required": [
@@ -5926,7 +5943,7 @@
               },
               "timezone": {
                 "type": "string",
-                "description": "IANA TZ where the event occured"
+                "description": "IANA tz where the event occured"
               },
               "created_at": {
                 "type": "string",
