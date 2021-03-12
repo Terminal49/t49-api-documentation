@@ -151,6 +151,9 @@ The payload of every webhook is a `webhook_notification`. Each Webhook notificat
 }
 ```
 
+## Webhook notification origin IP
+Webhook notifications will be delivered from the IP address `35.222.62.171`
+
 ## Verifying the webhook signature (optional)
 When you create or get a webhook the model will include an attribute `secret`.
 
