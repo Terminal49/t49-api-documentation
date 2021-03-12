@@ -963,6 +963,9 @@
                           "HBL12345",
                           "CUSREF1234"
                         ],
+                        "shipment_tags": [
+                          "camembert"
+                        ],
                         "scac": "MSCU"
                       },
                       "type": "tracking_request"
