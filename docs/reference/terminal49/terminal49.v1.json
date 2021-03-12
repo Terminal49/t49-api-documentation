@@ -923,6 +923,13 @@
                             "items": {
                               "type": "string"
                             }
+                          },
+                          "shipment_tags": {
+                            "type": "array",
+                            "description": "Optional list of tags to be added to the shipment when tracking request completes",
+                            "items": {
+                              "type": "string"
+                            }
                           }
                         },
                         "required": [
@@ -5512,7 +5519,7 @@
                 "description": "When the estimated event was created",
                 "format": "date-time"
               },
-               "estimated_timestamp": {
+              "estimated_timestamp": {
                 "type": "string",
                 "format": "date-time"
               },
