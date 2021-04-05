@@ -904,7 +904,7 @@
                             "example": "bill_of_lading",
                             "enum": [
                               "bill_of_lading",
-                              "tracking_number"
+                              "booking_number"
                             ]
                           },
                           "request_number": {
