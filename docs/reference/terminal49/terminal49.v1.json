@@ -5357,7 +5357,12 @@
                   "container.transport.vessel_departed",
                   "container.transport.vessel_discharged",
                   "container.transport.full_out",
-                  "container.transport.empty_in"
+                  "container.transport.empty_in",
+                  "container.transport.rail_departed",
+                  "container.transport.transshipment_arrived",
+                  "container.transport.transshipment_discharged",
+                  "container.transport.transshipment_loaded",
+                  "container.transport.transshipment_departed"
                 ]
               },
               "voyage_number": {
