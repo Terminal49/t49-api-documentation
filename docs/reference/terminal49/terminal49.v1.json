@@ -315,7 +315,8 @@
             },
             "in": "query",
             "name": "q",
-            "description": "\nSearch shipments by master bill of lading, reference number, or container number."
+            "description": "\nSearch shipments by master bill of lading, reference number, or container number.",
+            "deprecated": true
           },
           {
             "schema": {
@@ -324,6 +325,14 @@
             "in": "query",
             "name": "include",
             "description": "Comma delimited list of relations to include"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "number",
+            "description": "Search shipments by the original request tracking `request_number`"
           }
         ]
       }
@@ -1086,7 +1095,8 @@
             },
             "in": "query",
             "name": "q",
-            "description": "A search term to be applied against request_number and reference_numbers."
+            "description": "A search term to be applied against request_number and reference_numbers.",
+            "deprecated": true
           },
           {
             "schema": {
@@ -1152,6 +1162,14 @@
             },
             "in": "query",
             "name": "page[size]"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "request_number",
+            "description": "filter by tracking_requests `request_number`"
           }
         ]
       }
