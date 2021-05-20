@@ -913,8 +913,10 @@
                             "example": "bill_of_lading",
                             "enum": [
                               "bill_of_lading",
-                              "booking_number"
-                            ]
+                              "booking_number",
+                              "container"
+                            ],
+                            "description": " The type of document number to be supplied. Container number support is currently in BETA."
                           },
                           "request_number": {
                             "type": "string",
