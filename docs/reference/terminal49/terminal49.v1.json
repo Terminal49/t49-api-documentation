@@ -5768,7 +5768,25 @@
             "type": "object",
             "properties": {
               "event": {
-                "type": "string"
+                "type": "string",
+                "enum": [
+                  "tracking_request.succeeded",
+                  "tracking_request.failed",
+                  "container.transport.vessel_arrived",
+                  "container.transport.vessel_discharged",
+                  "container.transport.vessel_loaded",
+                  "container.transport.vessel_departed",
+                  "container.transport.rail_departed",
+                  "container.transport.transshipment_arrived",
+                  "container.transport.empty_out",
+                  "container.transport.full_in",
+                  "container.transport.full_out",
+                  "container.transport.empty_in",
+                  "container.transport.transshipment_discharged",
+                  "container.transport.transshipment_loaded",
+                  "container.transport.transshipment_departed",
+                  "shipment.estimated.arrival"
+                ]
               },
               "delivery_status": {
                 "type": "string",

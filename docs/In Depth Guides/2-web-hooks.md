@@ -188,6 +188,8 @@ end
 Each event represents some change to a model which you may be notified of. These events are supported:
 
 - container.updated
+- container.transport.empty_out
+- container.transport.full_in
 - container.transport.vessel_loaded
 - container.transport.vessel_departed
 - container.transport.vessel_arrived
