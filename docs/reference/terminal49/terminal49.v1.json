@@ -4320,6 +4320,85 @@
           }
         ]
       }
+    },
+    "/shipping_lines": {
+      "get": {
+        "summary": "Shipping Lines",
+        "tags": [
+          "Shipping Lines"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/shipping_line"
+                      }
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/links"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-shipping_lines",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "description": "Return a list of shipping lines supported by Terminal49. \nN.B. There is no pagination for this endpoint."
+      }
+    },
+    "/shipping_lines/{id}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get a single shipping line",
+        "tags": [
+          "Shipping Lines"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/shipping_line"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-shipping_lines-id",
+        "description": "Return the details of a single shipping line."
+      }
     }
   },
   "x-tagGroups": [
@@ -4857,17 +4936,31 @@
             "required": [
               "scac",
               "name",
-              "nickname"
+              "short_name",
+              "bill_of_lading_tracking_support",
+              "booking_number_tracking_support",
+              "container_number_tracking_support"
             ],
             "properties": {
               "scac": {
-                "type": "string"
+                "type": "string",
+                "minLength": 4,
+                "maxLength": 4
               },
               "name": {
                 "type": "string"
               },
-              "nickname": {
+              "short_name": {
                 "type": "string"
+              },
+              "bill_of_lading_tracking_support": {
+                "type": "boolean"
+              },
+              "booking_number_tracking_support": {
+                "type": "boolean"
+              },
+              "container_number_tracking_support": {
+                "type": "boolean"
               }
             }
           },
@@ -4880,8 +4973,8 @@
         },
         "required": [
           "id",
-          "type",
-          "attributes"
+          "attributes",
+          "type"
         ]
       },
       "account": {
