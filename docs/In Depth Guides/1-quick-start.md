@@ -6,7 +6,7 @@ You'll need a four things to get started.
 
 1. **A Bill of Lading (BOL) number.** This is issued by your carrier. BOL numbers are found on your [bill of lading](https://en.wikipedia.org/wiki/Bill_of_lading) document. Ideally, this will be a shipment that is currently on the water or in terminal, but this is not necessary.
 2. **The SCAC of the carrier that issued your bill of lading.** The Standard Carrier Alpha Code of your carrier is used to identify carriers in computer systems and in shipping documents. You can learn more about these [here](https://en.wikipedia.org/wiki/Standard_Carrier_Alpha_Code).
-3. **A Terminal 49 Account.** If you don't have one yet, [sign up here.](https://app.terminal49.com/register)
+3. **A Terminal49 Account.** If you don't have one yet, [sign up here.](https://app.terminal49.com/register)
 4. **An API key.** Sign in to your Terminal49 account and go to your [developer portal page](https://app.terminal49.com/developers) to get your API key.
 
 ## Track a Shipment
@@ -32,16 +32,20 @@ Note that you can also access sample code, include a cURL template, by clicking 
 
 ## Check Your Tracking Request Succeeded
 
-We have not yet set up a webook to receive status updates from the Terminal 49 API, so we will need to manually poll to check if the Tracking Request has succeeded or failed.
+We have not yet set up a webook to receive status updates from the Terminal49 API, so we will need to manually poll to check if the Tracking Request has succeeded or failed.
 
 
 <!-- theme: warning -->
->### Tracking Request Troubleshooting
->The most common issue people encounter is that they are entering the wrong number.
->Please check that you are entering the Bill of Lading number and not a container number or a number used for internal reference at your company or by your frieght forwarder. The Bill of Lading is a number issued by the Carrier when they create your Bill of Lading.  You can test this by going to a carrier's website and using their tools to track your shipment using the Bill of Lading and SCAC. If this works, and if the SCAC is supported by T49, you should able to track it with us.
->You can always email us at support@terminal49.com if you have persistent issues.
 
-** Try it below. Click "Headers" and replace YOUR_API_KEY with your API key.**
+> ### Tracking Request Troubleshooting
+> The most common issue people encounter is that they are  entering the wrong number.
+>
+> Please check that you are entering the Bill of Lading number, booking number, or container number and not internal reference at your company or by your frieght forwarder. You can the number you are supplying by going to a carrier's website and using their tools to track your shipment using the request number. If this works, and if the SCAC is supported by T49, you should able to track it with us.
+>
+> You can always email us at support@terminal49.com if you have persistent issues.
+
+** Try it below. Click "Headers" and replace <YOUR_API_KEY> with your API key.**
+
 
 ```json http
 {
@@ -49,7 +53,7 @@ We have not yet set up a webook to receive status updates from the Terminal 49 A
   "url": "https://api.terminal49.com/v2/tracking_requests",
   "headers": {
     "Content-Type": "application/vnd.api+json",
-    "Authorization": "Token YOUR_API_KEY"
+    "Authorization": "Token <YOUR_API_KEY>"
   }
 }
 ```
@@ -70,7 +74,7 @@ If you had trouble adding your first shipment, try adding a few more.
   "url": "https://api.terminal49.com/v2/shipments",
   "headers": {
     "Content-Type": "application/vnd.api+json",
-    "Authorization": "Token YOUR_API_KEY"
+    "Authorization": "Token <YOUR_API_KEY>"
   }
 }
 ```
@@ -79,7 +83,7 @@ If you had trouble adding your first shipment, try adding a few more.
 
 You can also list out all of your containers, if you'd like to track at that level.
 
-Try it after replacing YOUR_API_KEY with your API key.
+Try it after replacing <YOUR_API_KEY> with your API key.
 
 ```json http
 {
@@ -87,7 +91,7 @@ Try it after replacing YOUR_API_KEY with your API key.
   "url": "https://api.terminal49.com/v2/containers",
   "headers": {
     "Content-Type": "application/vnd.api+json",
-    "Authorization": "Token YOUR_API_KEY"
+    "Authorization": "Token <YOUR_API_KEY>"
   }
 }
 ```
@@ -95,7 +99,7 @@ Try it after replacing YOUR_API_KEY with your API key.
 
 ## Listening for Updates with Webhooks
 
-The true power of Terminal 49's API is that it is asynchronous. You can register a Webhook, which is essentially a callback URL that our systems HTTP Post to when there are updates.
+The true power of Terminal49's API is that it is asynchronous. You can register a Webhook, which is essentially a callback URL that our systems HTTP Post to when there are updates.
 
 To try this, you will need to first set up a URL on the open web to receive POST requests. Once you have done this, you'll be able to receive status updates from containers and shipments as they happen, which means you don't need to poll us for updates; we'll notify you.
 
@@ -111,7 +115,7 @@ View the "Code Generation" button to see sample code.
   "url": "https://api.terminal49.com/v2/webhooks",
   "headers": {
     "Content-Type": "application/vnd.api+json",
-    "Authorization": "Token YOUR_API_KEY"
+    "Authorization": "Token <YOUR_API_KEY>"
   },
   "body": "{\r\n  \"data\": {\r\n    \"type\": \"webhook\",\r\n    \"attributes\": {\r\n      \"url\": \"https:\/\/webhook.site\/\",\r\n      \"active\": true,\r\n      \"events\": [\r\n        \"*\"\r\n      ]\r\n    }\r\n  }\r\n}"
 }
