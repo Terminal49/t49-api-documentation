@@ -1,3 +1,0 @@
-# Developer-Portal
-
-The beginning of an awesome article...
