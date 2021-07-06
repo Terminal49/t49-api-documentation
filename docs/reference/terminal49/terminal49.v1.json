@@ -1527,6 +1527,43 @@
                       "$ref": "#/components/schemas/links"
                     }
                   }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "data": [
+                        {
+                          "id": "497f6eca-6276-4993-bfeb-53cbbbba6f08",
+                          "type": "webhook",
+                          "attributes": {
+                            "url": "http://example.com",
+                            "active": true,
+                            "events": [
+                              "string"
+                            ],
+                            "secret": "string",
+                            "headers": [
+                              {
+                                "name": "string",
+                                "value": "string"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "meta": {
+                        "size": 0,
+                        "total": 0
+                      },
+                      "links": {
+                        "last": "http://example.com",
+                        "next": "http://example.com",
+                        "prev": "http://example.com",
+                        "first": "http://example.com",
+                        "self": "http://example.com"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -1568,15 +1605,13 @@
                     "type": "object",
                     "required": [
                       "attributes",
-                      "type",
-                      "id"
+                      "type"
                     ],
                     "properties": {
                       "attributes": {
                         "type": "object",
                         "required": [
                           "url",
-                          "events",
                           "active"
                         ],
                         "properties": {
@@ -1592,7 +1627,7 @@
                             "description": "The list of events to enable for this endpoint. You may specify `['*']` to enable all events.",
                             "items": {
                               "type": "string",
-                              "example": "['*']"
+                              "example": "*"
                             }
                           },
                           "active": {
@@ -1622,10 +1657,6 @@
                         "enum": [
                           "webhook"
                         ]
-                      },
-                      "id": {
-                        "type": "string",
-                        "format": "uuid"
                       }
                     }
                   }
@@ -1635,18 +1666,17 @@
                 ]
               },
               "examples": {
-                "Test Webhook via webhook.site": {
+                "Test Webhook (all events)": {
                   "value": {
                     "data": {
-                      "type": "webhook",
-                      "id": "9809fb96-7754-488f-99df-29ca8d410d89",
                       "attributes": {
                         "url": "https://webhook.site/",
-                        "active": true,
                         "events": [
                           "*"
-                        ]
-                      }
+                        ],
+                        "active": true
+                      },
+                      "type": "webhook"
                     }
                   }
                 }
